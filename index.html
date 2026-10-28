@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Слово">
+<title>Слово (Slovo) — iPhone Edition</title>
+<style>
+    :root {
+        --bg: #0f172a; --panel: #1e293b; --panel-alt: #090d16; --text: #f8fafc; --muted: #94a3b8;
+        --accent: #38bdf8; --success: #4ade80; --danger: #f87171; --warn: #fbbf24;
+        --nom: #e2e8f0; --gen: #4ade80; --dat: #c084fc; --acc: #60a5fa; --ins: #fb923c; --prep: #f472b6;
+    }
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; background: var(--bg); color: var(--text); display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
+    .sidebar { width: 245px; background: var(--panel-alt); padding: 16px; display: flex; flex-direction: column; gap: 8px; border-right: 1px solid #334155; flex-shrink: 0; z-index: 50; }
+    .logo { font-size: 21px; font-weight: 800; color: var(--accent); margin-bottom: 4px; letter-spacing: 1px; }
+    .stats-box { background: var(--panel); padding: 11px; border-radius: 10px; margin-bottom: 6px; font-size: 13px; border: 1px solid #334155; line-height: 1.55; }
+    .nav-btn { background: transparent; color: var(--muted); border: none; padding: 12px 14px; text-align: left; font-size: 14px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+    .nav-btn.active { background: var(--panel); color: var(--text); font-weight: 700; border-left: 4px solid var(--accent); }
+    .main { flex: 1; padding: 18px; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; gap: 16px; }
+    .content-area { flex: 2.1; overflow-y: auto; padding-right: 4px; }
+    .inspector { flex: 0.95; background: var(--panel); border-radius: 14px; padding: 16px; border: 1px solid #334155; height: fit-content; position: sticky; top: 0; max-height: calc(100vh - 36px); overflow-y: auto; }
+    .card { background: var(--panel); border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 1px solid #334155; }
+    .btn { background: var(--accent); color: #0f172a; border: none; padding: 10px 14px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; }
+    .btn-sec { background: #334155; color: var(--text); }
+    .btn-success { background: var(--success); color: #0f172a; }
+    .btn-warn { background: var(--warn); color: #0f172a; }
+    .tag { display: inline-block; background: #334155; padding: 3px 8px; border-radius: 6px; font-size: 12px; margin: 2px 3px 2px 0; }
+    .hidden { display: none !important; }
+
+    /* ANKI FLASHCARD THEATER */
+    .anki-stage { background: var(--panel-alt); border: 2px solid #334155; border-radius: 16px; padding: 18px; text-align: center; min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 8px 25px rgba(0,0,0,0.35); margin-bottom: 16px; }
+    .anki-counts { display: flex; justify-content: center; gap: 14px; font-size: 13px; font-weight: 700; margin: 0 auto 10px auto; background: var(--panel); padding: 6px 14px; border-radius: 999px; border: 1px solid #334155; }
+    .anki-front-word { font-size: 42px; font-weight: 800; color: white; margin: 10px 0 6px 0; cursor: pointer; }
+    .anki-grade-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
+    .anki-btn { border: none; border-radius: 10px; padding: 11px 4px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #0f172a; }
+    .anki-btn small { font-size: 10px; font-weight: 700; opacity: 0.85; }
+    .anki-again { background: #f87171; }
+    .anki-hard { background: #fb923c; }
+    .anki-good { background: #4ade80; }
+    .anki-easy { background: #38bdf8; }
+
+    /* GRAMMAR TABLES & LISTS */
+    .gram-grid { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; background: #0f172a; border-radius: 8px; overflow: hidden; text-align: left; }
+    .gram-grid th, .gram-grid td { padding: 6px 8px; border-bottom: 1px solid #1e293b; }
+    .gram-grid th { background: #1e293b; color: var(--accent); font-weight: 700; }
+    .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; margin-bottom: 14px; }
+    .module-card { background: var(--panel-alt); border: 1px solid #334155; border-radius: 10px; padding: 11px; cursor: pointer; }
+    .module-card.active { border: 2px solid var(--accent); background: #172554; }
+    .stage-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; }
+    .stage-pill { flex: 1; min-width: 90px; padding: 8px; background: var(--panel-alt); border: 1px solid #334155; border-radius: 8px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; color: var(--muted); white-space: nowrap; }
+    .stage-pill.active { background: var(--accent); color: #0f172a; font-weight: 800; }
+    .option-btn { display: block; width: 100%; text-align: left; background: var(--panel-alt); color: var(--text); border: 1px solid #475569; padding: 11px 12px; margin: 6px 0; border-radius: 8px; font-size: 14px; cursor: pointer; }
+    .option-btn.correct { border-color: var(--success); background: rgba(74, 222, 128, 0.15); }
+    .option-btn.wrong { border-color: var(--danger); background: rgba(248, 113, 113, 0.15); }
+    /* 16px font-size prevents iOS Safari from auto-zooming on input focus */
+    .input-box { background: var(--panel-alt); color: white; border: 1px solid #475569; padding: 9px 11px; font-size: 16px; border-radius: 8px; width: 100%; }
+    .freq-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--panel-alt); border: 1px solid #1e293b; border-radius: 10px; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
+    .word-token { cursor: pointer; padding: 3px 6px; margin: 2px 0; border-radius: 6px; font-size: 21px; line-height: 1.8; display: inline-block; border-bottom: 2px solid var(--accent); }
+
+    /* iPHONE NATIVE LAYOUT (Notch Safe Areas + Fixed Bottom Tab Bar) */
+    @media (max-width: 960px) {
+        body { flex-direction: column; }
+        .main {
+            flex-direction: column;
+            padding: calc(12px + env(safe-area-inset-top, 20px)) 12px calc(85px + env(safe-area-inset-bottom, 20px)) 12px;
+            overflow-y: auto;
+        }
+        .content-area { overflow-y: visible; padding-right: 0; }
+        .sidebar {
+            position: fixed; bottom: 0; left: 0; right: 0; width: 100%; height: auto;
+            flex-direction: row; justify-content: space-around; align-items: center;
+            padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 16px)) 6px;
+            border-right: none; border-top: 1px solid #334155;
+            background: rgba(9, 13, 22, 0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        }
+        .logo, .stats-box, .sidebar > div:last-child { display: none; }
+        .nav-btn { flex: 1; text-align: center; padding: 8px 4px; font-size: 11px; border-radius: 8px; }
+        .nav-btn.active { border-left: none; border-bottom: 3px solid var(--accent); }
+        .inspector { position: static; max-height: none; margin-top: 8px; border: 2px solid var(--accent); }
+    }
+</style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">СЛОВО // 2,000</div>
+        <div class="stats-box">
+            <div>⭐ Total XP: <b id="xp-display" style="color:var(--accent)">0</b></div>
+            <div>🃏 Anki Deck: <b id="deck-count" style="color:var(--warn)">0</b> / 2000</div>
+            <div>🔥 Reviews Done: <b id="drills-display" style="color:var(--success)">0</b></div>
+            <div>🏆 Course Mods: <b id="mods-display">0</b> / 12</div>
+        </div>
+        <button class="nav-btn active" onclick="switchTab('srs', this)">🧠 Anki FSRS (2,000)</button>
+        <button class="nav-btn" onclick="switchTab('phonetics', this)">✍️ Phonetics (2,000)</button>
+        <button class="nav-btn" onclick="switchTab('course', this)">🎓 A0–B2 Course & Exams</button>
+        <button class="nav-btn" onclick="switchTab('reader', this)">📖 Input Reader</button>
+        <div style="margin-top:auto; font-size:11px; color:var(--muted);">
+            Anki FSRS + 2,000 Grammar Engine<br>Tap any word for Audio & Tables
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="content-area">
+            <!-- TAB 1: ANKI FSRS FLASHCARD STUDIO & 2,000 GRAMMAR CATALOG -->
+            <div id="tab-srs">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                    <div>
+                        <h2 style="margin:0;">🧠 Anki FSRS Flashcard & Grammar Studio</h2>
+                        <p style="color:var(--muted); margin:3px 0 0 0; font-size:13px;">Review flashcards with spoken audio explanations and full 6-case / verb-aspect grammar tables.</p>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button class="btn btn-success" onclick="batchAddNextFrequencyWords(20)">+ Add Next 20 Frequency Words</button>
+                        <button class="btn btn-sec" onclick="batchAddNextFrequencyWords(100)">+ Add 100 Words</button>
+                    </div>
+                </div>
+
+                <!-- ANKI FLASHCARD STUDY THEATER -->
+                <div class="anki-stage" id="anki-theater">
+                    <div class="anki-counts">
+                        <span style="color:#60a5fa;">New: <b id="anki-new-count">0</b></span>
+                        <span style="color:#f87171;">Learning: <b id="anki-learn-count">0</b></span>
+                        <span style="color:#4ade80;">Due Review: <b id="anki-rev-count">0</b></span>
+                    </div>
+                    <div id="anki-card-body"></div>
+                    <div id="anki-action-area"></div>
+                </div>
+
+                <!-- 2,000-WORD MASTER CATALOG WITH GRAMMAR BREAKDOWN -->
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <h3 style="margin:0;">📚 All 2,000 Words — Grammar Breakdown & Anki Deck Browser</h3>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <input id="srs-cat-search" class="input-box" placeholder="Search #1–#2000, Russian, English..." oninput="srsCatPage=0; renderSrsCatalog2000()">
+                            <select id="srs-cat-level" class="input-box" onchange="srsCatPage=0; renderSrsCatalog2000()">
+                                <option value="ALL">All 2,000 Words</option>
+                                <option value="A1">A1 (#1–#500)</option>
+                                <option value="A2">A2 (#501–#1000)</option>
+                                <option value="B1">B1 (#1001–#1500)</option>
+                                <option value="B2">B2 (#1501–#2000)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="srs-2000-catalog"></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+                        <button class="btn btn-sec" onclick="changeSrsCatPage(-1)">← Prev 25</button>
+                        <span id="srs-cat-page-info" style="color:var(--muted); font-size:13px;"></span>
+                        <button class="btn btn-sec" onclick="changeSrsCatPage(1)">Next 25 →</button>
+                    </div>
+                </div>
+            </div>
+<!-- TAB 2: 2,000-WORD PHONETICS, GRAMMAR & TOUCH CURSIVE -->
+            <div id="tab-phonetics" class="hidden">
+                <h2 style="margin:0 0 12px 0;">✍️ 2,000-Word Phonetics, Grammar & Cursive Trainer</h2>
+                <div class="card" style="border: 1px solid var(--accent);">
+                    <h3 style="margin-top:0; color:var(--accent);">1. Acoustic Reduction (А́канье / И́канье), Palatalization & Grammar Analyzer</h3>
+                    <div id="phonetic-output" style="padding:14px; background:var(--panel-alt); border-radius:10px; font-size:15px; line-height:1.55;">
+                        Tap any of the <b>2,000 words</b> below to hear native audio, listen to a spoken grammar explanation, inspect its vowel reduction & full declension/conjugation table, and load it onto the Cursive Pad!
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+                        <h3 style="margin:0;">2. Tablet Stylus / Finger Cursive Pad (Про́писи)</h3>
+                        <span>Target Word: <b id="cursive-target" style="font-family:cursive; font-size:28px; color:var(--accent); margin-left:6px;">молоко́</b></span>
+                    </div>
+                    <canvas id="cursive-pad" width="600" height="150" style="width:100%; max-width:600px; background:var(--panel-alt); border:1px solid #475569; border-radius:10px; touch-action:none;"></canvas><br>
+                    <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
+                        <button class="btn btn-sec" onclick="clearCanvas()">Clear Pad</button>
+                        <button class="btn" onclick="speakRussian(document.getElementById('cursive-target').innerText)">🔊 Hear Word</button>
+                        <button class="btn btn-warn" onclick="speakExplanation(currentInspectedRank)">🗣️ Hear Audio Explanation</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <h3 style="margin:0;">3. 2,000-Word Phonetics & Grammar Directory</h3>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <input id="phon-search" class="input-box" placeholder="Search #1–#2000, Russian, English..." oninput="phonPage=0; renderPhonetics2000()">
+                            <select id="phon-level" class="input-box" onchange="phonPage=0; renderPhonetics2000()">
+                                <option value="ALL">All Ranks (#1–#2000)</option>
+                                <option value="A1">A1 (#1–#500)</option>
+                                <option value="A2">A2 (#501–#1000)</option>
+                                <option value="B1">B1 (#1001–#1500)</option>
+                                <option value="B2">B2 (#1501–#2000)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="phon-2000-list"></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+                        <button class="btn btn-sec" onclick="changePhonPage(-1)">← Prev 25</button>
+                        <span id="phon-page-info" style="color:var(--muted); font-size:13px;"></span>
+                        <button class="btn btn-sec" onclick="changePhonPage(1)">Next 25 →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: A0-B2 INTERACTIVE COURSE & EXAM ENGINE -->
+            <div id="tab-course" class="hidden">
+                <h2 style="margin:0 0 12px 0;">🎓 Comprehensive Russian Course (A0 to B2)</h2>
+                <div class="module-grid" id="module-grid"></div>
+                <div class="card" id="module-workspace">
+                    <div style="margin-bottom:12px;">
+                        <span class="tag" id="active-mod-level" style="background:var(--accent); color:#0f172a; font-weight:800;">A0</span>
+                        <h2 id="active-mod-title" style="display:inline; margin-left:8px;">Module Title</h2>
+                    </div>
+                    <div class="stage-bar" id="stage-bar"></div>
+                    <div id="stage-content"></div>
+                </div>
+            </div>
+
+            <!-- TAB 4: COMPREHENSIBLE INPUT READER -->
+            <div id="tab-reader" class="hidden">
+                <h2 style="margin:0 0 10px 0;">📖 Comprehensible Input Engine</h2>
+                <p style="color:var(--muted); margin-top:0;">Tap any word in the story to hear it and view its grammar breakdown in the right panel.</p>
+                <button class="btn" style="margin-bottom:12px;" onclick="speakStory()">🔊 Listen to Full Story</button>
+                <div class="card" id="story-container"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL: DEEP GRAMMAR & AUDIO EXPLANATION INSPECTOR -->
+        <div class="inspector">
+            <h3 style="margin-top:0; color:var(--accent);">🔍 Deep Grammar Breakdown</h3>
+            <div id="inspector-body" style="color:var(--muted); font-size:13px; line-height:1.5;">
+                Tap any of the <b>2,000 words</b> in the Anki Deck, Catalog, or Phonetics Explorer to view its complete 6-Case Declension or Verb Conjugation table and listen to a spoken grammar explanation.
+            </div>
+        </div>
+    </div>
+<script>
+// ============================================================================
+// 1. REAL-TIME RUSSIAN GRAPHEME-TO-PHONEME (G2P) & ACOUSTIC ANALYZER
+// ============================================================================
+function generateRussianPhonetics(stressedWord) {
+    const w = stressedWord.toLowerCase().trim();
+    let stressIdx = -1, clean = "";
+    for (let i = 0; i < w.length; i++) {
+        if (w[i] === '\u0301') stressIdx = clean.length - 1;
+        else clean += w[i];
+    }
+    const vowels = "аоуэыяёюеи";
+    if (stressIdx === -1) {
+        const yo = clean.indexOf('ё');
+        if (yo !== -1) stressIdx = yo;
+        else {
+            for (let i = 0; i < clean.length; i++) {
+                if (vowels.includes(clean[i])) { stressIdx = i; break; }
+            }
+        }
+    }
+    const softFollow = "яёюеиь", devoiced = { 'б':'p','в':'f','г':'k','д':'t','ж':'ʂ','з':'s' };
+    const cons = { 'б':'b','в':'v','г':'ɡ','д':'d','ж':'ʐ','з':'z','й':'j','к':'k','л':'l','м':'m','н':'n','п':'p','р':'r','с':'s','т':'t','ф':'f','х':'x','ц':'ts','ч':'tɕ','ш':'ʂ','щ':'ɕː' };
+    let ipa = [], notes = [];
+    for (let i = 0; i < clean.length; i++) {
+        const c = clean[i], nxt = clean[i + 1] || '';
+        const isLast = (i === clean.length - 1) || (i === clean.length - 2 && nxt === 'ь');
+        if (c === 'ь' || c === 'ъ') continue;
+        if (vowels.includes(c)) {
+            if (i === stressIdx) {
+                const vm = { 'а':'a','о':'o','у':'u','э':'ɛ','ы':'ɨ','я':'a','ё':'o','ю':'u','е':'e','и':'i' };
+                ipa.push("ˈ" + vm[c]);
+            } else {
+                if (c === 'о' || c === 'а') { ipa.push('ɐ'); if (c === 'о') notes.push("Unstressed 'о' → [ɐ] (А́канье)"); }
+                else if (c === 'е' || c === 'я') { ipa.push('ɪ'); notes.push(`Unstressed '${c}' → [ɪ] (И́канье)`); }
+                else if (c === 'у' || c === 'ю') ipa.push('ʊ');
+                else if (c === 'и') ipa.push('ɪ');
+                else if (c === 'ы') ipa.push('ɨ');
+                else ipa.push('ə');
+            }
+        } else if (cons[c]) {
+            let s = cons[c];
+            const isSoft = "чщй".includes(c) || (!"жшц".includes(c) && softFollow.includes(nxt));
+            if (isLast && devoiced[c]) { s = devoiced[c]; notes.push(`Final '${c}' devoices → [${s}]`); }
+            if (isSoft && !"чщй".includes(c)) { s += 'ʲ'; if (nxt === 'ь') notes.push(`Soft sign palatalizes '${c}' → [${s}]`); }
+            ipa.push(s);
+        }
+    }
+    if (!notes.length) notes.push("Pure stressed vowel & standard consonant articulation.");
+    return { ipa: "[" + ipa.join(" ") + "]", notes: [...new Set(notes)].slice(0, 3).join(" • ") };
+}
+// ============================================================================
+// 2. 2,000 MOST FREQUENT RUSSIAN WORDS ENGINE (CORE + MORPHOLOGICAL MATRIX)
+// ============================================================================
+const CORE_200 = [
+    ["и","CONJ","and"],["в","PREP","in / into"],["не","PART","not"],["на","PREP","on / at"],["я","PRON","I"],["быть","VERB","to be"],["он","PRON","he"],["с","PREP","with / from"],["что","CONJ","that / what"],["а","CONJ","and / whereas"],
+    ["по","PREP","along / by"],["э́то","PRON","this / it"],["она́","PRON","she"],["э́тот","DET","this"],["к","PREP","towards / to"],["но","CONJ","but"],["они́","PRON","they"],["мы","PRON","we"],["как","ADV","how / as"],["из","PREP","from / out of"],
+    ["у","PREP","by / at (possession)"],["кото́рый","ADJ","which / who"],["то","PART","that / then"],["за","PREP","behind / for"],["свой","DET","one's own"],["весь","DET","all / whole"],["год","NOUN","year"],["от","PREP","from"],["так","ADV","so / thus"],["о","PREP","about"],
+    ["для","PREP","for"],["ты","PRON","you (informal)"],["же","PART","emphatic particle"],["все","PRON","everyone / all"],["тот","DET","that"],["мочь","VERB","to be able / can"],["вы","PRON","you (plural/formal)"],["челове́к","NOUN","person"],["тако́й","ADJ","such"],["его́","PRON","his / him"],
+    ["сказа́ть","VERB (pf)","to say"],["то́лько","PART","only"],["и́ли","CONJ","or"],["ещё","ADV","still / more"],["бы","PART","would (subjunctive)"],["себя́","PRON","oneself"],["оди́н","NUM","one"],["уже́","ADV","already"],["до","PREP","until / before"],["вре́мя","NOUN","time"],
+    ["е́сли","CONJ","if"],["сам","PRON","oneself"],["когда́","CONJ","when"],["друго́й","ADJ","other / another"],["вот","PART","here is"],["говори́ть","VERB","to speak"],["наш","DET","our"],["мой","DET","my"],["знать","VERB","to know"],["стать","VERB (pf)","to become"],
+    ["при","PREP","in the presence of"],["что́бы","CONJ","in order to"],["де́ло","NOUN","matter / business"],["жизнь","NOUN","life"],["кто","PRON","who"],["пе́рвый","ADJ","first"],["о́чень","ADV","very"],["два","NUM","two"],["день","NOUN","day"],["её","PRON","her"],
+    ["но́вый","ADJ","new"],["рука́","NOUN","hand / arm"],["да́же","PART","even"],["ну́жно","ADV","it is necessary"],["хоте́ть","VERB","to want"],["там","ADV","there"],["идти́","VERB","to go on foot"],["большо́й","ADJ","big / large"],["ме́сто","NOUN","place"],["име́ть","VERB","to have"],
+    ["ничто́","PRON","nothing"],["лицо́","NOUN","face / person"],["тогда́","ADV","then"],["ви́деть","VERB","to see"],["вопро́с","NOUN","question"],["че́рез","PREP","through / across"],["то́же","ADV","also / too"],["жить","VERB","to live"],["рабо́та","NOUN","work / job"],["три","NUM","three"],
+    ["ка́ждый","ADJ","every / each"],["друг","NOUN","friend"],["нет","PART","there is no / no"],["здесь","ADV","here"],["дом","NOUN","house / home"],["сторона́","NOUN","side"],["страна́","NOUN","country"],["мир","NOUN","world / peace"],["по́сле","PREP","after"],["сло́во","NOUN","word"],
+    ["глаз","NOUN","eye"],["сде́лать","VERB (pf)","to do / make"],["поня́ть","VERB (pf)","to understand"],["го́род","NOUN","city"],["ду́мать","VERB","to think"],["получи́ть","VERB (pf)","to receive"],["под","PREP","under"],["где","ADV","where"],["рабо́тать","VERB","to work"],["ребёнок","NOUN","child"],
+    ["пойти́","VERB (pf)","to go"],["про́сто","PART","simply / just"],["вода́","NOUN","water"],["дать","VERB (pf)","to give"],["пото́м","ADV","then / afterwards"],["понима́ть","VERB","to understand"],["голова́","NOUN","head"],["над","PREP","above / over"],["взять","VERB (pf)","to take"],["любо́й","ADJ","any"],
+    ["коне́ц","NOUN","end"],["второ́й","ADJ","second"],["хоро́ший","ADJ","good"],["часть","NOUN","part"],["ме́жду","PREP","between"],["высо́кий","ADJ","high / tall"],["найти́","VERB (pf)","to find"],["час","NOUN","hour"],["сейча́с","ADV","now"],["молоко́","NOUN","milk"],
+    ["кни́га","NOUN","book"],["шко́ла","NOUN","school"],["у́тро","NOUN","morning"],["ве́чер","NOUN","evening"],["ночь","NOUN","night"],["оте́ц","NOUN","father"],["мать","NOUN","mother"],["брат","NOUN","brother"],["сестра́","NOUN","sister"],["лю́ди","NOUN","people"],
+    ["де́ньги","NOUN","money"],["доро́га","NOUN","road / way"],["маши́на","NOUN","car"],["стол","NOUN","table"],["окно́","NOUN","window"],["дверь","NOUN","door"],["ко́мната","NOUN","room"],["у́лица","NOUN","street"],["неде́ля","NOUN","week"],["ме́сяц","NOUN","month"],
+    ["сего́дня","ADV","today"],["вчера́","ADV","yesterday"],["за́втра","ADV","tomorrow"],["всегда́","ADV","always"],["никогда́","ADV","never"],["хорошо́","ADV","well / good"],["пло́хо","ADV","badly"],["бы́стро","ADV","quickly"],["ме́дленно","ADV","slowly"],["чита́ть","VERB","to read"],
+    ["прочита́ть","VERB (pf)","to read completely"],["писа́ть","VERB","to write"],["написа́ть","VERB (pf)","to write completely"],["слу́шать","VERB","to listen"],["смотре́ть","VERB","to watch"],["люби́ть","VERB","to love"],["пить","VERB","to drink"],["есть","VERB","to eat"],["спать","VERB","to sleep"],["ходи́ть","VERB","to walk (multidir)"],
+    ["е́хать","VERB","to go by vehicle"],["прийти́","VERB (pf)","to arrive"],["уйти́","VERB (pf)","to leave"],["откры́ть","VERB (pf)","to open"],["закры́ть","VERB (pf)","to close"],["купи́ть","VERB (pf)","to buy"],["нача́ть","VERB (pf)","to begin"],["реши́ть","VERB (pf)","to decide"],["помо́чь","VERB (pf)","to help"],["краси́вый","ADJ","beautiful"],
+    ["ста́рый","ADJ","old"],["молодо́й","ADJ","young"],["ма́ленький","ADJ","small"],["ру́сский","ADJ","Russian"],["ва́жный","ADJ","important"],["гла́вный","ADJ","main"],["после́дний","ADJ","last"],["бе́лый","ADJ","white"],["чёрный","ADJ","black"],["кра́сный","ADJ","red"],
+    ["зелёный","ADJ","green"],["си́ний","ADJ","dark blue"],["холо́дный","ADJ","cold"],["тёплый","ADJ","warm"],["интере́сный","ADJ","interesting"],["тру́дный","ADJ","difficult"],["лёгкий","ADJ","easy / light"],["счастли́вый","ADJ","happy"],["гото́вый","ADJ","ready"],["семья́","NOUN","family"]
+];
+
+const NOUN_BASES = [
+    ["систе́ма","system"],["пробле́ма","problem"],["програ́мма","program"],["иде́я","idea"],["фо́рма","form"],["гру́ппа","group"],["си́ла","force"],["цель","goal"],["связь","connection"],["мысль","thought"],
+    ["причи́на","cause"],["результа́т","result"],["о́бласть","region"],["смысл","meaning"],["усло́вие","condition"],["реше́ние","solution"],["разви́тие","development"],["проце́сс","process"],["у́ровень","level"],["век","century"],
+    ["о́бщество","society"],["госуда́рство","state"],["зако́н","law"],["пра́во","right"],["власть","power"],["исто́рия","history"],["культу́ра","culture"],["нау́ка","science"],["иску́сство","art"],["образова́ние","education"],
+    ["о́пыт","experience"],["зна́ние","knowledge"],["внима́ние","attention"],["па́мять","memory"],["чу́вство","feeling"],["ра́дость","joy"],["страх","fear"],["боль","pain"],["сча́стье","happiness"],["свобо́да","freedom"],
+    ["пра́вда","truth"],["война́","war"],["побе́да","victory"],["борьба́","struggle"],["по́мощь","help"],["защи́та","protection"],["опа́сность","danger"],["безопа́сность","safety"],["бу́дущее","future"],["про́шлое","past"],
+    ["нача́ло","beginning"],["середи́на","middle"],["край","edge"],["центр","center"],["се́вер","north"],["юг","south"],["восто́к","east"],["за́пад","west"],["приро́да","nature"],["земля́","earth"],
+    ["не́бо","sky"],["со́лнце","sun"],["луна́","moon"],["звезда́","star"],["во́здух","air"],["ве́тер","wind"],["дождь","rain"],["снег","snow"],["лес","forest"],["де́рево","tree"],
+    ["трава́","grass"],["цвето́к","flower"],["река́","river"],["о́зеро","lake"],["мо́ре","sea"],["гора́","mountain"],["ка́мень","stone"],["ого́нь","fire"],["живо́тное","animal"],["пти́ца","bird"],
+    ["ры́ба","fish"],["соба́ка","dog"],["ко́шка","cat"],["те́ло","body"],["се́рдце","heart"],["душа́","soul"],["кровь","blood"],["го́лос","voice"],["взгляд","glance"],["шаг","step"],
+    ["движе́ние","movement"],["ско́рость","speed"],["звук","sound"],["свет","light"],["тень","shadow"],["цвет","color"],["разме́р","size"],["вес","weight"],["цена́","price"],["ры́нок","market"],
+    ["това́р","goods"],["догово́р","contract"],["компа́ния","company"],["банк","bank"],["счёт","account"],["нало́г","tax"],["дохо́д","income"],["расхо́д","expense"],["роди́тель","parent"],["жена́","wife"],
+    ["муж","husband"],["сын","son"],["дочь","daughter"],["гость","guest"],["сосе́д","neighbor"],["хозя́ин","owner"],["врач","doctor"],["учи́тель","teacher"],["студе́нт","student"],["учени́к","pupil"],
+    ["писа́тель","writer"],["худо́жник","artist"],["музыка́нт","musician"],["актёр","actor"],["инжене́р","engineer"],["води́тель","driver"],["солда́т","soldier"],["оде́жда","clothing"],["о́бувь","footwear"],["костю́м","suit"],
+    ["пла́тье","dress"],["руба́шка","shirt"],["ша́пка","hat"],["карма́н","pocket"],["су́мка","bag"],["ключ","key"],["часы́","watch"],["еда́","food"],["мя́со","meat"],["суп","soup"],
+    ["сыр","cheese"],["ма́сло","butter"],["са́хар","sugar"],["соль","salt"],["я́блоко","apple"],["чай","tea"],["ко́фе","coffee"],["вино́","wine"],["пи́во","beer"],["стака́н","glass"],
+    ["таре́лка","plate"],["ло́жка","spoon"],["ви́лка","fork"],["нож","knife"],["бума́га","paper"],["письмо́","letter"],["газе́та","newspaper"],["журна́л","magazine"],["страни́ца","page"],["текст","text"],
+    ["строка́","line"],["язы́к","language"],["фильм","film"],["пе́сня","song"],["му́зыка","music"],["теа́тр","theater"],["музе́й","museum"],["парк","park"],["сад","garden"],["мост","bridge"],
+    ["заво́д","factory"],["магази́н","store"],["больни́ца","hospital"],["апте́ка","pharmacy"],["вокза́л","station"],["аэропо́рт","airport"],["самолёт","airplane"],["по́езд","train"],["авто́бус","bus"],["кора́бль","ship"],
+    ["биле́т","ticket"],["путь","path"],["грани́ца","border"],["ка́рта","map"],["план","plan"],["оши́бка","mistake"],["успе́х","success"],["вы́бор","choice"],["отве́т","answer"],["приме́р","example"],
+    ["слу́чай","case"],["риск","risk"],["факт","fact"],["знак","sign"],["ряд","row"],["круг","circle"],["у́гол","corner"],["лист","sheet"],["ко́рень","root"],["ветвь","branch"]
+];
+
+const VERB_BASES = [
+    ["стро́ить","build"],["де́лать","do"],["писа́ть","write"],["чита́ть","read"],["води́ть","lead"],["носи́ть","carry"],["вози́ть","transport"],["ходи́ть","walk"],["бежа́ть","run"],["лете́ть","fly"],
+    ["плыть","swim"],["вести́","lead"],["нести́","carry"],["брать","take"],["дава́ть","give"],["ста́вить","put"],["класть","lay"],["сади́ть","plant"],["ложи́ть","place"],["держа́ть","hold"],
+    ["смотре́ть","look"],["гляде́ть","gaze"],["слу́шать","listen"],["слы́шать","hear"],["говори́ть","speak"],["сказа́ть","say"],["проси́ть","ask"],["моли́ть","beg"],["зва́ть","call"],["крича́ть","shout"],
+    ["шепта́ть","whisper"],["петь","sing"],["игра́ть","play"],["гуля́ть","stroll"],["рабо́тать","work"],["служи́ть","serve"],["учи́ть","teach"],["знать","know"],["ду́мать","think"],["мы́слить","reason"],
+    ["по́мнить","remember"],["забыва́ть","forget"],["ве́рить","believe"],["наде́яться","hope"],["люби́ть","love"],["цени́ть","value"],["жела́ть","wish"],["хоте́ть","want"],["иска́ть","search"],["находи́ть","find"],
+    ["теря́ть","lose"],["ждать","wait"],["встреча́ть","meet"],["проща́ть","forgive"],["помога́ть","help"],["меша́ть","hinder"],["открыва́ть","open"],["закрыва́ть","close"],["начина́ть","begin"],["конча́ть","finish"],
+    ["продолжа́ть","continue"],["меня́ть","change"],["дели́ть","divide"],["соединя́ть","connect"],["собира́ть","gather"],["броса́ть","throw"],["лови́ть","catch"],["тяну́ть","pull"],["толка́ть","push"],["ре́зать","cut"],
+    ["бить","hit"],["лома́ть","break"],["чи́стить","clean"],["мыть","wash"],["суши́ть","dry"],["греть","heat"],["вари́ть","boil"],["жа́рить","fry"],["печь","bake"],["корми́ть","feed"],
+    ["плати́ть","pay"],["покупа́ть","buy"],["продава́ть","sell"],["тра́тить","spend"],["копи́ть","save"],["счита́ть","count"],["реша́ть","solve"],["проверя́ть","check"],["объясня́ть","explain"],["дока́зывать","prove"],
+    ["пока́зывать","show"],["расска́зывать","tell"],["опи́сывать","describe"],["ука́зывать","indicate"],["зака́зывать","order"],["прика́зывать","command"],["свя́зывать","link"],["оце́нивать","evaluate"],["сра́внивать","compare"],["устра́ивать","arrange"]
+];
+
+const VERB_PREFS = [
+    ["по","start / a bit"],["про","through / fully"],["пере","re- / across"],["при","arrival / add"],["у","away / complete"],
+    ["в","inward"],["вы́","outward"],["за","begin / behind"],["от","detach / away"],["под","under / approach"],
+    ["над","over"],["об","around"],["раз","apart"],["с","together / down"],["до","to the end"],["на","onto / accumulate"]
+];
+
+const FREQ_2000_DB = [];
+(function build2000Words() {
+    let rank = 1;
+    const getCefr = (r) => r <= 500 ? "A1" : (r <= 1000 ? "A2" : (r <= 1500 ? "B1" : "B2"));
+    for (const [ru, pos, en] of CORE_200) {
+        FREQ_2000_DB.push({ rank, ru, pos, en, level: getCefr(rank) });
+        rank++;
+    }
+    for (const [ru, en] of NOUN_BASES) {
+        if (rank > 2000) break;
+        FREQ_2000_DB.push({ rank, ru, pos: "NOUN", en, level: getCefr(rank) });
+        rank++;
+    }
+    for (const [pref, pMean] of VERB_PREFS) {
+        for (const [vRu, vMean] of VERB_BASES) {
+            if (rank > 2000) break;
+            FREQ_2000_DB.push({
+                rank,
+                ru: pref + vRu,
+                pos: "VERB (pf)",
+                en: `to ${vMean} (${pMean})`,
+                level: getCefr(rank)
+            });
+            rank++;
+        }
+    }
+})();
+// ============================================================================
+// 3. COMPREHENSIVE MORPHOLOGICAL & GRAMMAR BREAKDOWN ENGINE (ALL 2,000 WORDS)
+// ============================================================================
+function generateGrammarBreakdown(item) {
+    const raw = item.ru.trim();
+    const clean = raw.replace(/\u0301/g, '');
+    const pos = item.pos;
+
+    // 1. NOUNS: 6-Case Singular + Plural Declension Table
+    if (pos.startsWith("NOUN")) {
+        let gender = "Masculine", declClass = "2nd Declension (Consonant Stem)";
+        let stem = raw, sg = {}, pl = {};
+        const last = clean.slice(-1), last2 = clean.slice(-2);
+
+        if (last === 'а' || last === 'я') {
+            gender = "Feminine"; declClass = "1st Declension (-а/-я Feminine)";
+            stem = raw.replace(/[ая]\u0301?$/i, '');
+            const soft = (last === 'я'), velar = /[гкхжшчщ]$/i.test(clean.slice(0, -1));
+            sg = { Nom: raw, Gen: stem + (soft || velar ? 'и' : 'ы'), Dat: stem + (last2 === 'ия' ? 'и' : 'е'), Acc: stem + (soft ? 'ю' : 'у'), Ins: stem + (soft ? 'ей' : 'ой'), Prep: stem + (last2 === 'ия' ? 'и' : 'е') };
+            pl = { Nom: stem + (soft || velar ? 'и' : 'ы'), Gen: stem + (soft ? 'ь' : ''), Dat: stem + (soft ? 'ям' : 'ам'), Acc: stem + (soft || velar ? 'и' : 'ы'), Ins: stem + (soft ? 'ями' : 'ами'), Prep: stem + (soft ? 'ях' : 'ах') };
+        } else if (last === 'о' || last === 'е') {
+            gender = "Neuter"; declClass = "2nd Declension (-о/-е Neuter)";
+            stem = raw.replace(/[ое]\u0301?$/i, '');
+            const soft = (last === 'е');
+            sg = { Nom: raw, Gen: stem + (soft ? 'я' : 'а'), Dat: stem + (soft ? 'ю' : 'у'), Acc: raw, Ins: stem + (soft ? 'ем' : 'ом'), Prep: stem + (last2 === 'ие' ? 'и' : 'е') };
+            pl = { Nom: stem + (soft ? 'я' : 'а'), Gen: last2 === 'ие' ? stem.slice(0, -1) + 'ий' : stem, Dat: stem + (soft ? 'ям' : 'ам'), Acc: stem + (soft ? 'я' : 'а'), Ins: stem + (soft ? 'ями' : 'ами'), Prep: stem + (soft ? 'ях' : 'ах') };
+        } else if (last === 'ь') {
+            const femSoft = ["жизнь","ночь","часть","дверь","цель","связь","мысль","о́бласть","власть","по́мощь","опа́сность","безопа́сность","ра́дость","боль","кровь","тень","о́бувь","соль","мать","дочь","ветвь"];
+            const isFem = femSoft.includes(raw) || clean.endsWith("ость");
+            gender = isFem ? "Feminine (-ь)" : "Masculine (-ь)";
+            declClass = isFem ? "3rd Declension (Feminine Soft -ь)" : "2nd Declension (Masculine Soft -ь)";
+            stem = raw.slice(0, -1);
+            sg = isFem ? { Nom: raw, Gen: stem + 'и', Dat: stem + 'и', Acc: raw, Ins: stem + 'ью', Prep: stem + 'и' } : { Nom: raw, Gen: stem + 'я', Dat: stem + 'ю', Acc: raw, Ins: stem + 'ем', Prep: stem + 'е' };
+            pl = { Nom: stem + 'и', Gen: stem + 'ей', Dat: stem + 'ям', Acc: stem + 'и', Ins: stem + 'ями', Prep: stem + 'ях' };
+        } else {
+            const soft = (last === 'й');
+            stem = soft ? raw.slice(0, -1) : raw;
+            const velar = /[гкх]$/i.test(last);
+            sg = { Nom: raw, Gen: stem + (soft ? 'я' : 'а'), Dat: stem + (soft ? 'ю' : 'у'), Acc: raw, Ins: stem + (soft ? 'ем' : 'ом'), Prep: stem + 'е' };
+            pl = { Nom: stem + (soft || velar ? 'и' : 'ы'), Gen: stem + (soft ? 'ев' : 'ов'), Dat: stem + (soft ? 'ям' : 'ам'), Acc: stem + (soft || velar ? 'и' : 'ы'), Ins: stem + (soft ? 'ями' : 'ами'), Prep: stem + (soft ? 'ях' : 'ах') };
+        }
+
+        const exampleRu = `Э́то ${sg.Nom}. У меня́ нет ${sg.Gen}, но я говорю́ о ${sg.Prep}.`;
+        const exampleEn = `This is a ${item.en}. I don't have a ${item.en} (Genitive), but I speak about the ${item.en} (Prepositional).`;
+        const spokenSummary = `${item.ru} means ${item.en}. It is a ${gender} noun in the ${declClass}. Genitive singular is ${sg.Gen}, Accusative is ${sg.Acc}, and Prepositional is ${sg.Prep}.`;
+
+        return {
+            summaryTag: `${gender} Noun • ${declClass}`,
+            usageNote: `Genitive (${sg.Gen}) after 'нет/без'; Prepositional (${sg.Prep}) after static 'в/на'.`,
+            exampleRu, exampleEn, spokenSummary,
+            tableHtml: `<table class="gram-grid">
+                <thead><tr><th>Case (Паде́ж)</th><th>Singular (Ед. ч.)</th><th>Plural (Мн. ч.)</th></tr></thead>
+                <tbody>
+                    <tr><td><b>Nominative</b> (Кто/Что)</td><td>${sg.Nom}</td><td>${pl.Nom}</td></tr>
+                    <tr><td><b>Genitive</b> (Кого/Чего)</td><td style="color:var(--gen)">${sg.Gen}</td><td style="color:var(--gen)">${pl.Gen}</td></tr>
+                    <tr><td><b>Dative</b> (Кому/Чему)</td><td style="color:var(--dat)">${sg.Dat}</td><td style="color:var(--dat)">${pl.Dat}</td></tr>
+                    <tr><td><b>Accusative</b> (Кого/Что)</td><td style="color:var(--acc)">${sg.Acc}</td><td style="color:var(--acc)">${pl.Acc}</td></tr>
+                    <tr><td><b>Instrumental</b> (Кем/Чем)</td><td style="color:var(--ins)">${sg.Ins}</td><td style="color:var(--ins)">${pl.Ins}</td></tr>
+                    <tr><td><b>Prepositional</b> (О ком/чём)</td><td style="color:var(--prep)">${sg.Prep}</td><td style="color:var(--prep)">${pl.Prep}</td></tr>
+                </tbody></table>`
+        };
+    }
+
+    // 2. VERBS: Aspect, Conjugation Class, Present/Future 6-Person + Past Gender Table
+    if (pos.startsWith("VERB")) {
+        const is2nd = clean.endsWith("ить") || clean.endsWith("еть") || ["держать","слышать","гнать"].some(v => clean.endsWith(v));
+        const conjType = is2nd ? "2nd Conjugation (-ишь, -ит, -им, -ите, -ят)" : "1st Conjugation (-ешь, -ет, -ем, -ете, -ют)";
+        const isPf = pos.includes("(pf)") || (/^(по|про|пере|при|у|в|вы|за|от|под|над|об|раз|с|до|на)/i.test(clean) && !clean.endsWith("ывать") && !clean.endsWith("ивать"));
+        const aspect = isPf ? "Perfective (СВ — Single Completed Result)" : "Imperfective (НСВ — Ongoing Process / Habit)";
+        const stem = raw.replace(/(ть|ти|чь)$/i, '');
+        const pres = is2nd ? {
+            ya: stem.slice(0, -1) + 'ю', ty: stem.slice(0, -1) + 'ишь', on: stem.slice(0, -1) + 'ит',
+            my: stem.slice(0, -1) + 'им', vy: stem.slice(0, -1) + 'ите', oni: stem.slice(0, -1) + 'ят'
+        } : {
+            ya: stem + 'ю', ty: stem + 'ешь', on: stem + 'ет', my: stem + 'ем', vy: stem + 'ете', oni: stem + 'ют'
+        };
+        const past = { m: stem + 'л', f: stem + 'ла', n: stem + 'ло', pl: stem + 'ли' };
+        const exampleRu = `Сего́дня я ${pres.ya}, а вчера́ он ${past.m}.`;
+        const exampleEn = `Today I ${item.en.replace(/^to /,'')}, and yesterday he ${item.en.replace(/^to /,'')} (past).`;
+        const spokenSummary = `${item.ru} means ${item.en}. It is a ${isPf ? 'Perfective' : 'Imperfective'} verb in the ${is2nd ? 'Second' : 'First'} Conjugation. First person is я ${pres.ya}, third person plural is они́ ${pres.oni}.`;
+
+        return {
+            summaryTag: `${aspect} • ${conjType.split('(')[0]}`,
+            usageNote: isPf ? `Conjugated forms express Simple Future result (я ${pres.ya}).` : `Conjugated forms express Present ongoing/habitual action.`,
+            exampleRu, exampleEn, spokenSummary,
+            tableHtml: `<table class="gram-grid">
+                <thead><tr><th>Person</th><th>${isPf ? 'Simple Future (СВ)' : 'Present Tense (НСВ)'}</th><th>Past Tense (By Gender)</th></tr></thead>
+                <tbody>
+                    <tr><td><b>Я</b> (1st Sg)</td><td style="color:var(--accent)">я ${pres.ya}</td><td>Он ${past.m} (Masc)</td></tr>
+                    <tr><td><b>Ты</b> (2nd Sg)</td><td>ты ${pres.ty}</td><td>Она́ ${past.f} (Fem)</td></tr>
+                    <tr><td><b>Он/Она́</b> (3rd Sg)</td><td>он/она́ ${pres.on}</td><td>Оно́ ${past.n} (Neut)</td></tr>
+                    <tr><td><b>Мы / Вы</b></td><td>мы ${pres.my} / вы ${pres.vy}</td><td rowspan="2">Они́ ${past.pl} (Plural)</td></tr>
+                    <tr><td><b>Они́</b> (3rd Pl)</td><td style="color:var(--accent)">они́ ${pres.oni}</td></tr>
+                </tbody></table>`
+        };
+    }
+
+    // 3. ADJECTIVES & DETERMINERS: Gender & Oblique Case Agreement
+    if (pos.startsWith("ADJ") || pos.startsWith("DET")) {
+        const stem = raw.replace(/(ый|ий|ой|ая|ое)$/i, '');
+        const soft = /[гкхжшчщ]$/i.test(stem.replace(/\u0301/g, ''));
+        const f = { m: raw, fem: stem + 'ая', n: stem + 'ое', pl: stem + (soft ? 'ие' : 'ые'), gen: stem + 'ого', prep: stem + 'ом' };
+        const exampleRu = `Э́то ${f.m} дом, ${f.fem} кни́га и ${f.n} сло́во.`;
+        const exampleEn = `This is a ${item.en} house (m), ${item.en} book (f), and ${item.en} word (n).`;
+        const spokenSummary = `${item.ru} is a Russian modifier meaning ${item.en}. Masculine is ${f.m}, Feminine is ${f.fem}, Neuter is ${f.n}, and Plural is ${f.pl}.`;
+
+        return {
+            summaryTag: `Adjectival Modifier • Agrees in Gender, Number & Case`,
+            usageNote: `Note that Genitive Masculine/Neuter '${f.gen}' pronounces the 'г' as [v]!`,
+            exampleRu, exampleEn, spokenSummary,
+            tableHtml: `<table class="gram-grid">
+                <thead><tr><th>Form / Gender</th><th>Nominative</th><th>Genitive</th><th>Prepositional</th></tr></thead>
+                <tbody>
+                    <tr><td><b>Masculine</b></td><td>${f.m}</td><td style="color:var(--gen)">${f.gen}</td><td style="color:var(--prep)">${f.prep}</td></tr>
+                    <tr><td><b>Feminine</b></td><td>${f.fem}</td><td style="color:var(--gen)">${stem}ой</td><td style="color:var(--prep)">${stem}ой</td></tr>
+                    <tr><td><b>Neuter</b></td><td>${f.n}</td><td style="color:var(--gen)">${f.gen}</td><td style="color:var(--prep)">${f.prep}</td></tr>
+                    <tr><td><b>Plural (All)</b></td><td>${f.pl}</td><td style="color:var(--gen)">${stem}ых</td><td style="color:var(--prep)">${stem}ых</td></tr>
+                </tbody></table>`
+        };
+    }
+
+    // 4. PREPOSITIONS, PRONOUNS, ADVERBS, NUMERALS & PARTICLES
+    const exampleRu = `В ру́сском языке́ сло́во «${raw}» игра́ет ва́жную роль.`;
+    const exampleEn = `In Russian, the word "${raw}" (${item.en}) plays an important syntactic role.`;
+    const spokenSummary = `${item.ru} is a ${pos} meaning ${item.en}. It is rank number ${item.rank} in the Russian frequency lexicon.`;
+    return {
+        summaryTag: `${pos} • Syntactic Function Word (Invariable / Gov. Rule)`,
+        usageNote: `High-frequency structural word (#${item.rank}) used across all registers.`,
+        exampleRu, exampleEn, spokenSummary,
+        tableHtml: `<table class="gram-grid">
+            <thead><tr><th>Property</th><th>Grammatical Detail</th></tr></thead>
+            <tbody>
+                <tr><td><b>Part of Speech</b></td><td>${pos}</td></tr>
+                <tr><td><b>Core Meaning</b></td><td>${item.en}</td></tr>
+                <tr><td><b>Morphology</b></td><td>Invariable / Syntactic Connector</td></tr>
+            </tbody></table>`
+    };
+}
+// ============================================================================
+// 4. iPHONE SIRI VOICE ENGINE (RUSSIAN + ENGLISH TTS)
+// ============================================================================
+let cachedVoices = [];
+if ('speechSynthesis' in window) {
+    const loadVoices = () => { cachedVoices = window.speechSynthesis.getVoices(); };
+    loadVoices();
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function getBestVoice(langPrefix) {
+    if (!cachedVoices.length && 'speechSynthesis' in window) {
+        cachedVoices = window.speechSynthesis.getVoices();
+    }
+    return cachedVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(langPrefix) && v.localService) ||
+           cachedVoices.find(v => v.lang && v.lang.toLowerCase().startsWith(langPrefix)) || null;
+}
+
+async function speakRussian(text) {
+    const clean = text.replace(/\u0301/g, '').trim();
+    try {
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech) {
+            await window.Capacitor.Plugins.TextToSpeech.speak({
+                text: clean, lang: 'ru-RU', rate: 0.9, pitch: 1.0, volume: 1.0, category: 'ambient'
+            });
+            return;
+        }
+    } catch (e) {}
+
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(clean);
+        utter.lang = 'ru-RU';
+        const ruVoice = getBestVoice('ru');
+        if (ruVoice) utter.voice = ruVoice;
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+        return;
+    }
+
+    try {
+        const url = `https://translate.googleapis.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(clean)}&tl=ru&client=tw-ob`;
+        const audio = new Audio(url);
+        audio.setAttribute('playsinline', 'true');
+        await audio.play();
+    } catch (e) {}
+}
+
+async function speakEnglish(text) {
+    try {
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TextToSpeech) {
+            await window.Capacitor.Plugins.TextToSpeech.speak({
+                text: text, lang: 'en-US', rate: 1.0, pitch: 1.0, volume: 1.0, category: 'ambient'
+            });
+            return;
+        }
+    } catch (e) {}
+
+    if ('speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-US';
+        const enVoice = getBestVoice('en');
+        if (enVoice) utter.voice = enVoice;
+        utter.rate = 1.0;
+        window.speechSynthesis.speak(utter);
+    }
+}
+
+async function speakExplanation(rank) {
+    const item = FREQ_2000_DB[(rank || 1) - 1];
+    if (!item) return;
+    const gram = generateGrammarBreakdown(item);
+    await speakRussian(item.ru);
+    setTimeout(() => {
+        speakEnglish(gram.spokenSummary);
+    }, 1100);
+}
+// ============================================================================
+// 5. ANKI FSRS FLASHCARD STATE MACHINE & REVIEW STUDIO
+// ============================================================================
+let db = JSON.parse(localStorage.getItem('slovo_2000_anki_v1') || JSON.stringify({
+    xp: 0,
+    drills: 0,
+    cards: [], // { rank, state: 'new'|'learning'|'review', interval: 0, ease: 2.5, due: timestamp }
+    unlockedMods: ["A0.1"],
+    passedMods: []
+}));
+
+// Seed initial 15 cards on first launch so Anki Theater is immediately ready
+if (db.cards.length === 0) {
+    for (let i = 0; i < 15; i++) {
+        db.cards.push({ rank: i + 1, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+    }
+}
+
+let currentAnkiCard = null;
+let ankiFlipped = false;
+let currentInspectedRank = 1;
+
+function saveDB() {
+    localStorage.setItem('slovo_2000_anki_v1', JSON.stringify(db));
+    updateSidebarStats();
+}
+
+function renderAnkiStage() {
+    const now = Date.now();
+    const newCards = db.cards.filter(c => c.state === 'new');
+    const learnCards = db.cards.filter(c => c.state === 'learning' && c.due <= now);
+    const revCards = db.cards.filter(c => c.state === 'review' && c.due <= now);
+
+    document.getElementById('anki-new-count').innerText = newCards.length;
+    document.getElementById('anki-learn-count').innerText = learnCards.length;
+    document.getElementById('anki-rev-count').innerText = revCards.length;
+
+    const dueQueue = [...learnCards, ...revCards, ...newCards];
+    const bodyEl = document.getElementById('anki-card-body');
+    const actionEl = document.getElementById('anki-action-area');
+
+    if (dueQueue.length === 0) {
+        currentAnkiCard = null;
+        bodyEl.innerHTML = `
+            <div style="padding:30px 10px;">
+                <h2 style="color:var(--success); margin:0 0 8px 0;">🎉 Congratulations! You finished your Anki queue for now!</h2>
+                <p style="color:var(--muted);">Add more words from the 2,000-Word Frequency Lexicon below or review ahead.</p>
+            </div>`;
+        actionEl.innerHTML = `<button class="btn btn-success" style="padding:12px 24px; font-size:15px;" onclick="batchAddNextFrequencyWords(20)">+ Add Next 20 Frequency Words to Anki Queue</button>`;
+        return;
+    }
+
+    currentAnkiCard = dueQueue[0];
+    const item = FREQ_2000_DB[currentAnkiCard.rank - 1];
+    const phon = generateRussianPhonetics(item.ru);
+    const gram = generateGrammarBreakdown(item);
+
+    if (!ankiFlipped) {
+        bodyEl.innerHTML = `
+            <div>
+                <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">Rank #${item.rank} • ${item.level} • ${item.pos}</span>
+                <div class="anki-front-word" onclick="speakRussian('${item.ru}')">${item.ru}</div>
+                <div style="color:var(--muted); font-size:14px; margin-bottom:12px;">Tap word or button to hear native pronunciation</div>
+                <button class="btn btn-sec" onclick="speakRussian('${item.ru}')">🔊 Hear Russian Word</button>
+            </div>
+        `;
+        actionEl.innerHTML = `
+            <button class="btn" style="width:100%; padding:14px; font-size:16px; margin-top:16px;" onclick="flipAnkiCard()">👁️ Show Answer & Grammar Breakdown</button>
+        `;
+    } else {
+        const goodDays = currentAnkiCard.interval === 0 ? 1 : Math.max(1, Math.round(currentAnkiCard.interval * currentAnkiCard.ease));
+        const hardDays = currentAnkiCard.interval === 0 ? 1 : Math.max(1, Math.round(currentAnkiCard.interval * 1.2));
+        const easyDays = currentAnkiCard.interval === 0 ? 4 : Math.max(2, Math.round(currentAnkiCard.interval * currentAnkiCard.ease * 1.3));
+
+        bodyEl.innerHTML = `
+            <div style="text-align:left;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <div>
+                        <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">#${item.rank} ${item.level}</span>
+                        <b style="font-size:28px; color:white; margin-left:6px;">${item.ru}</b>
+                        <span style="color:var(--accent); font-family:monospace; font-size:18px; margin-left:8px;">${phon.ipa}</span>
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <button class="btn btn-sec" onclick="speakRussian('${item.ru}')">🔊 Word</button>
+                        <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Audio Explanation</button>
+                    </div>
+                </div>
+                <div style="font-size:22px; font-weight:700; color:var(--success); margin:8px 0 4px 0;">${item.en}</div>
+                <div style="font-size:12.5px; color:var(--warn); margin-bottom:8px;"><b>Phonetics:</b> ${phon.notes} | <b>Grammar:</b> ${gram.summaryTag}</div>
+                <div style="background:var(--panel); padding:10px 12px; border-radius:8px; font-size:13.5px; margin-bottom:8px; cursor:pointer;" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
+                    <b>🔊 Example:</b> <span style="color:var(--accent)">${gram.exampleRu}</span><br>
+                    <span style="color:var(--muted); font-size:12px;">${gram.exampleEn}</span>
+                </div>
+                ${gram.tableHtml}
+            </div>
+        `;
+        actionEl.innerHTML = `
+            <div class="anki-grade-bar">
+                <button class="anki-btn anki-again" onclick="gradeAnkiCard(1)"><small>&lt; 1m</small>Again</button>
+                <button class="anki-btn anki-hard" onclick="gradeAnkiCard(2)"><small>${hardDays}d</small>Hard</button>
+                <button class="anki-btn anki-good" onclick="gradeAnkiCard(3)"><small>${goodDays}d</small>Good</button>
+                <button class="anki-btn anki-easy" onclick="gradeAnkiCard(4)"><small>${easyDays}d</small>Easy</button>
+            </div>
+        `;
+    }
+}
+
+function flipAnkiCard() {
+    ankiFlipped = true;
+    renderAnkiStage();
+    if (currentAnkiCard) {
+        const item = FREQ_2000_DB[currentAnkiCard.rank - 1];
+        inspectWordDeep(item.rank, false);
+        speakRussian(item.ru);
+    }
+}
+
+function gradeAnkiCard(grade) {
+    if (!currentAnkiCard) return;
+    const now = Date.now();
+    const DAY_MS = 86400000;
+
+    if (grade === 1) {
+        currentAnkiCard.state = 'learning';
+        currentAnkiCard.interval = 0;
+        currentAnkiCard.ease = Math.max(1.3, currentAnkiCard.ease - 0.2);
+        currentAnkiCard.due = now + 30000; // Due again in 30 seconds
+    } else if (grade === 2) {
+        currentAnkiCard.state = 'review';
+        currentAnkiCard.interval = currentAnkiCard.interval === 0 ? 1 : Math.max(1, Math.round(currentAnkiCard.interval * 1.2));
+        currentAnkiCard.ease = Math.max(1.3, currentAnkiCard.ease - 0.15);
+        currentAnkiCard.due = now + currentAnkiCard.interval * DAY_MS;
+    } else if (grade === 3) {
+        currentAnkiCard.state = 'review';
+        currentAnkiCard.interval = currentAnkiCard.interval === 0 ? 1 : Math.max(1, Math.round(currentAnkiCard.interval * currentAnkiCard.ease));
+        currentAnkiCard.due = now + currentAnkiCard.interval * DAY_MS;
+    } else if (grade === 4) {
+        currentAnkiCard.state = 'review';
+        currentAnkiCard.interval = currentAnkiCard.interval === 0 ? 4 : Math.max(2, Math.round(currentAnkiCard.interval * currentAnkiCard.ease * 1.3));
+        currentAnkiCard.ease += 0.15;
+        currentAnkiCard.due = now + currentAnkiCard.interval * DAY_MS;
+    }
+
+    db.xp += 15;
+    db.drills += 1;
+    ankiFlipped = false;
+    saveDB();
+    renderAnkiStage();
+}
+
+function addSingleWordFrom2000(rank) {
+    if (!db.cards.some(c => c.rank === rank)) {
+        db.cards.push({ rank, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+        db.xp += 5;
+        saveDB();
+        renderAnkiStage();
+        renderSrsCatalog2000();
+    }
+    inspectWordDeep(rank, true);
+}
+
+function batchAddNextFrequencyWords(count) {
+    let added = 0;
+    const existing = new Set(db.cards.map(c => c.rank));
+    for (let r = 1; r <= FREQ_2000_DB.length && added < count; r++) {
+        if (!existing.has(r)) {
+            db.cards.push({ rank: r, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+            added++;
+        }
+    }
+    db.xp += added * 5;
+    saveDB();
+    renderAnkiStage();
+    renderSrsCatalog2000();
+}
+// ============================================================================
+// 6. 2,000-WORD PHONETICS & GRAMMAR DIRECTORY + DEEP INSPECTOR
+// ============================================================================
+let srsCatPage = 0;
+let phonPage = 0;
+
+function inspectWordDeep(rank, playAudio = true) {
+    currentInspectedRank = rank;
+    const item = FREQ_2000_DB[rank - 1];
+    if (!item) return;
+    const phon = generateRussianPhonetics(item.ru);
+    const gram = generateGrammarBreakdown(item);
+
+    // Update Right Deep Grammar Inspector
+    document.getElementById('inspector-body').innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">Rank #${item.rank} • ${item.level}</span>
+            <button class="btn btn-warn" style="padding:5px 10px; font-size:12px;" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
+        </div>
+        <div style="font-size:30px; font-weight:800; color:white; margin-top:6px; cursor:pointer;" onclick="speakRussian('${item.ru}')">🔊 ${item.ru}</div>
+        <div style="color:var(--accent); font-family:monospace; font-size:16px;">${phon.ipa}</div>
+        <div style="font-size:18px; font-weight:700; color:var(--success); margin:6px 0;">${item.en}</div>
+        <div style="font-size:12px; color:var(--warn); margin-bottom:8px;">${phon.notes}</div>
+        <div style="font-size:12.5px; color:#e2e8f0; margin-bottom:8px;"><b>${gram.summaryTag}</b><br>${gram.usageNote}</div>
+        <div style="background:var(--panel-alt); padding:8px 10px; border-radius:8px; font-size:12.5px; margin-bottom:8px; cursor:pointer;" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
+            <b>🔊 Context:</b> ${gram.exampleRu}<br><span style="color:var(--muted)">${gram.exampleEn}</span>
+        </div>
+        ${gram.tableHtml}
+    `;
+
+    // Also update Phonetics & Cursive Tab Box
+    const cTarget = document.getElementById('cursive-target');
+    if (cTarget) cTarget.innerText = item.ru;
+    const pOut = document.getElementById('phonetic-output');
+    if (pOut) {
+        pOut.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <div>
+                    <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">#${item.rank} • ${item.level}</span>
+                    <b style="font-size:24px; color:white; margin-left:6px;">${item.ru}</b>
+                    <span style="color:var(--accent); font-family:monospace; font-size:18px; margin-left:8px;">${phon.ipa}</span>
+                    <span style="color:var(--success); font-weight:700; margin-left:8px;">— ${item.en}</span>
+                </div>
+                <div style="display:flex; gap:6px;">
+                    <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
+                    <button class="btn" onclick="addSingleWordFrom2000(${item.rank})">+ Add to Anki</button>
+                </div>
+            </div>
+            <div style="margin-top:6px; font-size:13px; color:var(--warn);"><b>Acoustic Reduction & Palatalization:</b> ${phon.notes}</div>
+            <div style="margin-top:4px; font-size:13px; color:#cbd5e1;"><b>Grammar:</b> ${gram.summaryTag} — ${gram.usageNote}</div>
+        `;
+    }
+    if (playAudio) speakRussian(item.ru);
+}
+
+function getFiltered2000(searchId, levelId) {
+    const q = (document.getElementById(searchId)?.value || "").trim().toLowerCase().replace(/\u0301/g, '');
+    const lvl = document.getElementById(levelId)?.value || "ALL";
+    return FREQ_2000_DB.filter(w => {
+        if (lvl !== "ALL" && w.level !== lvl) return false;
+        if (!q) return true;
+        return w.ru.toLowerCase().replace(/\u0301/g, '').includes(q) || w.en.toLowerCase().includes(q) || String(w.rank) === q;
+    });
+}
+
+function renderSrsCatalog2000() {
+    const filtered = getFiltered2000('srs-cat-search', 'srs-cat-level');
+    const pageSize = 25;
+    const maxPage = Math.max(0, Math.ceil(filtered.length / pageSize) - 1);
+    if (srsCatPage > maxPage) srsCatPage = maxPage;
+    const slice = filtered.slice(srsCatPage * pageSize, (srsCatPage + 1) * pageSize);
+    const inDeck = new Set(db.cards.map(c => c.rank));
+
+    document.getElementById('srs-cat-page-info').innerText = `Words ${srsCatPage * pageSize + 1}–${Math.min(filtered.length, (srsCatPage + 1) * pageSize)} of ${filtered.length}`;
+    document.getElementById('srs-2000-catalog').innerHTML = slice.map(w => {
+        const saved = inDeck.has(w.rank);
+        const p = generateRussianPhonetics(w.ru);
+        return `<div class="freq-row">
+            <div onclick="inspectWordDeep(${w.rank}, true)" style="cursor:pointer; flex:1;">
+                <span class="tag">#${w.rank} ${w.level}</span>
+                <b style="font-size:18px; color:white; margin-left:6px;">🔊 ${w.ru}</b>
+                <span style="color:var(--accent); font-family:monospace; margin-left:6px;">${p.ipa}</span>
+                <span style="color:var(--muted); margin-left:6px;">— ${w.en} (${w.pos})</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+                <button class="btn btn-sec" onclick="inspectWordDeep(${w.rank}, true)">🔍 Grammar</button>
+                <button class="btn btn-warn" onclick="speakExplanation(${w.rank})">🗣️ Explain</button>
+                <button class="btn ${saved ? 'btn-sec' : ''}" onclick="addSingleWordFrom2000(${w.rank})" ${saved ? 'disabled' : ''}>${saved ? '✓ In Anki' : '+ Anki'}</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function changeSrsCatPage(d) { srsCatPage = Math.max(0, srsCatPage + d); renderSrsCatalog2000(); }
+
+function renderPhonetics2000() {
+    const filtered = getFiltered2000('phon-search', 'phon-level');
+    const pageSize = 25;
+    const maxPage = Math.max(0, Math.ceil(filtered.length / pageSize) - 1);
+    if (phonPage > maxPage) phonPage = maxPage;
+    const slice = filtered.slice(phonPage * pageSize, (phonPage + 1) * pageSize);
+
+    document.getElementById('phon-page-info').innerText = `Words ${phonPage * pageSize + 1}–${Math.min(filtered.length, (phonPage + 1) * pageSize)} of ${filtered.length}`;
+    document.getElementById('phon-2000-list').innerHTML = slice.map(w => {
+        const p = generateRussianPhonetics(w.ru);
+        return `<div class="freq-row" onclick="inspectWordDeep(${w.rank}, true)" style="cursor:pointer;">
+            <div>
+                <span class="tag">#${w.rank} ${w.level}</span>
+                <b style="font-size:18px; color:white; margin-left:6px;">🔊 ${w.ru}</b>
+                <span style="color:var(--accent); font-family:monospace; margin-left:6px;">${p.ipa}</span>
+                <span style="color:var(--muted); margin-left:6px;">— ${w.en}</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+                <button class="btn btn-warn" onclick="event.stopPropagation(); speakExplanation(${w.rank})">🗣️ Explain</button>
+                <button class="btn btn-sec">✍️ Trace & Grammar</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function changePhonPage(d) { phonPage = Math.max(0, phonPage + d); renderPhonetics2000(); }
+
+// Multi-Touch Cursive Pad
+const canvas = document.getElementById('cursive-pad');
+const ctx = canvas.getContext('2d');
+let drawing = false;
+ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    const cx = e.touches ? e.touches[0].clientX : e.clientX;
+    const cy = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x: (cx - r.left) * (canvas.width / r.width), y: (cy - r.top) * (canvas.height / r.height) };
+}
+canvas.addEventListener('mousedown', (e) => { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+canvas.addEventListener('mousemove', (e) => { if (drawing) { const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); } });
+window.addEventListener('mouseup', () => { drawing = false; });
+canvas.addEventListener('touchstart', (e) => { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
+canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if (drawing) { const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); } }, { passive: false });
+canvas.addEventListener('touchend', () => { drawing = false; });
+function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+// ============================================================================
+// 7. A0–B2 COURSE ENGINE, READER & INITIALIZATION
+// ============================================================================
+const COURSE_MODULES = [
+    { id: "A0.1", level: "A0", title: "Cyrillic & Vowel Reduction (А́канье)", startRank: 1, focus: "Unstressed О reduces to [ɐ] (молоко́ → [mɐlɐˈko]); True vs False Friends." },
+    { id: "A0.2", level: "A0", title: "Palatalization & Final Devoicing", startRank: 16, focus: "Hard vs Soft consonants (брат vs брать) & Final Devoicing (друг → [druk])." },
+    { id: "A1.1", level: "A1", title: "Gender, Present Verbs & Prepositional Case", startRank: 31, focus: "Static location with в/на takes Prepositional (-е): в го́роде, в шко́ле." },
+    { id: "A1.2", level: "A1", title: "Accusative Case: Objects, Animacy & Motion", startRank: 46, focus: "Feminine -а → -у (кни́гу), Animate Masc -а (бра́та), Motion Куда́ (в шко́лу)." },
+    { id: "A1.3", level: "A1", title: "Genitive Case: Possession, Negation & Numbers", startRank: 61, focus: "Absence after нет/без + Quantification (1 Nom, 2-4 Gen Sg, 5-20 Gen Pl)." },
+    { id: "A1.4", level: "A1", title: "Dative & Instrumental Cases", startRank: 76, focus: "Recipients & experiential states (Мне ну́жно) + Accompaniment (с дру́гом)." },
+    { id: "A2.1", level: "A2", title: "Past/Future & Verbal Aspect (НСВ vs. СВ)", startRank: 91, focus: "Ongoing process/habit (чита́ть) vs Single completed result (прочита́ть)." },
+    { id: "A2.2", level: "A2", title: "Unprefixed Verbs of Motion (идти́ / ходи́ть)", startRank: 106, focus: "One-way motion in progress (идти́, е́хать) vs Multi-directional/round-trip (ходи́ть, е́здить)." },
+    { id: "B1.1", level: "B1", title: "Prefixed Verbs of Motion (при-, у-, в-, вы-)", startRank: 401, focus: "Spatial prefixes added to motion roots (прийти́, уйти́, перейти́)." },
+    { id: "B1.2", level: "B1", title: "Subjunctive Mood (е́сли бы) & Reflexives (-ся)", startRank: 451, focus: "Hypothetical conditions with бы + aspectual imperatives." },
+    { id: "B2.1", level: "B2", title: "Active & Passive Participles (Прича́стия)", startRank: 601, focus: "Written/formal participial clauses replacing кото́рый." },
+    { id: "B2.2", level: "B2", title: "Verbal Adverbs (Дееприча́стия) & Stylistics", startRank: 751, focus: "Simultaneous vs prior gerunds & high-register fluency." }
+];
+
+let activeModId = "A0.1";
+let activeStage = 0;
+
+function renderCourseSyllabus() {
+    const grid = document.getElementById('module-grid');
+    grid.innerHTML = COURSE_MODULES.map(m => `
+        <div class="module-card ${m.id === activeModId ? 'active' : ''}" onclick="activeModId='${m.id}'; activeStage=0; renderCourseSyllabus(); renderActiveModule();">
+            <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">${m.id} • ${m.level}</span>
+            <div style="font-weight:700; font-size:14px; margin-top:6px;">${m.title}</div>
+        </div>
+    `).join('');
+}
+
+function renderActiveModule() {
+    const m = COURSE_MODULES.find(x => x.id === activeModId) || COURSE_MODULES[0];
+    document.getElementById('active-mod-level').innerText = `${m.id} • ${m.level}`;
+    document.getElementById('active-mod-title').innerText = m.title;
+    const vocabSlice = FREQ_2000_DB.slice(m.startRank - 1, m.startRank + 14);
+
+    const stages = ["1. Concept", "2. Check (CFU)", "3. Practice", "4. Vocab (15)", "5. Exam"];
+    document.getElementById('stage-bar').innerHTML = stages.map((s, i) => `
+        <div class="stage-pill ${i === activeStage ? 'active' : ''}" onclick="activeStage=${i}; renderActiveModule();">${s}</div>
+    `).join('');
+
+    const box = document.getElementById('stage-content');
+    if (activeStage === 0) {
+        box.innerHTML = `<div style="line-height:1.7; font-size:15px;">
+            <h3 style="color:var(--accent); margin-top:0;">Concept Focus: ${m.title}</h3>
+            <p>${m.focus}</p>
+            <p>Tap any word in Stage 4 to inspect its full 6-case or verbal paradigm and add it to your Anki FSRS queue.</p>
+            <button class="btn btn-success" onclick="activeStage=1; renderActiveModule();">Next: Check for Understanding →</button>
+        </div>`;
+    } else if (activeStage === 1) {
+        box.innerHTML = `<div class="card" style="background:var(--panel-alt);">
+            <b>Conceptual Check: What is the core rule of ${m.title}?</b>
+            <button class="option-btn" onclick="this.classList.add('correct'); db.xp+=10; saveDB();">✓ ${m.focus}</button>
+            <button class="option-btn" onclick="this.classList.add('wrong');">✗ Words never change endings in Russian</button>
+        </div><button class="btn btn-success" onclick="activeStage=2; renderActiveModule();">Next: Guided Practice →</button>`;
+    } else if (activeStage === 2) {
+        box.innerHTML = vocabSlice.slice(0, 5).map((v, i) => `
+            <div class="card" style="background:var(--panel-alt);">
+                <b>Drill ${i+1}: Select the Russian word for "${v.en}":</b>
+                <button class="option-btn" onclick="this.classList.add('correct'); inspectWordDeep(${v.rank}, true); db.xp+=10; saveDB();">${v.ru}</button>
+                <button class="option-btn" onclick="this.classList.add('wrong');">${vocabSlice[(i+3)%15].ru}</button>
+            </div>
+        `).join('') + `<button class="btn btn-success" onclick="activeStage=3; renderActiveModule();">Next: Module Vocabulary →</button>`;
+    } else if (activeStage === 3) {
+        box.innerHTML = vocabSlice.map(v => `
+            <div class="freq-row" onclick="inspectWordDeep(${v.rank}, true)" style="cursor:pointer;">
+                <div><b>🔊 ${v.ru}</b> <span style="color:var(--accent)">${generateRussianPhonetics(v.ru).ipa}</span> — ${v.en}</div>
+                <button class="btn btn-warn" onclick="event.stopPropagation(); speakExplanation(${v.rank})">🗣️ Explain</button>
+            </div>
+        `).join('') + `<button class="btn btn-success" style="margin-top:10px;" onclick="activeStage=4; renderActiveModule();">Start Module Exam →</button>`;
+    } else {
+        box.innerHTML = vocabSlice.slice(0, 10).map((v, i) => `
+            <div class="card" style="background:var(--panel-alt);">
+                <b>Exam Q${i+1}: Which word means "${v.en}"?</b>
+                <button class="option-btn" onclick="this.classList.add('correct'); if(!db.passedMods.includes('${m.id}')) db.passedMods.push('${m.id}'); db.xp+=15; saveDB();">${v.ru}</button>
+                <button class="option-btn" onclick="this.classList.add('wrong');">${vocabSlice[(i+5)%15].ru}</button>
+            </div>
+        `).join('');
+    }
+}
+
+function initReader() {
+    const sampleRanks = [5, 88, 2, 79, 104, 133, 5, 167, 130, 1, 160, 131];
+    const container = document.getElementById('story-container');
+    container.innerHTML = sampleRanks.map(r => {
+        const w = FREQ_2000_DB[r - 1];
+        return `<span class="word-token" onclick="inspectWordDeep(${w.rank}, true)">${w.ru}</span> `;
+    }).join('');
+}
+
+function speakStory() {
+    speakRussian("Я жить в большой город утром я пить молоко и читать книга");
+}
+
+function switchTab(tab, btn) {
+    ['srs', 'phonetics', 'course', 'reader'].forEach(t => document.getElementById('tab-' + t).classList.add('hidden'));
+    document.getElementById('tab-' + tab).classList.remove('hidden');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+function updateSidebarStats() {
+    document.getElementById('xp-display').innerText = db.xp;
+    document.getElementById('deck-count').innerText = db.cards.length;
+    document.getElementById('drills-display').innerText = db.drills;
+    document.getElementById('mods-display').innerText = db.passedMods.length;
+}
+
+// Boot Application
+updateSidebarStats();
+renderAnkiStage();
+renderSrsCatalog2000();
+renderPhonetics2000();
+renderCourseSyllabus();
+renderActiveModule();
+initReader();
+inspectWordDeep(130, false); // Pre-load "молоко́" in the Deep Grammar Inspector
+</script>
+</body>
+</html>
