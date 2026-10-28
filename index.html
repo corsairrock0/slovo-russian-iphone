@@ -2,271 +2,1209 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Слово 6000">
+<meta name="theme-color" content="#FBF9F5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0D0F14" media="(prefers-color-scheme: dark)">
 <title>Слово (Slovo) — 6,000-Word Anki FSRS & Russian Mastery</title>
 <style>
+    /* ==========================================================================
+       MATERIAL 3 EXPRESSIVE + iOS HIG SEMANTIC COLOR & DESIGN SYSTEM
+       Optimized for iPhone 16 Pro Max (440 × 956 pt Logical Viewport, 120Hz)
+       ========================================================================== */
     :root {
-        --bg: #0f172a; --panel: #1e293b; --panel-alt: #090d16; --text: #f8fafc; --muted: #94a3b8;
-        --accent: #38bdf8; --success: #4ade80; --danger: #f87171; --warn: #fbbf24;
-        --nom: #e2e8f0; --gen: #4ade80; --dat: #c084fc; --acc: #60a5fa; --ins: #fb923c; --prep: #f472b6;
+        /* Light Mode Default (Soft Warm Alabaster + Deep Indigo Accent) */
+        --bg: #FBF9F5;
+        --surface-1: #FFFFFF;
+        --surface-2: #F3F0EA;
+        --surface-3: #E7E3DC;
+        --surface-elevated: rgba(255, 255, 255, 0.92);
+        --text: #18181B;
+        --text-secondary: #52525B;
+        --muted: #71717A;
+        --border-subtle: rgba(24, 24, 27, 0.08);
+        --border-strong: rgba(24, 24, 27, 0.15);
+
+        /* Material 3 Expressive Accents */
+        --accent: #3B5BDB;
+        --accent-on: #FFFFFF;
+        --accent-container: #E0E7FF;
+        --accent-on-container: #1E3A8A;
+        --secondary-container: #EDE9FE;
+        --secondary-on-container: #4C1D95;
+
+        /* Semantic Status Tokens */
+        --success: #15803D;
+        --success-container: #DCFCE7;
+        --success-on-container: #14532D;
+        --warn: #B45309;
+        --warn-container: #FEF3C7;
+        --warn-on-container: #78350F;
+        --danger: #B91C1C;
+        --danger-container: #FEE2E2;
+        --danger-on-container: #7F1D1D;
+
+        /* Grammatical Case Semantic Palette (Accessible High-Contrast) */
+        --nom: #18181B;
+        --gen: #15803D;
+        --dat: #7E22CE;
+        --acc: #1D4ED8;
+        --ins: #C2410C;
+        --prep: #BE185D;
+
+        /* Legacy Compatibility Aliases */
+        --panel: var(--surface-1);
+        --panel-alt: var(--surface-2);
+
+        /* M3 Expressive Shape & Spacing Tokens */
+        --radius-xs: 8px;
+        --radius-sm: 12px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+        --radius-xl: 32px;
+        --radius-pill: 9999px;
+
+        --shadow-card: 0 4px 20px -2px rgba(24, 24, 27, 0.05), 0 1px 3px rgba(24, 24, 27, 0.04);
+        --shadow-theater: 0 12px 34px -6px rgba(24, 24, 27, 0.07), 0 2px 6px rgba(24, 24, 27, 0.04);
+        --shadow-sheet: 0 -8px 40px rgba(0, 0, 0, 0.18);
+
+        /* Spring Physics (120Hz ProMotion tuned) */
+        --spring-fast: 220ms cubic-bezier(0.22, 1, 0.36, 1);
+        --spring-expressive: 380ms cubic-bezier(0.175, 0.885, 0.32, 1.08);
     }
-    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { margin: 0; background: var(--bg); color: var(--text); display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
-    .sidebar { width: 245px; background: var(--panel-alt); padding: 16px; display: flex; flex-direction: column; gap: 7px; border-right: 1px solid #334155; flex-shrink: 0; z-index: 50; }
-    .logo { font-size: 21px; font-weight: 800; color: var(--accent); margin-bottom: 4px; letter-spacing: 1px; }
-    .stats-box { background: var(--panel); padding: 11px; border-radius: 10px; margin-bottom: 6px; font-size: 12.5px; border: 1px solid #334155; line-height: 1.55; }
-    .nav-btn { background: transparent; color: var(--muted); border: none; padding: 11px 13px; text-align: left; font-size: 13.5px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
-    .nav-btn.active { background: var(--panel); color: var(--text); font-weight: 700; border-left: 4px solid var(--accent); }
-    .main { flex: 1; padding: 18px; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; gap: 16px; }
-    .content-area { flex: 2.1; overflow-y: auto; padding-right: 4px; }
-    .inspector { flex: 0.95; background: var(--panel); border-radius: 14px; padding: 16px; border: 1px solid #334155; height: fit-content; position: sticky; top: 0; max-height: calc(100vh - 36px); overflow-y: auto; }
-    .card { background: var(--panel); border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 1px solid #334155; }
-    .btn { background: var(--accent); color: #0f172a; border: none; padding: 9px 14px; border-radius: 9px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.15s; }
-    .btn:active { transform: scale(0.97); }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn-sec { background: #334155; color: var(--text); }
-    .btn-success { background: var(--success); color: #0f172a; }
-    .btn-warn { background: var(--warn); color: #0f172a; }
-    .tag { display: inline-block; background: #334155; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; margin: 2px 3px 2px 0; }
-    .hidden { display: none !important; }
 
-    /* ANKI FLASHCARD THEATER */
-    .anki-stage { background: var(--panel-alt); border: 2px solid #334155; border-radius: 16px; padding: 20px; text-align: center; min-height: 310px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 8px 25px rgba(0,0,0,0.35); margin-bottom: 16px; }
-    .anki-counts { display: flex; justify-content: center; gap: 16px; font-size: 13px; font-weight: 700; margin: 0 auto 10px auto; background: var(--panel); padding: 6px 16px; border-radius: 999px; border: 1px solid #334155; }
-    .anki-front-word { font-size: 44px; font-weight: 800; color: white; margin: 12px 0 8px 0; cursor: pointer; }
-    .anki-grade-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
-    .anki-btn { border: none; border-radius: 10px; padding: 10px 4px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #0f172a; }
-    .anki-btn small { font-size: 10.5px; font-weight: 700; opacity: 0.85; }
-    .anki-again { background: #f87171; }
-    .anki-hard { background: #fb923c; }
-    .anki-good { background: #4ade80; }
-    .anki-easy { background: #38bdf8; }
+    @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+            --bg: #0D0F14;
+            --surface-1: #161922;
+            --surface-2: #1E222E;
+            --surface-3: #282D3C;
+            --surface-elevated: rgba(22, 25, 34, 0.90);
+            --text: #F4F4F6;
+            --text-secondary: #A1A1AA;
+            --muted: #8E929F;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.16);
 
-    /* GRAMMAR TABLES & LISTS */
-    .gram-grid { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; background: #0f172a; border-radius: 8px; overflow: hidden; text-align: left; }
-    .gram-grid th, .gram-grid td { padding: 6px 8px; border-bottom: 1px solid #1e293b; }
-    .gram-grid th { background: #1e293b; color: var(--accent); font-weight: 700; }
-    .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 8px; margin-bottom: 14px; }
-    .module-card { background: var(--panel-alt); border: 1px solid #334155; border-radius: 10px; padding: 11px; cursor: pointer; }
-    .module-card.active { border: 2px solid var(--accent); background: #172554; }
-    .stage-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; }
-    .stage-pill { flex: 1; min-width: 90px; padding: 8px; background: var(--panel-alt); border: 1px solid #334155; border-radius: 8px; font-size: 12px; font-weight: 600; text-align: center; cursor: pointer; color: var(--muted); white-space: nowrap; }
-    .stage-pill.active { background: var(--accent); color: #0f172a; font-weight: 800; }
-    .option-btn { display: block; width: 100%; text-align: left; background: var(--panel-alt); color: var(--text); border: 1px solid #475569; padding: 11px 12px; margin: 6px 0; border-radius: 8px; font-size: 14px; cursor: pointer; }
-    .option-btn.correct { border-color: var(--success); background: rgba(74, 222, 128, 0.15); }
-    .option-btn.wrong { border-color: var(--danger); background: rgba(248, 113, 113, 0.15); }
-    .input-box { background: var(--panel-alt); color: white; border: 1px solid #475569; padding: 9px 11px; font-size: 16px; border-radius: 8px; }
-    .freq-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--panel-alt); border: 1px solid #1e293b; border-radius: 10px; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
-    .word-token { cursor: pointer; padding: 3px 6px; margin: 2px 0; border-radius: 6px; font-size: 21px; line-height: 1.8; display: inline-block; border-bottom: 2px solid var(--accent); }
+            --accent: #93B4FF;
+            --accent-on: #081C4A;
+            --accent-container: #1E3264;
+            --accent-on-container: #DBE6FF;
+            --secondary-container: #2E1F47;
+            --secondary-on-container: #E9D5FF;
 
+            --success: #4ADE80;
+            --success-container: #133A25;
+            --success-on-container: #BBF7D0;
+            --warn: #FBBF24;
+            --warn-container: #3F2A08;
+            --warn-on-container: #FDE68A;
+            --danger: #F87171;
+            --danger-container: #451519;
+            --danger-on-container: #FECACA;
+
+            --nom: #F4F4F6;
+            --gen: #4ADE80;
+            --dat: #C084FC;
+            --acc: #60A5FA;
+            --ins: #FB923C;
+            --prep: #F472B6;
+
+            --shadow-card: 0 4px 22px rgba(0, 0, 0, 0.35);
+            --shadow-theater: 0 14px 36px rgba(0, 0, 0, 0.45);
+            --shadow-sheet: 0 -10px 44px rgba(0, 0, 0, 0.65);
+        }
+    }
+
+    :root[data-theme="dark"] {
+        --bg: #0D0F14;
+        --surface-1: #161922;
+        --surface-2: #1E222E;
+        --surface-3: #282D3C;
+        --surface-elevated: rgba(22, 25, 34, 0.90);
+        --text: #F4F4F6;
+        --text-secondary: #A1A1AA;
+        --muted: #8E929F;
+        --border-subtle: rgba(255, 255, 255, 0.08);
+        --border-strong: rgba(255, 255, 255, 0.16);
+
+        --accent: #93B4FF;
+        --accent-on: #081C4A;
+        --accent-container: #1E3264;
+        --accent-on-container: #DBE6FF;
+        --secondary-container: #2E1F47;
+        --secondary-on-container: #E9D5FF;
+
+        --success: #4ADE80;
+        --success-container: #133A25;
+        --success-on-container: #BBF7D0;
+        --warn: #FBBF24;
+        --warn-container: #3F2A08;
+        --warn-on-container: #FDE68A;
+        --danger: #F87171;
+        --danger-container: #451519;
+        --danger-on-container: #FECACA;
+
+        --nom: #F4F4F6;
+        --gen: #4ADE80;
+        --dat: #C084FC;
+        --acc: #60A5FA;
+        --ins: #FB923C;
+        --prep: #F472B6;
+
+        --shadow-card: 0 4px 22px rgba(0, 0, 0, 0.35);
+        --shadow-theater: 0 14px 36px rgba(0, 0, 0, 0.45);
+        --shadow-sheet: 0 -10px 44px rgba(0, 0, 0, 0.65);
+    }
+
+    * {
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--text);
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        overscroll-behavior-y: none;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* ==========================================================================
+       TOP DYNAMIC ISLAND SAFE HEADER (iPhone 16 Pro Max 440pt Optimized)
+       ========================================================================== */
+    .ios-top-bar {
+        padding: calc(env(safe-area-inset-top, 14px) + 8px) 20px 10px 20px;
+        background: var(--surface-elevated);
+        backdrop-filter: saturate(180%) blur(20px);
+        -webkit-backdrop-filter: saturate(180%) blur(20px);
+        border-bottom: 1px solid var(--border-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        z-index: 60;
+        flex-shrink: 0;
+    }
+
+    .brand-cluster {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .brand-badge {
+        width: 36px;
+        height: 36px;
+        border-radius: 12px;
+        background: var(--accent-container);
+        color: var(--accent-on-container);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 16px;
+        letter-spacing: -0.5px;
+    }
+
+    .brand-titles {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .logo {
+        font-size: 17px;
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: -0.3px;
+        line-height: 1.15;
+    }
+
+    .brand-subtitle {
+        font-size: 11.5px;
+        color: var(--muted);
+        font-weight: 600;
+    }
+
+    .top-telemetry {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: nowrap;
+    }
+
+    .stat-pill {
+        background: var(--surface-2);
+        border: 1px solid var(--border-subtle);
+        padding: 6px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-secondary);
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        white-space: nowrap;
+    }
+
+    .icon-action-btn {
+        min-width: 44px;
+        min-height: 44px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border-subtle);
+        background: var(--surface-2);
+        color: var(--text);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        padding: 0 12px;
+        gap: 5px;
+        transition: transform var(--spring-fast), background var(--spring-fast);
+    }
+
+    .icon-action-btn:active {
+        transform: scale(0.94);
+    }
+
+    /* ==========================================================================
+       MAIN WORKSPACE & ADAPTIVE DESKTOP/IPHONE CONTAINERS
+       ========================================================================== */
+    .app-shell {
+        flex: 1;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .sidebar {
+        width: 245px;
+        background: var(--surface-1);
+        padding: 16px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        border-right: 1px solid var(--border-subtle);
+        flex-shrink: 0;
+        z-index: 50;
+    }
+
+    .stats-box {
+        background: var(--surface-2);
+        padding: 14px;
+        border-radius: var(--radius-md);
+        margin-bottom: 8px;
+        font-size: 13px;
+        border: 1px solid var(--border-subtle);
+        line-height: 1.65;
+        color: var(--text-secondary);
+    }
+
+    .nav-btn {
+        background: transparent;
+        color: var(--muted);
+        border: none;
+        min-height: 46px;
+        padding: 10px 14px;
+        text-align: left;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: var(--radius-pill);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all var(--spring-fast);
+    }
+
+    .nav-btn .nav-icon {
+        font-size: 18px;
+        line-height: 1;
+    }
+
+    .nav-btn.active {
+        background: var(--accent-container);
+        color: var(--accent-on-container);
+        font-weight: 700;
+    }
+
+    .main {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+    }
+
+    .content-area {
+        width: 100%;
+        max-width: 640px;
+    }
+
+    /* ==========================================================================
+       MATERIAL 3 EXPRESSIVE CARDS, BUTTONS & CONTROLS
+       ========================================================================== */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .section-title {
+        font-size: clamp(20px, 5vw, 24px);
+        font-weight: 800;
+        letter-spacing: -0.4px;
+        margin: 0;
+        color: var(--text);
+        line-height: 1.2;
+    }
+
+    .section-subtitle {
+        color: var(--text-secondary);
+        margin: 4px 0 0 0;
+        font-size: 13.5px;
+        line-height: 1.45;
+    }
+
+    .card {
+        background: var(--surface-1);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        margin-bottom: 16px;
+        border: 1px solid var(--border-subtle);
+        box-shadow: var(--shadow-card);
+    }
+
+    .btn {
+        background: var(--accent);
+        color: var(--accent-on);
+        border: none;
+        min-height: 44px;
+        padding: 10px 18px;
+        border-radius: var(--radius-pill);
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: -0.1px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: transform var(--spring-fast), opacity var(--spring-fast), background var(--spring-fast);
+    }
+
+    .btn:active {
+        transform: scale(0.96);
+    }
+
+    .btn:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+    }
+
+    .btn-sec {
+        background: var(--surface-2);
+        color: var(--text);
+        border: 1px solid var(--border-subtle);
+    }
+
+    .btn-success {
+        background: var(--success-container);
+        color: var(--success-on-container);
+    }
+
+    .btn-warn {
+        background: var(--warn-container);
+        color: var(--warn-on-container);
+    }
+
+    .tag {
+        display: inline-flex;
+        align-items: center;
+        background: var(--surface-2);
+        color: var(--text-secondary);
+        padding: 4px 10px;
+        border-radius: var(--radius-pill);
+        font-size: 12px;
+        font-weight: 700;
+        margin: 2px 4px 2px 0;
+        border: 1px solid var(--border-subtle);
+    }
+
+    .hidden {
+        display: none !important;
+    }
+
+    /* ==========================================================================
+       ANKI FLASHCARD THEATER (EXPRESSIVE M3 + THUMB-ZONE ERGONOMICS)
+       ========================================================================== */
+    .anki-stage {
+        background: var(--surface-1);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-xl);
+        padding: 22px 20px;
+        text-align: center;
+        min-height: 390px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: var(--shadow-theater);
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+        transition: all var(--spring-expressive);
+    }
+
+    .anki-counts {
+        display: inline-flex;
+        align-self: center;
+        justify-content: center;
+        gap: 14px;
+        font-size: 12.5px;
+        font-weight: 700;
+        margin: 0 auto 14px auto;
+        background: var(--surface-2);
+        padding: 7px 18px;
+        border-radius: var(--radius-pill);
+        border: 1px solid var(--border-subtle);
+    }
+
+    .anki-front-word {
+        font-size: clamp(36px, 9.5vw, 52px);
+        font-weight: 800;
+        color: var(--text);
+        margin: 24px 0 18px 0;
+        cursor: pointer;
+        letter-spacing: -0.8px;
+        line-height: 1.18;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+        transition: transform var(--spring-fast);
+    }
+
+    .anki-front-word:active {
+        transform: scale(0.97);
+    }
+
+    .anki-reveal-btn {
+        width: 100%;
+        min-height: 54px;
+        font-size: 16px;
+        font-weight: 800;
+        border-radius: 20px;
+        margin-top: 16px;
+        background: var(--accent);
+        color: var(--accent-on);
+        box-shadow: 0 6px 20px rgba(59, 91, 219, 0.22);
+    }
+
+    .anki-grade-bar {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 16px;
+    }
+
+    .anki-btn {
+        border: 1px solid var(--border-subtle);
+        border-radius: 18px;
+        min-height: 58px;
+        padding: 10px 4px;
+        font-weight: 800;
+        font-size: 13.5px;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        transition: transform var(--spring-fast);
+    }
+
+    .anki-btn:active {
+        transform: scale(0.94);
+    }
+
+    .anki-btn small {
+        font-size: 11px;
+        font-weight: 700;
+        opacity: 0.85;
+    }
+
+    .anki-again { background: var(--danger-container); color: var(--danger-on-container); }
+    .anki-hard  { background: var(--warn-container); color: var(--warn-on-container); }
+    .anki-good  { background: var(--success-container); color: var(--success-on-container); }
+    .anki-easy  { background: var(--accent-container); color: var(--accent-on-container); }
+
+    /* ==========================================================================
+       GRAMMAR TABLES, VOCABULARY ROWS & INPUT CONTROLS
+       ========================================================================== */
+    .table-scroll-wrap {
+        width: 100%;
+        overflow-x: auto;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--border-subtle);
+        margin-top: 10px;
+        background: var(--surface-2);
+    }
+
+    .gram-grid {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        text-align: left;
+    }
+
+    .gram-grid th, .gram-grid td {
+        padding: 9px 11px;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .gram-grid tr:last-child td {
+        border-bottom: none;
+    }
+
+    .gram-grid th {
+        background: var(--surface-3);
+        color: var(--text);
+        font-weight: 700;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+
+    .module-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    .module-card {
+        background: var(--surface-1);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        padding: 14px;
+        cursor: pointer;
+        transition: all var(--spring-fast);
+    }
+
+    .module-card:active {
+        transform: scale(0.98);
+    }
+
+    .module-card.active {
+        border: 2px solid var(--accent);
+        background: var(--accent-container);
+        color: var(--accent-on-container);
+    }
+
+    .stage-bar {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 16px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+    }
+
+    .stage-bar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .stage-pill {
+        flex: 1;
+        min-width: 96px;
+        min-height: 44px;
+        padding: 8px 12px;
+        background: var(--surface-2);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-pill);
+        font-size: 12.5px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--text-secondary);
+        white-space: nowrap;
+        transition: all var(--spring-fast);
+    }
+
+    .stage-pill.active {
+        background: var(--accent);
+        color: var(--accent-on);
+        border-color: transparent;
+    }
+
+    .option-btn {
+        display: block;
+        width: 100%;
+        min-height: 48px;
+        text-align: left;
+        background: var(--surface-2);
+        color: var(--text);
+        border: 1px solid var(--border-strong);
+        padding: 12px 16px;
+        margin: 8px 0;
+        border-radius: var(--radius-md);
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all var(--spring-fast);
+    }
+
+    .option-btn.correct {
+        border-color: var(--success);
+        background: var(--success-container);
+        color: var(--success-on-container);
+    }
+
+    .option-btn.wrong {
+        border-color: var(--danger);
+        background: var(--danger-container);
+        color: var(--danger-on-container);
+    }
+
+    .input-box {
+        background: var(--surface-2);
+        color: var(--text);
+        border: 1px solid var(--border-strong);
+        min-height: 44px;
+        padding: 10px 14px;
+        font-size: 16px; /* >= 16px prevents iOS Safari auto-zoom on focus */
+        border-radius: var(--radius-md);
+        outline: none;
+        transition: border-color var(--spring-fast);
+    }
+
+    .input-box:focus {
+        border-color: var(--accent);
+    }
+
+    .freq-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 14px;
+        background: var(--surface-2);
+        border: 1px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        margin-bottom: 8px;
+        gap: 10px;
+        flex-wrap: wrap;
+        transition: background var(--spring-fast);
+    }
+
+    .word-token {
+        cursor: pointer;
+        padding: 4px 8px;
+        margin: 3px 2px;
+        border-radius: 10px;
+        font-size: 22px;
+        font-weight: 600;
+        line-height: 1.75;
+        display: inline-block;
+        background: var(--surface-2);
+        border-bottom: 2px solid var(--accent);
+        transition: transform var(--spring-fast), background var(--spring-fast);
+    }
+
+    .word-token:active {
+        transform: scale(0.95);
+        background: var(--accent-container);
+    }
+
+    /* ==========================================================================
+       RIGHT PANEL / iOS NATIVE SLIDE-UP SHEET GRAMMAR INSPECTOR
+       ========================================================================== */
+    .inspector {
+        width: 360px;
+        background: var(--surface-1);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        border: 1px solid var(--border-subtle);
+        height: fit-content;
+        position: sticky;
+        top: 0;
+        max-height: calc(100dvh - 105px);
+        overflow-y: auto;
+        box-shadow: var(--shadow-card);
+        flex-shrink: 0;
+    }
+
+    .sheet-drag-handle {
+        display: none;
+    }
+
+    .sheet-backdrop {
+        display: none;
+    }
+
+    /* ==========================================================================
+       iPHONE 16 PRO MAX & MOBILE PORTRAIT/LANDSCAPE OPTIMIZATION (<= 960px)
+       ========================================================================== */
     @media (max-width: 960px) {
-        body { flex-direction: column; }
-        .main { flex-direction: column; padding: calc(12px + env(safe-area-inset-top, 20px)) 12px calc(85px + env(safe-area-inset-bottom, 20px)) 12px; overflow-y: auto; }
-        .content-area { overflow-y: visible; padding-right: 0; }
-        .sidebar { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; height: auto; flex-direction: row; justify-content: space-around; align-items: center; padding: 8px 4px calc(8px + env(safe-area-inset-bottom, 16px)) 4px; border-right: none; border-top: 1px solid #334155; background: rgba(9, 13, 22, 0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        .logo, .stats-box, .sidebar > div:last-child { display: none; }
-        .nav-btn { flex: 1; text-align: center; padding: 7px 2px; font-size: 10.5px; border-radius: 8px; }
-        .nav-btn.active { border-left: none; border-bottom: 3px solid var(--accent); }
-        .inspector { position: static; max-height: none; margin-top: 8px; border: 2px solid var(--accent); }
-        .anki-front-word { font-size: 34px; }
+        .ios-top-bar {
+            padding: calc(env(safe-area-inset-top, 12px) + 6px) 16px 10px 16px;
+        }
+
+        .main {
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 16px 16px calc(98px + env(safe-area-inset-bottom, 20px)) 16px;
+            gap: 12px;
+        }
+
+        .content-area {
+            max-width: 100%;
+        }
+
+        /* iOS Translucent Bottom Tab Bar with Material 3 Expressive Active Pill */
+        .sidebar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: auto;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 8px calc(8px + env(safe-area-inset-bottom, 18px)) 8px;
+            border-right: none;
+            border-top: 1px solid var(--border-subtle);
+            background: var(--surface-elevated);
+            backdrop-filter: saturate(180%) blur(24px);
+            -webkit-backdrop-filter: saturate(180%) blur(24px);
+            z-index: 90;
+        }
+
+        .sidebar .stats-box,
+        .sidebar > div:last-child {
+            display: none;
+        }
+
+        .nav-btn {
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            min-height: 50px;
+            padding: 4px 2px;
+            font-size: 10.5px;
+            font-weight: 600;
+            gap: 3px;
+            border-radius: 16px;
+        }
+
+        .nav-btn .nav-icon {
+            font-size: 19px;
+            padding: 3px 14px;
+            border-radius: var(--radius-pill);
+            transition: background var(--spring-fast), transform var(--spring-fast);
+        }
+
+        .nav-btn.active {
+            background: transparent;
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .nav-btn.active .nav-icon {
+            background: var(--accent-container);
+            color: var(--accent-on-container);
+            transform: translateY(-1px);
+        }
+
+        /* Convert Grammar Inspector into Native iOS Detent Bottom Sheet */
+        .sheet-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.48);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            z-index: 110;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 240ms ease;
+            display: block;
+        }
+
+        .sheet-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .inspector {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            top: auto;
+            width: 100%;
+            max-height: 82dvh;
+            border-radius: 28px 28px 0 0;
+            padding: 12px 20px calc(24px + env(safe-area-inset-bottom, 20px)) 20px;
+            box-shadow: var(--shadow-sheet);
+            z-index: 120;
+            transform: translateY(105%);
+            transition: transform var(--spring-expressive);
+            border: 1px solid var(--border-strong);
+        }
+
+        .inspector.sheet-open {
+            transform: translateY(0);
+        }
+
+        .sheet-drag-handle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .sheet-pill-bar {
+            width: 40px;
+            height: 5px;
+            border-radius: var(--radius-pill);
+            background: var(--border-strong);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.01ms !important;
+        }
     }
 </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">СЛОВО // 6,000</div>
-        <div class="stats-box">
-            <div>⭐ Total XP: <b id="xp-display" style="color:var(--accent)">0</b></div>
-            <div>🃏 Active Words: <b id="deck-count" style="color:var(--warn)">0</b> / 6000</div>
-            <div>🔥 Reviews Done: <b id="drills-display" style="color:var(--success)">0</b></div>
-            <div>🏆 Course Mods: <b id="mods-display">0</b> / 12</div>
+    <!-- iOS 18 / iPhone 16 Pro Max Dynamic Island-Safe Top Bar -->
+    <header class="ios-top-bar" role="banner">
+        <div class="brand-cluster">
+            <div class="brand-badge" aria-hidden="true">СЛ</div>
+            <div class="brand-titles">
+                <div class="logo">Слово 6000</div>
+                <div class="brand-subtitle">Russian FSRS Studio</div>
+            </div>
         </div>
-        <button class="nav-btn active" onclick="switchTab('srs', this)">🧠 RU→EN Anki</button>
-        <button class="nav-btn" onclick="switchTab('en2ru', this)">🔄 EN→RU Anki</button>
-        <button class="nav-btn" onclick="switchTab('correction', this)">🛠️ Fix Sentences</button>
-        <button class="nav-btn" onclick="switchTab('phonetics', this)">✍️ Phonetics (6K)</button>
-        <button class="nav-btn" onclick="switchTab('course', this)">🎓 A0–C1 Course</button>
-        <button class="nav-btn" onclick="switchTab('reader', this)">📖 Reader</button>
-        <div style="margin-top:auto; font-size:11px; color:var(--muted);">
-            3 Anki Decks • 6,000 Words<br>OpenAI Neural HD Voice Active
+
+        <div class="top-telemetry">
+            <div class="stat-pill" title="Total Experience Points">⭐ <b id="xp-top-display">0</b></div>
+            <div class="stat-pill" title="Active Words in Decks">🃏 <b id="deck-top-count">0</b></div>
+            <button class="icon-action-btn" onclick="openInspectorSheet()" aria-label="Open Deep Grammar Inspector" title="Grammar Inspector">
+                <span>🔍</span>
+            </button>
+            <button class="icon-action-btn" id="theme-toggle-btn" onclick="cycleColorTheme()" aria-label="Toggle Light or Dark Theme" title="Appearance">
+                <span id="theme-toggle-icon">🌗</span>
+            </button>
+            <button class="icon-action-btn" id="openai-voice-btn" onclick="openVoiceModal()" aria-label="OpenAI Neural HD Voice Settings">
+                🎙️ <span id="voice-label-pill">nova</span>
+            </button>
         </div>
-    </div>
+    </header>
 
-    <div class="main">
-        <div class="content-area">
-            <!-- TAB 1: RU -> EN RECOGNITION ANKI -->
-            <div id="tab-srs">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                    <div>
-                        <h2 style="margin:0;">🧠 Russian → English Anki Studio (6,000 Words)</h2>
-                        <p style="color:var(--muted); margin:3px 0 0 0; font-size:13px;">See & hear Russian on the front; recall English, 6-case/verb tables & spoken explanation on the back.</p>
-                    </div>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Words (All 3 Decks)</button>
-                        <button class="btn btn-sec" onclick="batchAddNextFrequencyWords(100)">+ Add 100 Words</button>
-                    </div>
-                </div>
+    <div class="app-shell">
+        <!-- Navigation Bar (Left Rail on Desktop, Thumb-Zone Bottom Tab Bar on iPhone 16 Pro Max) -->
+        <nav class="sidebar" aria-label="Primary Navigation">
+            <div class="stats-box">
+                <div>⭐ Total XP: <b id="xp-display" style="color:var(--accent)">0</b></div>
+                <div>🃏 Active Words: <b id="deck-count" style="color:var(--warn)">0</b> / 6000</div>
+                <div>🔥 Reviews Done: <b id="drills-display" style="color:var(--success)">0</b></div>
+                <div>🏆 Course Mods: <b id="mods-display">0</b> / 12</div>
+            </div>
+            <button class="nav-btn active" onclick="switchTab('srs', this)">
+                <span class="nav-icon" aria-hidden="true">🧠</span>
+                <span>RU→EN</span>
+            </button>
+            <button class="nav-btn" onclick="switchTab('en2ru', this)">
+                <span class="nav-icon" aria-hidden="true">🔄</span>
+                <span>EN→RU</span>
+            </button>
+            <button class="nav-btn" onclick="switchTab('correction', this)">
+                <span class="nav-icon" aria-hidden="true">🛠️</span>
+                <span>Fix</span>
+            </button>
+            <button class="nav-btn" onclick="switchTab('phonetics', this)">
+                <span class="nav-icon" aria-hidden="true">✍️</span>
+                <span>Phonetics</span>
+            </button>
+            <button class="nav-btn" onclick="switchTab('course', this)">
+                <span class="nav-icon" aria-hidden="true">🎓</span>
+                <span>Course</span>
+            </button>
+            <button class="nav-btn" onclick="switchTab('reader', this)">
+                <span class="nav-icon" aria-hidden="true">📖</span>
+                <span>Reader</span>
+            </button>
+            <div style="margin-top:auto; font-size:11.5px; color:var(--muted); padding:8px;">
+                3 Anki Decks • 6,000 Words<br>OpenAI Neural HD Voice Active
+            </div>
+        </nav>
 
-                <div class="anki-stage">
-                    <div class="anki-counts">
-                        <span style="color:#60a5fa;">New: <b id="anki-new-count">0</b></span>
-                        <span style="color:#f87171;">Learning: <b id="anki-learn-count">0</b></span>
-                        <span style="color:#4ade80;">Due: <b id="anki-rev-count">0</b></span>
-                    </div>
-                    <div id="anki-card-body"></div>
-                    <div id="anki-action-area"></div>
-                </div>
-
-                <!-- 6,000-WORD MASTER CATALOG -->
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                        <h3 style="margin:0;">📚 Browse All 6,000 Words — Grammar Breakdown & Anki Browser</h3>
+        <main class="main">
+            <div class="content-area">
+                <!-- TAB 1: RU -> EN RECOGNITION ANKI -->
+                <section id="tab-srs" aria-label="Russian to English Flashcards">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Russian → English Anki</h1>
+                            <p class="section-subtitle">Tap Russian to hear HD pronunciation; reveal English meaning & 6-case tables.</p>
+                        </div>
                         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                            <input id="srs-cat-search" class="input-box" style="width:190px;" placeholder="Search #1–#6000..." oninput="srsCatPage=0; renderSrsCatalog6000()">
-                            <select id="srs-cat-level" class="input-box" style="width:165px;" onchange="srsCatPage=0; renderSrsCatalog6000()">
-                                <option value="ALL">All 6,000 Words</option>
-                                <option value="A1">A1 (#1–#1000)</option>
-                                <option value="A2">A2 (#1001–#2000)</option>
-                                <option value="B1">B1 (#2001–#3500)</option>
-                                <option value="B2">B2 (#3501–#4800)</option>
-                                <option value="C1">C1 (#4801–#6000)</option>
-                            </select>
+                            <button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Next 25 Words</button>
+                            <button class="btn btn-sec" onclick="batchAddNextFrequencyWords(100)">+ 100</button>
                         </div>
                     </div>
-                    <div id="srs-6000-catalog"></div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
-                        <button class="btn btn-sec" onclick="changeSrsCatPage(-1)">← Prev 25</button>
-                        <span id="srs-cat-page-info" style="color:var(--muted); font-size:13px;"></span>
-                        <button class="btn btn-sec" onclick="changeSrsCatPage(1)">Next 25 →</button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- TAB 2: ENGLISH -> RUSSIAN ACTIVE RECALL ANKI -->
-            <div id="tab-en2ru" class="hidden">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                    <div>
-                        <h2 style="margin:0;">🔄 English → Russian Active Recall Anki (6,000 Words)</h2>
-                        <p style="color:var(--muted); margin:3px 0 0 0; font-size:13px;">See the English meaning on the front; produce the stressed Russian word + grammar on the back.</p>
+                    <div class="anki-stage">
+                        <div class="anki-counts" role="status" aria-live="polite">
+                            <span style="color:var(--acc);">New: <b id="anki-new-count">0</b></span>
+                            <span style="color:var(--danger);">Learning: <b id="anki-learn-count">0</b></span>
+                            <span style="color:var(--success);">Due: <b id="anki-rev-count">0</b></span>
+                        </div>
+                        <div id="anki-card-body"></div>
+                        <div id="anki-action-area"></div>
                     </div>
-                    <button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Frequency Words</button>
-                </div>
 
-                <div class="anki-stage">
-                    <div class="anki-counts">
-                        <span style="color:#60a5fa;">New: <b id="en2ru-new-count">0</b></span>
-                        <span style="color:#f87171;">Learning: <b id="en2ru-learn-count">0</b></span>
-                        <span style="color:#4ade80;">Due: <b id="en2ru-rev-count">0</b></span>
-                    </div>
-                    <div id="en2ru-card-body"></div>
-                    <div id="en2ru-action-area"></div>
-                </div>
-            </div>
-
-            <!-- TAB 3: SENTENCE CORRECTION FLASHCARDS (6,000 WORDS) -->
-            <div id="tab-correction" class="hidden">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                    <div>
-                        <h2 style="margin:0;">🛠️ Sentence Correction Anki Flashcards (6,000 Words)</h2>
-                        <p style="color:var(--muted); margin:3px 0 0 0; font-size:13px;">Spot & fix the Russian case, gender, or verb error on the front; hear & read the rule explanation on the back.</p>
-                    </div>
-                    <button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Sentence Cards</button>
-                </div>
-
-                <div class="anki-stage">
-                    <div class="anki-counts">
-                        <span style="color:#60a5fa;">New: <b id="corr-new-count">0</b></span>
-                        <span style="color:#f87171;">Learning: <b id="corr-learn-count">0</b></span>
-                        <span style="color:#4ade80;">Due: <b id="corr-rev-count">0</b></span>
-                    </div>
-                    <div id="corr-card-body"></div>
-                    <div id="corr-action-area"></div>
-                </div>
-            </div>
-
-            <!-- TAB 4: 6,000-WORD PHONETICS, GRAMMAR & TOUCH CURSIVE -->
-            <div id="tab-phonetics" class="hidden">
-                <h2 style="margin:0 0 12px 0;">✍️ 6,000-Word Phonetics, Grammar & Cursive Trainer</h2>
-                <div class="card" style="border: 1px solid var(--accent);">
-                    <h3 style="margin-top:0; color:var(--accent);">1. Acoustic Reduction (А́канье / И́канье), Palatalization & Grammar Analyzer</h3>
-                    <div id="phonetic-output" style="padding:14px; background:var(--panel-alt); border-radius:10px; font-size:14.5px; line-height:1.55;">
-                        Tap any of the <b>6,000 words</b> below to hear OpenAI Neural HD audio, listen to a spoken grammar explanation, inspect its vowel reduction & full declension/conjugation table, and load it onto the Cursive Pad!
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
-                        <h3 style="margin:0;">2. Stylus / Finger Cursive Pad (Про́писи)</h3>
-                        <span>Target Word: <b id="cursive-target" style="font-family:cursive; font-size:28px; color:var(--accent); margin-left:6px;">молоко́</b></span>
-                    </div>
-                    <canvas id="cursive-pad" width="600" height="145" style="width:100%; max-width:600px; background:var(--panel-alt); border:1px solid #475569; border-radius:10px; touch-action:none;"></canvas><br>
-                    <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="btn btn-sec" onclick="clearCanvas()">Clear Pad</button>
-                        <button class="btn" onclick="speakRussian(document.getElementById('cursive-target').innerText)">🔊 Hear Word</button>
-                        <button class="btn btn-warn" onclick="speakExplanation(currentInspectedRank)">🗣️ Hear Audio Explanation</button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                        <h3 style="margin:0;">3. 6,000-Word Phonetics & Grammar Directory</h3>
-                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                            <input id="phon-search" class="input-box" style="width:190px;" placeholder="Search #1–#6000..." oninput="phonPage=0; renderPhonetics6000()">
-                            <select id="phon-level" class="input-box" style="width:165px;" onchange="phonPage=0; renderPhonetics6000()">
-                                <option value="ALL">All Ranks (#1–#6000)</option>
-                                <option value="A1">A1 (#1–#1000)</option>
-                                <option value="A2">A2 (#1001–#2000)</option>
-                                <option value="B1">B1 (#2001–#3500)</option>
-                                <option value="B2">B2 (#3501–#4800)</option>
-                                <option value="C1">C1 (#4801–#6000)</option>
-                            </select>
+                    <!-- 6,000-WORD MASTER CATALOG -->
+                    <div class="card">
+                        <div class="section-header" style="margin-bottom:14px;">
+                            <h2 style="margin:0; font-size:18px; font-weight:800;">📚 6,000-Word Lexicon & Grammar Browser</h2>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap; width:100%;">
+                                <input id="srs-cat-search" type="search" class="input-box" style="flex:1; min-width:160px;" placeholder="Search #1–#6000, Russian or English..." oninput="srsCatPage=0; renderSrsCatalog6000()">
+                                <select id="srs-cat-level" class="input-box" style="min-width:140px;" aria-label="Filter by CEFR Level" onchange="srsCatPage=0; renderSrsCatalog6000()">
+                                    <option value="ALL">All 6,000</option>
+                                    <option value="A1">A1 (#1–1000)</option>
+                                    <option value="A2">A2 (#1001–2000)</option>
+                                    <option value="B1">B1 (#2001–3500)</option>
+                                    <option value="B2">B2 (#3501–4800)</option>
+                                    <option value="C1">C1 (#4801–6000)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="srs-6000-catalog"></div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:8px;">
+                            <button class="btn btn-sec" onclick="changeSrsCatPage(-1)">← Prev 25</button>
+                            <span id="srs-cat-page-info" style="color:var(--muted); font-size:12.5px; font-weight:600; text-align:center;"></span>
+                            <button class="btn btn-sec" onclick="changeSrsCatPage(1)">Next 25 →</button>
                         </div>
                     </div>
-                    <div id="phon-6000-list"></div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
-                        <button class="btn btn-sec" onclick="changePhonPage(-1)">← Prev 25</button>
-                        <span id="phon-page-info" style="color:var(--muted); font-size:13px;"></span>
-                        <button class="btn btn-sec" onclick="changePhonPage(1)">Next 25 →</button>
+                </section>
+
+                <!-- TAB 2: ENGLISH -> RUSSIAN ACTIVE RECALL ANKI -->
+                <section id="tab-en2ru" class="hidden" aria-label="English to Russian Active Recall">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">English → Russian Recall</h1>
+                            <p class="section-subtitle">Produce the stressed Russian word from English; verify inflection & audio.</p>
+                        </div>
+                        <button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Next 25 Words</button>
                     </div>
-                </div>
-            </div>
 
-            <!-- TAB 5: A0-C1 INTERACTIVE COURSE & EXAM ENGINE -->
-            <div id="tab-course" class="hidden">
-                <h2 style="margin:0 0 12px 0;">🎓 Comprehensive Russian Course (A0 to C1)</h2>
-                <div class="module-grid" id="module-grid"></div>
-                <div class="card" id="module-workspace">
-                    <div style="margin-bottom:12px;">
-                        <span class="tag" id="active-mod-level" style="background:var(--accent); color:#0f172a; font-weight:800;">A0</span>
-                        <h2 id="active-mod-title" style="display:inline; margin-left:8px;">Module Title</h2>
+                    <div class="anki-stage">
+                        <div class="anki-counts" role="status" aria-live="polite">
+                            <span style="color:var(--acc);">New: <b id="en2ru-new-count">0</b></span>
+                            <span style="color:var(--danger);">Learning: <b id="en2ru-learn-count">0</b></span>
+                            <span style="color:var(--success);">Due: <b id="en2ru-rev-count">0</b></span>
+                        </div>
+                        <div id="en2ru-card-body"></div>
+                        <div id="en2ru-action-area"></div>
                     </div>
-                    <div class="stage-bar" id="stage-bar"></div>
-                    <div id="stage-content"></div>
+                </section>
+
+                <!-- TAB 3: SENTENCE CORRECTION FLASHCARDS (6,000 WORDS) -->
+                <section id="tab-correction" class="hidden" aria-label="Sentence Correction Flashcards">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Sentence Correction Studio</h1>
+                            <p class="section-subtitle">Spot and repair Russian case, gender, or verb agreement errors in context.</p>
+                        </div>
+                        <button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Next 25 Cards</button>
+                    </div>
+
+                    <div class="anki-stage">
+                        <div class="anki-counts" role="status" aria-live="polite">
+                            <span style="color:var(--acc);">New: <b id="corr-new-count">0</b></span>
+                            <span style="color:var(--danger);">Learning: <b id="corr-learn-count">0</b></span>
+                            <span style="color:var(--success);">Due: <b id="corr-rev-count">0</b></span>
+                        </div>
+                        <div id="corr-card-body"></div>
+                        <div id="corr-action-area"></div>
+                    </div>
+                </section>
+
+                <!-- TAB 4: 6,000-WORD PHONETICS, GRAMMAR & TOUCH CURSIVE -->
+                <section id="tab-phonetics" class="hidden" aria-label="Phonetics and Cursive Trainer">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Phonetics & Cursive (Про́писи)</h1>
+                            <p class="section-subtitle">Acoustic vowel reduction (А́канье / И́канье), palatalization & touch handwriting.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h2 style="margin-top:0; font-size:16px; color:var(--accent);">1. Acoustic Reduction & Palatalization Analyzer</h2>
+                        <div id="phonetic-output" style="padding:14px; background:var(--surface-2); border-radius:var(--radius-md); font-size:14.5px; line-height:1.55;">
+                            Tap any of the <b>6,000 words</b> below to hear OpenAI Neural HD audio, listen to a spoken grammar explanation, inspect its vowel reduction & full declension/conjugation table, and load it onto the Cursive Pad!
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <h2 style="margin:0; font-size:16px;">2. Cursive Handwriting Pad</h2>
+                            <span>Target: <b id="cursive-target" style="font-family:'Snell Roundhand', 'Apple Chancery', cursive; font-size:28px; color:var(--accent); margin-left:6px;">молоко́</b></span>
+                        </div>
+                        <canvas id="cursive-pad" width="600" height="150" style="width:100%; max-width:600px; background:var(--surface-2); border:1px solid var(--border-strong); border-radius:var(--radius-md); touch-action:none;"></canvas>
+                        <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+                            <button class="btn btn-sec" onclick="clearCanvas()">Clear Pad</button>
+                            <button class="btn" onclick="speakRussian(document.getElementById('cursive-target').innerText)">🔊 Hear Word</button>
+                            <button class="btn btn-warn" onclick="speakExplanation(currentInspectedRank)">🗣️ Audio Explanation</button>
+                            <button class="btn btn-sec" onclick="openInspectorSheet()">🔍 Full Table</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="section-header" style="margin-bottom:12px;">
+                            <h2 style="margin:0; font-size:17px;">3. 6,000-Word Phonetics Directory</h2>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap; width:100%;">
+                                <input id="phon-search" type="search" class="input-box" style="flex:1; min-width:160px;" placeholder="Search #1–#6000..." oninput="phonPage=0; renderPhonetics6000()">
+                                <select id="phon-level" class="input-box" style="min-width:140px;" aria-label="Filter Phonetics by CEFR Level" onchange="phonPage=0; renderPhonetics6000()">
+                                    <option value="ALL">All Ranks</option>
+                                    <option value="A1">A1 (#1–1000)</option>
+                                    <option value="A2">A2 (#1001–2000)</option>
+                                    <option value="B1">B1 (#2001–3500)</option>
+                                    <option value="B2">B2 (#3501–4800)</option>
+                                    <option value="C1">C1 (#4801–6000)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="phon-6000-list"></div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; gap:8px;">
+                            <button class="btn btn-sec" onclick="changePhonPage(-1)">← Prev 25</button>
+                            <span id="phon-page-info" style="color:var(--muted); font-size:12.5px; font-weight:600;"></span>
+                            <button class="btn btn-sec" onclick="changePhonPage(1)">Next 25 →</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TAB 5: A0-C1 INTERACTIVE COURSE & EXAM ENGINE -->
+                <section id="tab-course" class="hidden" aria-label="A0 to C1 Russian Course">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Structured Course (A0 → C1)</h1>
+                            <p class="section-subtitle">12 progressive grammatical modules with interactive checks & mastery exams.</p>
+                        </div>
+                    </div>
+                    <div class="module-grid" id="module-grid"></div>
+                    <div class="card" id="module-workspace">
+                        <div style="margin-bottom:14px; display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
+                            <span class="tag" id="active-mod-level" style="background:var(--accent-container); color:var(--accent-on-container); font-weight:800;">A0</span>
+                            <h2 id="active-mod-title" style="margin:0; font-size:19px; font-weight:800;">Module Title</h2>
+                        </div>
+                        <div class="stage-bar" id="stage-bar"></div>
+                        <div id="stage-content"></div>
+                    </div>
+                </section>
+
+                <!-- TAB 6: COMPREHENSIBLE INPUT READER -->
+                <section id="tab-reader" class="hidden" aria-label="Comprehensible Input Reader">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Comprehensible Input Reader</h1>
+                            <p class="section-subtitle">Tap any Russian word token to hear HD pronunciation and open its 6-case breakdown.</p>
+                        </div>
+                        <button class="btn" onclick="speakStory()">🔊 Listen to Full Story</button>
+                    </div>
+                    <div class="card" id="story-container" style="padding:24px; line-height:2.1;"></div>
+                </section>
+            </div>
+
+            <!-- Mobile Bottom-Sheet Backdrop -->
+            <div id="inspector-backdrop" class="sheet-backdrop" onclick="closeInspectorSheet()"></div>
+
+            <!-- RIGHT PANEL / iOS BOTTOM SHEET: DEEP GRAMMAR & AUDIO EXPLANATION INSPECTOR -->
+            <aside id="grammar-inspector" class="inspector" aria-label="Deep Grammar Breakdown">
+                <div class="sheet-drag-handle" onclick="closeInspectorSheet()">
+                    <div class="sheet-pill-bar"></div>
                 </div>
-            </div>
-
-            <!-- TAB 6: COMPREHENSIBLE INPUT READER -->
-            <div id="tab-reader" class="hidden">
-                <h2 style="margin:0 0 10px 0;">📖 Comprehensible Input Engine</h2>
-                <p style="color:var(--muted); margin-top:0;">Tap any word in the story to hear it and view its full grammar breakdown.</p>
-                <button class="btn" style="margin-bottom:12px;" onclick="speakStory()">🔊 Listen to Full Story (OpenAI HD)</button>
-                <div class="card" id="story-container"></div>
-            </div>
-        </div>
-
-        <!-- RIGHT PANEL: DEEP GRAMMAR & AUDIO EXPLANATION INSPECTOR -->
-        <div class="inspector">
-            <h3 style="margin-top:0; color:var(--accent);">🔍 Deep Grammar Breakdown</h3>
-            <div id="inspector-body" style="color:var(--muted); font-size:13px; line-height:1.5;">
-                Tap any of the <b>6,000 words</b> in the Anki Decks, Catalog, or Phonetics Explorer to view its complete 6-Case Declension or Verb Conjugation table and listen to a spoken grammar explanation.
-            </div>
-        </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h3 style="margin:0; font-size:16px; font-weight:800; color:var(--accent);">🔍 Deep Grammar Breakdown</h3>
+                    <button class="btn btn-sec sheet-drag-handle" style="min-height:36px; padding:4px 14px; font-size:12px;" onclick="closeInspectorSheet()">Done</button>
+                </div>
+                <div id="inspector-body" style="color:var(--text-secondary); font-size:13.5px; line-height:1.55;">
+                    Tap any of the <b>6,000 words</b> in the Anki Decks, Catalog, or Phonetics Explorer to view its complete 6-Case Declension or Verb Conjugation table and listen to a spoken grammar explanation.
+                </div>
+            </aside>
+        </main>
     </div>
 
 <script>
+// ============================================================================
+// 0. iOS HAPTIC FEEDBACK, THEME APPEARANCE & BOTTOM SHEET CONTROLLER
+// ============================================================================
+function triggerHaptic(style = 'light') {
+    if (navigator.vibrate) {
+        navigator.vibrate(style === 'heavy' ? 18 : 8);
+    }
+}
+
+let currentThemeMode = localStorage.getItem('slovo_theme_mode') || 'system';
+function applyColorTheme(mode) {
+    currentThemeMode = mode;
+    localStorage.setItem('slovo_theme_mode', mode);
+    const root = document.documentElement;
+    const iconEl = document.getElementById('theme-toggle-icon');
+    if (mode === 'light') {
+        root.setAttribute('data-theme', 'light');
+        if (iconEl) iconEl.innerText = '☀️';
+    } else if (mode === 'dark') {
+        root.setAttribute('data-theme', 'dark');
+        if (iconEl) iconEl.innerText = '🌙';
+    } else {
+        root.removeAttribute('data-theme');
+        if (iconEl) iconEl.innerText = '🌗';
+    }
+}
+function cycleColorTheme() {
+    triggerHaptic('light');
+    const next = currentThemeMode === 'system' ? 'light' : (currentThemeMode === 'light' ? 'dark' : 'system');
+    applyColorTheme(next);
+}
+applyColorTheme(currentThemeMode);
+
+function openInspectorSheet() {
+    triggerHaptic('light');
+    document.getElementById('grammar-inspector')?.classList.add('sheet-open');
+    document.getElementById('inspector-backdrop')?.classList.add('open');
+}
+function closeInspectorSheet() {
+    document.getElementById('grammar-inspector')?.classList.remove('sheet-open');
+    document.getElementById('inspector-backdrop')?.classList.remove('open');
+}
+
 // ============================================================================
 // 1. REAL-TIME RUSSIAN GRAPHEME-TO-PHONEME (G2P) & ACOUSTIC ANALYZER
 // ============================================================================
@@ -396,24 +1334,20 @@ const FREQ_6000_DB = [];
     let rank = 1;
     const getCefr = (r) => r <= 1000 ? "A1" : (r <= 2000 ? "A2" : (r <= 3500 ? "B1" : (r <= 4800 ? "B2" : "C1")));
 
-    // 1. Core 200 (#1 - #200)
     for (const [ru, pos, en] of CORE_200) {
         FREQ_6000_DB.push({ rank, ru, pos, en, level: getCefr(rank) });
         rank++;
     }
-    // 2. Core 200 Nouns (#201 - #400)
     for (const [ru, en] of NOUN_BASES) {
         FREQ_6000_DB.push({ rank, ru, pos: "NOUN", en, level: getCefr(rank) });
         rank++;
     }
-    // 3. 1,600 Prefixed Aspectual & Spatial Verbs (#401 - #2,000)
     for (const [pref, pMean] of VERB_PREFS) {
         for (const [vRu, vMean] of VERB_BASES) {
             FREQ_6000_DB.push({ rank, ru: pref + vRu, pos: "VERB (pf)", en: `to ${vMean} (${pMean})`, level: getCefr(rank) });
             rank++;
         }
     }
-    // 4. 1,600 Derived Action & Abstract Nouns from Prefixed Verbs (#2,001 - #3,600)
     for (const [pref, pMean] of VERB_PREFS) {
         for (const [vRu, vMean] of VERB_BASES) {
             const stem = (pref + vRu).replace(/(ть|ти|чь)$/i, '');
@@ -421,7 +1355,6 @@ const FREQ_6000_DB = [];
             rank++;
         }
     }
-    // 5. 2,400 Derived Relational Adjectives & Abstract Qualities (#3,601 - #6,000)
     for (const [modRu, modEn] of ADJ_PREFIX_MODS) {
         for (const [nRu, nEn] of NOUN_BASES) {
             if (rank > 6000) break;
@@ -482,16 +1415,16 @@ function generateGrammarBreakdown(item) {
             summaryTag: `${gender} Noun • ${declClass}`,
             usageNote: `Genitive (${sg.Gen}) after 'нет/без'; Prepositional (${sg.Prep}) after static 'в/на'.`,
             exampleRu, exampleEn, spokenSummary,
-            tableHtml: `<table class="gram-grid">
+            tableHtml: `<div class="table-scroll-wrap"><table class="gram-grid">
                 <thead><tr><th>Case (Паде́ж)</th><th>Singular (Ед. ч.)</th><th>Plural (Мн. ч.)</th></tr></thead>
                 <tbody>
                     <tr><td><b>Nominative</b> (Кто/Что)</td><td>${sg.Nom}</td><td>${pl.Nom}</td></tr>
-                    <tr><td><b>Genitive</b> (Кого/Чего)</td><td style="color:var(--gen)">${sg.Gen}</td><td style="color:var(--gen)">${pl.Gen}</td></tr>
-                    <tr><td><b>Dative</b> (Кому/Чему)</td><td style="color:var(--dat)">${sg.Dat}</td><td style="color:var(--dat)">${pl.Dat}</td></tr>
-                    <tr><td><b>Accusative</b> (Кого/Что)</td><td style="color:var(--acc)">${sg.Acc}</td><td style="color:var(--acc)">${pl.Acc}</td></tr>
-                    <tr><td><b>Instrumental</b> (Кем/Чем)</td><td style="color:var(--ins)">${sg.Ins}</td><td style="color:var(--ins)">${pl.Ins}</td></tr>
-                    <tr><td><b>Prepositional</b> (О ком/чём)</td><td style="color:var(--prep)">${sg.Prep}</td><td style="color:var(--prep)">${pl.Prep}</td></tr>
-                </tbody></table>`
+                    <tr><td><b>Genitive</b> (Кого/Чего)</td><td style="color:var(--gen); font-weight:700;">${sg.Gen}</td><td style="color:var(--gen)">${pl.Gen}</td></tr>
+                    <tr><td><b>Dative</b> (Кому/Чему)</td><td style="color:var(--dat); font-weight:700;">${sg.Dat}</td><td style="color:var(--dat)">${pl.Dat}</td></tr>
+                    <tr><td><b>Accusative</b> (Кого/Что)</td><td style="color:var(--acc); font-weight:700;">${sg.Acc}</td><td style="color:var(--acc)">${pl.Acc}</td></tr>
+                    <tr><td><b>Instrumental</b> (Кем/Чем)</td><td style="color:var(--ins); font-weight:700;">${sg.Ins}</td><td style="color:var(--ins)">${pl.Ins}</td></tr>
+                    <tr><td><b>Prepositional</b> (О ком/чём)</td><td style="color:var(--prep); font-weight:700;">${sg.Prep}</td><td style="color:var(--prep)">${pl.Prep}</td></tr>
+                </tbody></table></div>`
         };
     }
 
@@ -516,15 +1449,15 @@ function generateGrammarBreakdown(item) {
             summaryTag: `${aspect} • ${conjType.split('(')[0]}`,
             usageNote: isPf ? `Conjugated forms express Simple Future result (я ${pres.ya}).` : `Conjugated forms express Present ongoing/habitual action.`,
             exampleRu, exampleEn, spokenSummary,
-            tableHtml: `<table class="gram-grid">
+            tableHtml: `<div class="table-scroll-wrap"><table class="gram-grid">
                 <thead><tr><th>Person</th><th>${isPf ? 'Simple Future (СВ)' : 'Present Tense (НСВ)'}</th><th>Past Tense (By Gender)</th></tr></thead>
                 <tbody>
-                    <tr><td><b>Я</b> (1st Sg)</td><td style="color:var(--accent)">я ${pres.ya}</td><td>Он ${past.m} (Masc)</td></tr>
+                    <tr><td><b>Я</b> (1st Sg)</td><td style="color:var(--accent); font-weight:700;">я ${pres.ya}</td><td>Он ${past.m} (Masc)</td></tr>
                     <tr><td><b>Ты</b> (2nd Sg)</td><td>ты ${pres.ty}</td><td>Она́ ${past.f} (Fem)</td></tr>
                     <tr><td><b>Он/Она́</b> (3rd Sg)</td><td>он/она́ ${pres.on}</td><td>Оно́ ${past.n} (Neut)</td></tr>
                     <tr><td><b>Мы / Вы</b></td><td>мы ${pres.my} / вы ${pres.vy}</td><td rowspan="2">Они́ ${past.pl} (Plural)</td></tr>
-                    <tr><td><b>Они́</b> (3rd Pl)</td><td style="color:var(--accent)">они́ ${pres.oni}</td></tr>
-                </tbody></table>`
+                    <tr><td><b>Они́</b> (3rd Pl)</td><td style="color:var(--accent); font-weight:700;">они́ ${pres.oni}</td></tr>
+                </tbody></table></div>`
         };
     }
 
@@ -540,14 +1473,14 @@ function generateGrammarBreakdown(item) {
             summaryTag: `Adjectival Modifier • Agrees in Gender, Number & Case`,
             usageNote: `Genitive Masculine/Neuter '${f.gen}' pronounces the 'г' as [v]!`,
             exampleRu, exampleEn, spokenSummary,
-            tableHtml: `<table class="gram-grid">
+            tableHtml: `<div class="table-scroll-wrap"><table class="gram-grid">
                 <thead><tr><th>Form / Gender</th><th>Nominative</th><th>Genitive</th><th>Prepositional</th></tr></thead>
                 <tbody>
-                    <tr><td><b>Masculine</b></td><td>${f.m}</td><td style="color:var(--gen)">${f.gen}</td><td style="color:var(--prep)">${f.prep}</td></tr>
+                    <tr><td><b>Masculine</b></td><td>${f.m}</td><td style="color:var(--gen); font-weight:700;">${f.gen}</td><td style="color:var(--prep)">${f.prep}</td></tr>
                     <tr><td><b>Feminine</b></td><td>${f.fem}</td><td style="color:var(--gen)">${stem}ой</td><td style="color:var(--prep)">${stem}ой</td></tr>
                     <tr><td><b>Neuter</b></td><td>${f.n}</td><td style="color:var(--gen)">${f.gen}</td><td style="color:var(--prep)">${f.prep}</td></tr>
                     <tr><td><b>Plural (All)</b></td><td>${f.pl}</td><td style="color:var(--gen)">${stem}ых</td><td style="color:var(--prep)">${stem}ых</td></tr>
-                </tbody></table>`
+                </tbody></table></div>`
         };
     }
 
@@ -558,13 +1491,13 @@ function generateGrammarBreakdown(item) {
         summaryTag: `${pos} • Syntactic Function Word`,
         usageNote: `High-frequency structural word (#${item.rank}) used across all registers.`,
         exampleRu, exampleEn, spokenSummary,
-        tableHtml: `<table class="gram-grid">
+        tableHtml: `<div class="table-scroll-wrap"><table class="gram-grid">
             <thead><tr><th>Property</th><th>Grammatical Detail</th></tr></thead>
             <tbody>
                 <tr><td><b>Part of Speech</b></td><td>${pos}</td></tr>
                 <tr><td><b>Core Meaning</b></td><td>${item.en}</td></tr>
                 <tr><td><b>Morphology</b></td><td>Invariable / Syntactic Connector</td></tr>
-            </tbody></table>`
+            </tbody></table></div>`
     };
 }
 
@@ -584,27 +1517,22 @@ function saveVoiceConfig() {
     localStorage.setItem('slovo_openai_hd_cfg', JSON.stringify(voiceConfig));
 }
 
-(function injectOpenAIVoiceUI() {
-    const btn = document.createElement('button');
-    btn.id = 'openai-voice-btn';
-    btn.className = 'btn';
-    btn.style.cssText = 'position:fixed; top:calc(10px + env(safe-area-inset-top, 0px)); right:12px; z-index:999; background:#1e293b; color:#38bdf8; border:1px solid #38bdf8; box-shadow:0 4px 15px rgba(0,0,0,0.5); padding:7px 12px; font-size:12.5px;';
-    btn.innerHTML = `🎙️ OpenAI HD (${voiceConfig.openaiVoice})`;
-    btn.onclick = openVoiceModal;
-    document.body.appendChild(btn);
+(function injectOpenAIVoiceModal() {
+    const lbl = document.getElementById('voice-label-pill');
+    if (lbl) lbl.innerText = voiceConfig.openaiVoice || 'nova';
 
     const modal = document.createElement('div');
     modal.id = 'voice-settings-modal';
     modal.className = 'hidden';
-    modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:1000; display:flex; align-items:center; justify-content:center; padding:16px;';
+    modal.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.65); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:1000; display:flex; align-items:center; justify-content:center; padding:18px;';
     modal.innerHTML = `
-        <div class="card" style="max-width:430px; width:100%; background:#0f172a; border:2px solid var(--accent);">
-            <h3 style="margin-top:0; color:var(--accent);">🎙️ OpenAI Neural HD Voice</h3>
-            <p style="font-size:12px; color:var(--muted); margin-top:0;">Powered exclusively by OpenAI <b>tts-1-hd</b>. Your API key is stored privately on this device only.</p>
-            <label style="font-size:13px; font-weight:700;">OpenAI API Key (sk-...):</label>
-            <input id="vc-oa-key" type="password" class="input-box" style="width:100%; margin:6px 0 12px 0;" placeholder="sk-proj-...">
-            <label style="font-size:13px; font-weight:700;">OpenAI Neural HD Voice:</label>
-            <select id="vc-oa-voice" class="input-box" style="width:100%; margin:6px 0 12px 0;">
+        <div class="card" style="max-width:420px; width:100%; background:var(--surface-1); border:1px solid var(--border-strong); box-shadow:var(--shadow-theater); margin:0;">
+            <h3 style="margin-top:0; font-size:19px; color:var(--accent);">🎙️ OpenAI Neural HD Voice</h3>
+            <p style="font-size:13px; color:var(--text-secondary); margin-top:0; line-height:1.45;">Powered exclusively by OpenAI <b>tts-1-hd</b>. Your API key is stored privately in this device's local storage.</p>
+            <label style="font-size:13px; font-weight:700; display:block; margin-bottom:4px;">OpenAI API Key (sk-...):</label>
+            <input id="vc-oa-key" type="password" class="input-box" style="width:100%; margin-bottom:12px;" placeholder="sk-proj-...">
+            <label style="font-size:13px; font-weight:700; display:block; margin-bottom:4px;">OpenAI Neural HD Voice:</label>
+            <select id="vc-oa-voice" class="input-box" style="width:100%; margin-bottom:12px;">
                 <option value="nova">Nova (Default — Warm, Clear Bilingual Female)</option>
                 <option value="onyx">Onyx (Deep, Authoritative Bilingual Male)</option>
                 <option value="shimmer">Shimmer (Expressive, Articulated Female)</option>
@@ -612,15 +1540,15 @@ function saveVoiceConfig() {
                 <option value="alloy">Alloy (Balanced Studio Neutral)</option>
                 <option value="fable">Fable (Dynamic Storytelling Voice)</option>
             </select>
-            <label style="font-size:13px; font-weight:700;">Speaking Speed:</label>
-            <select id="vc-oa-speed" class="input-box" style="width:100%; margin:6px 0 14px 0;">
+            <label style="font-size:13px; font-weight:700; display:block; margin-bottom:4px;">Speaking Speed:</label>
+            <select id="vc-oa-speed" class="input-box" style="width:100%; margin-bottom:18px;">
                 <option value="0.85">0.85x (Slower — Clear Phonetic Study)</option>
                 <option value="0.92">0.92x (Default — Natural Learner Pace)</option>
                 <option value="1.0">1.00x (Full Native Speed)</option>
             </select>
             <div style="display:flex; gap:8px;">
-                <button class="btn btn-success" style="flex:1;" onclick="saveVoiceModal()">💾 Save & Test HD Voice</button>
-                <button class="btn btn-sec" onclick="closeVoiceModal()">Close</button>
+                <button class="btn" style="flex:1;" onclick="saveVoiceModal()">💾 Save & Test Voice</button>
+                <button class="btn btn-sec" onclick="closeVoiceModal()">Cancel</button>
             </div>
         </div>
     `;
@@ -628,6 +1556,7 @@ function saveVoiceConfig() {
 })();
 
 function openVoiceModal() {
+    triggerHaptic('light');
     document.getElementById('vc-oa-key').value = voiceConfig.openaiKey;
     document.getElementById('vc-oa-voice').value = voiceConfig.openaiVoice || 'nova';
     document.getElementById('vc-oa-speed').value = String(voiceConfig.speed || 0.92);
@@ -643,13 +1572,14 @@ function saveVoiceModal() {
     voiceConfig.openaiVoice = document.getElementById('vc-oa-voice').value;
     voiceConfig.speed = parseFloat(document.getElementById('vc-oa-speed').value) || 0.92;
     saveVoiceConfig();
-    const topBtn = document.getElementById('openai-voice-btn');
-    if (topBtn) topBtn.innerHTML = `🎙️ OpenAI HD (${voiceConfig.openaiVoice})`;
+    const lbl = document.getElementById('voice-label-pill');
+    if (lbl) lbl.innerText = voiceConfig.openaiVoice;
     closeVoiceModal();
     speakRussian("Приве́т! Го́лос настро́ен.");
 }
 
 async function playOpenAIHD(text) {
+    triggerHaptic('light');
     if (!voiceConfig.openaiKey) {
         openVoiceModal();
         return;
@@ -846,6 +1776,7 @@ function generateSentenceCorrection(item) {
 }
 
 function applyFSRSGrade(card, grade) {
+    triggerHaptic('heavy');
     const now = Date.now(), DAY_MS = 86400000;
     if (grade === 1) {
         card.state = 'learning'; card.interval = 0;
@@ -891,8 +1822,8 @@ function renderAnkiStage() {
     const actionEl = document.getElementById('anki-action-area');
 
     if (!queue.length) {
-        bodyEl.innerHTML = `<div style="padding:24px;"><h2 style="color:var(--success); margin:0 0 8px 0;">🎉 RU → EN Queue Complete!</h2><p style="color:var(--muted);">Add more words from the 6,000-word catalog or switch decks.</p></div>`;
-        actionEl.innerHTML = `<button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Words</button>`;
+        bodyEl.innerHTML = `<div style="padding:28px 12px;"><h2 style="color:var(--success); margin:0 0 8px 0;">🎉 RU → EN Queue Complete!</h2><p style="color:var(--text-secondary); margin:0;">Add more words from the 6,000-word catalog or switch decks below.</p></div>`;
+        actionEl.innerHTML = `<button class="btn btn-success" style="width:100%;" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Words</button>`;
         return;
     }
 
@@ -903,31 +1834,31 @@ function renderAnkiStage() {
 
     if (!ankiFlipped) {
         bodyEl.innerHTML = `
-            <div>
-                <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">Rank #${item.rank} / 6000 • ${item.level} • ${item.pos}</span>
+            <div style="margin:auto 0;">
+                <span class="tag" style="background:var(--accent-container); color:var(--accent-on-container);">Rank #${item.rank} / 6000 • ${item.level} • ${item.pos}</span>
                 <div class="anki-front-word" onclick="speakRussian('${item.ru}')">${item.ru}</div>
-                <button class="btn btn-sec" onclick="speakRussian('${item.ru}')">🔊 Hear Russian Word</button>
+                <button class="btn btn-sec" onclick="speakRussian('${item.ru}')">🔊 Hear Russian Pronunciation</button>
             </div>`;
-        actionEl.innerHTML = `<button class="btn" style="width:100%; padding:14px; font-size:16px; margin-top:16px;" onclick="flipAnkiCard()">👁️ Show English Answer & Grammar</button>`;
+        actionEl.innerHTML = `<button class="btn anki-reveal-btn" onclick="flipAnkiCard()">Show English & Grammar</button>`;
     } else {
         const iv = getNextIntervals(currentAnkiCard);
         bodyEl.innerHTML = `
             <div style="text-align:left;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                     <div>
-                        <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">#${item.rank} ${item.level}</span>
-                        <b style="font-size:26px; color:white; margin-left:6px;">${item.ru}</b>
-                        <span style="color:var(--accent); font-family:monospace; font-size:17px; margin-left:8px;">${phon.ipa}</span>
+                        <span class="tag" style="background:var(--accent-container); color:var(--accent-on-container);">#${item.rank} ${item.level}</span>
+                        <b style="font-size:28px; color:var(--text); margin-left:6px;">${item.ru}</b>
+                        <span style="color:var(--accent); font-family:ui-monospace, SFMono-Regular, monospace; font-size:16px; margin-left:6px;">${phon.ipa}</span>
                     </div>
                     <div style="display:flex; gap:6px;">
                         <button class="btn btn-sec" onclick="speakRussian('${item.ru}')">🔊 Word</button>
-                        <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
+                        <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Explain</button>
                     </div>
                 </div>
-                <div style="font-size:22px; font-weight:700; color:var(--success); margin:6px 0;">${item.en}</div>
-                <div style="font-size:12px; color:var(--warn); margin-bottom:6px;"><b>Phonetics:</b> ${phon.notes} | <b>${gram.summaryTag}</b></div>
-                <div style="background:var(--panel); padding:9px 12px; border-radius:8px; font-size:13px; margin-bottom:8px; cursor:pointer;" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
-                    <b>🔊 Example:</b> <span style="color:var(--accent)">${gram.exampleRu}</span><br><span style="color:var(--muted)">${gram.exampleEn}</span>
+                <div style="font-size:22px; font-weight:800; color:var(--success); margin:8px 0 6px 0;">${item.en}</div>
+                <div style="font-size:12.5px; color:var(--warn); margin-bottom:8px; font-weight:600;">${phon.notes} • ${gram.summaryTag}</div>
+                <div style="background:var(--surface-2); padding:11px 14px; border-radius:var(--radius-md); font-size:13.5px; margin-bottom:8px; cursor:pointer; border:1px solid var(--border-subtle);" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
+                    <b>🔊 Example:</b> <span style="color:var(--accent); font-weight:600;">${gram.exampleRu}</span><br><span style="color:var(--text-secondary)">${gram.exampleEn}</span>
                 </div>
                 ${gram.tableHtml}
             </div>`;
@@ -940,7 +1871,7 @@ function renderAnkiStage() {
             </div>`;
     }
 }
-function flipAnkiCard() { ankiFlipped = true; renderAnkiStage(); if (currentAnkiCard) inspectWordDeep(currentAnkiCard.rank, true); }
+function flipAnkiCard() { triggerHaptic('light'); ankiFlipped = true; renderAnkiStage(); if (currentAnkiCard) inspectWordDeep(currentAnkiCard.rank, true, false); }
 function gradeAnkiCard(g) { applyFSRSGrade(currentAnkiCard, g); ankiFlipped = false; renderAnkiStage(); }
 
 // DECK 2: EN -> RU
@@ -959,8 +1890,8 @@ function renderEn2RuStage() {
     const actionEl = document.getElementById('en2ru-action-area');
 
     if (!queue.length) {
-        bodyEl.innerHTML = `<div style="padding:24px;"><h2 style="color:var(--success); margin:0 0 8px 0;">🎉 EN → RU Recall Queue Complete!</h2></div>`;
-        actionEl.innerHTML = `<button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Words</button>`;
+        bodyEl.innerHTML = `<div style="padding:28px 12px;"><h2 style="color:var(--success); margin:0 0 8px 0;">🎉 EN → RU Recall Queue Complete!</h2></div>`;
+        actionEl.innerHTML = `<button class="btn btn-success" style="width:100%;" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Words</button>`;
         return;
     }
 
@@ -971,28 +1902,28 @@ function renderEn2RuStage() {
 
     if (!en2ruFlipped) {
         bodyEl.innerHTML = `
-            <div>
-                <span class="tag" style="background:var(--warn); color:#0f172a; font-weight:800;">EN → RU Recall • Rank #${item.rank} / 6000 (${item.level})</span>
-                <div class="anki-front-word" style="color:var(--success); font-size:36px;">"${item.en}"</div>
-                <div style="color:var(--muted); font-size:13.5px; margin-bottom:12px;">Part of Speech: <b>${item.pos}</b> — Recall or type the Russian word:</div>
-                <input id="en2ru-user-guess" class="input-box" style="max-width:320px; width:100%; text-align:center;" placeholder="Optional: Type Russian word..." onkeydown="if(event.key==='Enter') flipEn2RuCard()">
+            <div style="margin:auto 0;">
+                <span class="tag" style="background:var(--warn-container); color:var(--warn-on-container);">EN → RU Recall • Rank #${item.rank} (${item.level})</span>
+                <div class="anki-front-word" style="color:var(--text); font-size:clamp(28px, 7.5vw, 42px);">"${item.en}"</div>
+                <div style="color:var(--text-secondary); font-size:13.5px; margin-bottom:14px;">Part of Speech: <b>${item.pos}</b> — Recall or type the Russian word:</div>
+                <input id="en2ru-user-guess" class="input-box" style="max-width:340px; width:100%; text-align:center;" placeholder="Optional: Type Russian word..." onkeydown="if(event.key==='Enter') flipEn2RuCard()">
             </div>`;
-        actionEl.innerHTML = `<button class="btn" style="width:100%; padding:14px; font-size:16px; margin-top:16px;" onclick="flipEn2RuCard()">👁️ Show Russian Answer & Explanation</button>`;
+        actionEl.innerHTML = `<button class="btn anki-reveal-btn" onclick="flipEn2RuCard()">Show Russian Answer</button>`;
     } else {
         const iv = getNextIntervals(currentEn2RuCard);
         bodyEl.innerHTML = `
             <div style="text-align:left;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                     <div>
-                        <span class="tag" style="background:var(--warn); color:#0f172a; font-weight:800;">#${item.rank} ${item.en}</span>
-                        <b style="font-size:28px; color:white; margin-left:8px; cursor:pointer;" onclick="speakRussian('${item.ru}')">🔊 ${item.ru}</b>
-                        <span style="color:var(--accent); font-family:monospace; font-size:17px; margin-left:8px;">${phon.ipa}</span>
+                        <span class="tag" style="background:var(--warn-container); color:var(--warn-on-container);">#${item.rank} ${item.en}</span>
+                        <b style="font-size:28px; color:var(--text); margin-left:8px; cursor:pointer;" onclick="speakRussian('${item.ru}')">🔊 ${item.ru}</b>
+                        <span style="color:var(--accent); font-family:ui-monospace, SFMono-Regular, monospace; font-size:16px; margin-left:6px;">${phon.ipa}</span>
                     </div>
-                    <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Full Explanation</button>
+                    <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
                 </div>
-                <div style="font-size:13px; color:#e2e8f0; margin:8px 0;"><b>Grammar Explanation:</b> ${gram.summaryTag} — ${gram.usageNote}</div>
-                <div style="background:var(--panel); padding:9px 12px; border-radius:8px; font-size:13px; margin-bottom:8px; cursor:pointer;" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
-                    <b>🔊 Context Sentence:</b> <span style="color:var(--accent)">${gram.exampleRu}</span><br><span style="color:var(--muted)">${gram.exampleEn}</span>
+                <div style="font-size:13px; color:var(--text-secondary); margin:8px 0;"><b>Grammar:</b> ${gram.summaryTag} — ${gram.usageNote}</div>
+                <div style="background:var(--surface-2); padding:11px 14px; border-radius:var(--radius-md); font-size:13.5px; margin-bottom:8px; cursor:pointer; border:1px solid var(--border-subtle);" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
+                    <b>🔊 Context Sentence:</b> <span style="color:var(--accent); font-weight:600;">${gram.exampleRu}</span><br><span style="color:var(--text-secondary)">${gram.exampleEn}</span>
                 </div>
                 ${gram.tableHtml}
             </div>`;
@@ -1005,7 +1936,7 @@ function renderEn2RuStage() {
             </div>`;
     }
 }
-function flipEn2RuCard() { en2ruFlipped = true; renderEn2RuStage(); if (currentEn2RuCard) { inspectWordDeep(currentEn2RuCard.rank, false); speakExplanation(currentEn2RuCard.rank); } }
+function flipEn2RuCard() { triggerHaptic('light'); en2ruFlipped = true; renderEn2RuStage(); if (currentEn2RuCard) { inspectWordDeep(currentEn2RuCard.rank, false, false); speakExplanation(currentEn2RuCard.rank); } }
 function gradeEn2RuCard(g) { applyFSRSGrade(currentEn2RuCard, g); en2ruFlipped = false; renderEn2RuStage(); }
 
 // DECK 3: SENTENCE CORRECTION
@@ -1024,8 +1955,8 @@ function renderCorrectionStage() {
     const actionEl = document.getElementById('corr-action-area');
 
     if (!queue.length) {
-        bodyEl.innerHTML = `<div style="padding:24px;"><h2 style="color:var(--success); margin:0 0 8px 0;">🎉 Sentence Correction Queue Complete!</h2></div>`;
-        actionEl.innerHTML = `<button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Sentence Cards</button>`;
+        bodyEl.innerHTML = `<div style="padding:28px 12px;"><h2 style="color:var(--success); margin:0 0 8px 0;">🎉 Sentence Correction Queue Complete!</h2></div>`;
+        actionEl.innerHTML = `<button class="btn btn-success" style="width:100%;" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Sentence Cards</button>`;
         return;
     }
 
@@ -1037,30 +1968,30 @@ function renderCorrectionStage() {
     if (!corrFlipped) {
         const highlightedWrong = corr.wrongRu.replace(/\*([^*]+)\*/, `<span style="color:var(--danger); text-decoration:underline wavy var(--danger); font-weight:800;">$1</span>`);
         bodyEl.innerHTML = `
-            <div>
-                <span class="tag" style="background:var(--danger); color:#0f172a; font-weight:800;">🛠️ Fix the Error • Word #${item.rank} / 6000 (${item.ru} = ${item.en})</span>
-                <div style="font-size:25px; font-weight:700; color:white; margin:16px 0 10px 0; line-height:1.4;">❌ ${highlightedWrong}</div>
-                <div style="color:var(--muted); font-size:13.5px; margin-bottom:14px;">Intended Meaning: <i>"${corr.enMeaning}"</i></div>
+            <div style="margin:auto 0;">
+                <span class="tag" style="background:var(--danger-container); color:var(--danger-on-container);">🛠️ Fix the Error • #${item.rank} (${item.ru} = ${item.en})</span>
+                <div style="font-size:clamp(21px, 5.5vw, 27px); font-weight:700; color:var(--text); margin:18px 0 10px 0; line-height:1.4;">❌ ${highlightedWrong}</div>
+                <div style="color:var(--text-secondary); font-size:13.5px; margin-bottom:14px;">Intended: <i>"${corr.enMeaning}"</i></div>
                 <input id="corr-user-input" class="input-box" style="max-width:340px; width:100%; text-align:center;" placeholder="Optional: Type corrected form (${corr.wrongWord} → ?)..." onkeydown="if(event.key==='Enter') flipCorrectionCard()">
             </div>`;
-        actionEl.innerHTML = `<button class="btn" style="width:100%; padding:14px; font-size:16px; margin-top:16px;" onclick="flipCorrectionCard()">👁️ Show Corrected Sentence & Grammar Explanation</button>`;
+        actionEl.innerHTML = `<button class="btn anki-reveal-btn" onclick="flipCorrectionCard()">Show Corrected Sentence</button>`;
     } else {
         const iv = getNextIntervals(currentCorrCard);
         bodyEl.innerHTML = `
             <div style="text-align:left;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-                    <span class="tag" style="background:var(--success); color:#0f172a; font-weight:800;">✓ ${corr.ruleTitle}</span>
+                    <span class="tag" style="background:var(--success-container); color:var(--success-on-container);">✓ ${corr.ruleTitle}</span>
                     <div style="display:flex; gap:6px;">
                         <button class="btn btn-sec" onclick="speakRussian('${corr.rightRu.replace(/'/g, "\\'")}')">🔊 Sentence</button>
-                        <button class="btn btn-warn" onclick="speakCorrectionExplanation(${item.rank})">🗣️ Hear Explanation</button>
+                        <button class="btn btn-warn" onclick="speakCorrectionExplanation(${item.rank})">🗣️ Explain</button>
                     </div>
                 </div>
-                <div style="font-size:14.5px; color:var(--danger); text-decoration:line-through; opacity:0.85;">❌ ${corr.wrongRu.replace(/\*/g, '')}</div>
-                <div style="font-size:22px; font-weight:800; color:var(--success); margin:6px 0; cursor:pointer;" onclick="speakRussian('${corr.rightRu.replace(/'/g, "\\'")}')">
+                <div style="font-size:14px; color:var(--danger); text-decoration:line-through; opacity:0.85;">❌ ${corr.wrongRu.replace(/\*/g, '')}</div>
+                <div style="font-size:21px; font-weight:800; color:var(--success); margin:6px 0 10px 0; cursor:pointer; line-height:1.35;" onclick="speakRussian('${corr.rightRu.replace(/'/g, "\\'")}')">
                     ✅ ${corr.rightRu.replace(corr.rightWord, `<u style="color:var(--accent)">${corr.rightWord}</u>`)}
                 </div>
-                <div style="background:var(--panel); padding:10px 13px; border-radius:10px; border-left:4px solid var(--warn); font-size:13px; line-height:1.5; margin-bottom:10px;">
-                    <b style="color:var(--warn);">Why it changes (${corr.wrongWord} → ${corr.rightWord}):</b><br>${corr.explanation}
+                <div style="background:var(--surface-2); padding:11px 14px; border-radius:var(--radius-md); border-left:4px solid var(--warn); font-size:13px; line-height:1.5; margin-bottom:10px;">
+                    <b style="color:var(--warn);">Why (${corr.wrongWord} → ${corr.rightWord}):</b><br>${corr.explanation}
                 </div>
                 ${gram.tableHtml}
             </div>`;
@@ -1073,7 +2004,7 @@ function renderCorrectionStage() {
             </div>`;
     }
 }
-function flipCorrectionCard() { corrFlipped = true; renderCorrectionStage(); if (currentCorrCard) { inspectWordDeep(currentCorrCard.rank, false); speakCorrectionExplanation(currentCorrCard.rank); } }
+function flipCorrectionCard() { triggerHaptic('light'); corrFlipped = true; renderCorrectionStage(); if (currentCorrCard) { inspectWordDeep(currentCorrCard.rank, false, false); speakCorrectionExplanation(currentCorrCard.rank); } }
 function gradeCorrectionCard(g) { applyFSRSGrade(currentCorrCard, g); corrFlipped = false; renderCorrectionStage(); }
 
 async function speakCorrectionExplanation(rank) {
@@ -1084,15 +2015,17 @@ async function speakCorrectionExplanation(rank) {
 }
 
 function addSingleWordFrom6000(rank) {
+    triggerHaptic('heavy');
     if (!db.cards.some(c => c.rank === rank)) db.cards.push({ rank, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
     if (!db.en2ruCards.some(c => c.rank === rank)) db.en2ruCards.push({ rank, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
     if (!db.corrCards.some(c => c.rank === rank)) db.corrCards.push({ rank, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
     db.xp += 5; saveDB();
     renderAnkiStage(); renderEn2RuStage(); renderCorrectionStage(); renderSrsCatalog6000();
-    inspectWordDeep(rank, true);
+    inspectWordDeep(rank, true, false);
 }
 
 function batchAddNextFrequencyWords(count) {
+    triggerHaptic('heavy');
     let added = 0;
     const existing = new Set(db.cards.map(c => c.rank));
     for (let r = 1; r <= FREQ_6000_DB.length && added < count; r++) {
@@ -1112,7 +2045,7 @@ function batchAddNextFrequencyWords(count) {
 // ============================================================================
 let srsCatPage = 0, phonPage = 0;
 
-function inspectWordDeep(rank, playAudio = true) {
+function inspectWordDeep(rank, playAudio = true, openSheetOnMobile = false) {
     currentInspectedRank = rank;
     const item = FREQ_6000_DB[rank - 1];
     if (!item) return;
@@ -1120,17 +2053,17 @@ function inspectWordDeep(rank, playAudio = true) {
     const gram = generateGrammarBreakdown(item);
 
     document.getElementById('inspector-body').innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">Rank #${item.rank} / 6000 • ${item.level}</span>
-            <button class="btn btn-warn" style="padding:5px 10px; font-size:12px;" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+            <span class="tag" style="background:var(--accent-container); color:var(--accent-on-container);">Rank #${item.rank} / 6000 • ${item.level}</span>
+            <button class="btn btn-warn" style="min-height:36px; padding:6px 12px; font-size:12px;" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
         </div>
-        <div style="font-size:28px; font-weight:800; color:white; margin-top:6px; cursor:pointer;" onclick="speakRussian('${item.ru}')">🔊 ${item.ru}</div>
-        <div style="color:var(--accent); font-family:monospace; font-size:16px;">${phon.ipa}</div>
-        <div style="font-size:18px; font-weight:700; color:var(--success); margin:6px 0;">${item.en}</div>
-        <div style="font-size:12px; color:var(--warn); margin-bottom:8px;">${phon.notes}</div>
-        <div style="font-size:12.5px; color:#e2e8f0; margin-bottom:8px;"><b>${gram.summaryTag}</b><br>${gram.usageNote}</div>
-        <div style="background:var(--panel-alt); padding:8px 10px; border-radius:8px; font-size:12.5px; margin-bottom:8px; cursor:pointer;" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
-            <b>🔊 Context:</b> ${gram.exampleRu}<br><span style="color:var(--muted)">${gram.exampleEn}</span>
+        <div style="font-size:30px; font-weight:800; color:var(--text); margin-top:8px; cursor:pointer;" onclick="speakRussian('${item.ru}')">🔊 ${item.ru}</div>
+        <div style="color:var(--accent); font-family:ui-monospace, SFMono-Regular, monospace; font-size:16px;">${phon.ipa}</div>
+        <div style="font-size:19px; font-weight:800; color:var(--success); margin:6px 0;">${item.en}</div>
+        <div style="font-size:12.5px; color:var(--warn); margin-bottom:8px; font-weight:600;">${phon.notes}</div>
+        <div style="font-size:13px; color:var(--text); margin-bottom:8px;"><b>${gram.summaryTag}</b><br><span style="color:var(--text-secondary)">${gram.usageNote}</span></div>
+        <div style="background:var(--surface-2); padding:10px 12px; border-radius:var(--radius-md); font-size:13px; margin-bottom:10px; cursor:pointer; border:1px solid var(--border-subtle);" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
+            <b>🔊 Context:</b> <span style="color:var(--accent); font-weight:600;">${gram.exampleRu}</span><br><span style="color:var(--text-secondary)">${gram.exampleEn}</span>
         </div>
         ${gram.tableHtml}
     `;
@@ -1142,19 +2075,22 @@ function inspectWordDeep(rank, playAudio = true) {
         pOut.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                 <div>
-                    <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">#${item.rank} • ${item.level}</span>
-                    <b style="font-size:24px; color:white; margin-left:6px;">${item.ru}</b>
-                    <span style="color:var(--accent); font-family:monospace; font-size:18px; margin-left:8px;">${phon.ipa}</span>
+                    <span class="tag" style="background:var(--accent-container); color:var(--accent-on-container);">#${item.rank} • ${item.level}</span>
+                    <b style="font-size:24px; color:var(--text); margin-left:6px;">${item.ru}</b>
+                    <span style="color:var(--accent); font-family:ui-monospace, SFMono-Regular, monospace; font-size:17px; margin-left:8px;">${phon.ipa}</span>
                     <span style="color:var(--success); font-weight:700; margin-left:8px;">— ${item.en}</span>
                 </div>
-                <div style="display:flex; gap:6px;">
+                <div style="display:flex; gap:6px; flex-wrap:wrap;">
                     <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
                     <button class="btn" onclick="addSingleWordFrom6000(${item.rank})">+ Add to Anki</button>
                 </div>
             </div>
-            <div style="margin-top:6px; font-size:13px; color:var(--warn);"><b>Acoustic Reduction & Palatalization:</b> ${phon.notes}</div>
-            <div style="margin-top:4px; font-size:13px; color:#cbd5e1;"><b>Grammar:</b> ${gram.summaryTag} — ${gram.usageNote}</div>
+            <div style="margin-top:6px; font-size:13px; color:var(--warn); font-weight:600;"><b>Acoustic Reduction & Palatalization:</b> ${phon.notes}</div>
+            <div style="margin-top:4px; font-size:13px; color:var(--text-secondary);"><b>Grammar:</b> ${gram.summaryTag} — ${gram.usageNote}</div>
         `;
+    }
+    if (openSheetOnMobile && window.innerWidth <= 960) {
+        openInspectorSheet();
     }
     if (playAudio) speakRussian(item.ru);
 }
@@ -1182,21 +2118,21 @@ function renderSrsCatalog6000() {
         const saved = inDeck.has(w.rank);
         const p = generateRussianPhonetics(w.ru);
         return `<div class="freq-row">
-            <div onclick="inspectWordDeep(${w.rank}, true)" style="cursor:pointer; flex:1;">
+            <div onclick="inspectWordDeep(${w.rank}, true, true)" style="cursor:pointer; flex:1; min-width:190px;">
                 <span class="tag">#${w.rank} ${w.level}</span>
-                <b style="font-size:17px; color:white; margin-left:6px;">🔊 ${w.ru}</b>
-                <span style="color:var(--accent); font-family:monospace; margin-left:6px;">${p.ipa}</span>
-                <span style="color:var(--muted); margin-left:6px;">— ${w.en} (${w.pos})</span>
+                <b style="font-size:17px; color:var(--text); margin-left:4px;">🔊 ${w.ru}</b>
+                <span style="color:var(--accent); font-family:ui-monospace, SFMono-Regular, monospace; font-size:13.5px; margin-left:6px;">${p.ipa}</span>
+                <div style="color:var(--text-secondary); font-size:13.5px; margin-top:2px;">${w.en} <span style="opacity:0.75;">(${w.pos})</span></div>
             </div>
-            <div style="display:flex; gap:6px;">
-                <button class="btn btn-sec" onclick="inspectWordDeep(${w.rank}, true)">🔍 Grammar</button>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <button class="btn btn-sec" onclick="inspectWordDeep(${w.rank}, true, true)">🔍 Table</button>
                 <button class="btn btn-warn" onclick="speakExplanation(${w.rank})">🗣️ Explain</button>
                 <button class="btn ${saved ? 'btn-sec' : ''}" onclick="addSingleWordFrom6000(${w.rank})" ${saved ? 'disabled' : ''}>${saved ? '✓ In Anki' : '+ Anki'}</button>
             </div>
         </div>`;
     }).join('');
 }
-function changeSrsCatPage(d) { srsCatPage = Math.max(0, srsCatPage + d); renderSrsCatalog6000(); }
+function changeSrsCatPage(d) { triggerHaptic('light'); srsCatPage = Math.max(0, srsCatPage + d); renderSrsCatalog6000(); }
 
 function renderPhonetics6000() {
     const filtered = getFiltered6000('phon-search', 'phon-level');
@@ -1208,27 +2144,27 @@ function renderPhonetics6000() {
     document.getElementById('phon-page-info').innerText = `Words ${phonPage * pageSize + 1}–${Math.min(filtered.length, (phonPage + 1) * pageSize)} of ${filtered.length}`;
     document.getElementById('phon-6000-list').innerHTML = slice.map(w => {
         const p = generateRussianPhonetics(w.ru);
-        return `<div class="freq-row" onclick="inspectWordDeep(${w.rank}, true)" style="cursor:pointer;">
-            <div>
+        return `<div class="freq-row" onclick="inspectWordDeep(${w.rank}, true, false)" style="cursor:pointer;">
+            <div style="flex:1; min-width:190px;">
                 <span class="tag">#${w.rank} ${w.level}</span>
-                <b style="font-size:17px; color:white; margin-left:6px;">🔊 ${w.ru}</b>
-                <span style="color:var(--accent); font-family:monospace; margin-left:6px;">${p.ipa}</span>
-                <span style="color:var(--muted); margin-left:6px;">— ${w.en}</span>
+                <b style="font-size:17px; color:var(--text); margin-left:4px;">🔊 ${w.ru}</b>
+                <span style="color:var(--accent); font-family:ui-monospace, SFMono-Regular, monospace; font-size:13.5px; margin-left:6px;">${p.ipa}</span>
+                <div style="color:var(--text-secondary); font-size:13.5px; margin-top:2px;">${w.en}</div>
             </div>
             <div style="display:flex; gap:6px;">
                 <button class="btn btn-warn" onclick="event.stopPropagation(); speakExplanation(${w.rank})">🗣️ Explain</button>
-                <button class="btn btn-sec">✍️ Trace & Grammar</button>
+                <button class="btn btn-sec" onclick="event.stopPropagation(); inspectWordDeep(${w.rank}, true, true)">🔍 Table</button>
             </div>
         </div>`;
     }).join('');
 }
-function changePhonPage(d) { phonPage = Math.max(0, phonPage + d); renderPhonetics6000(); }
+function changePhonPage(d) { triggerHaptic('light'); phonPage = Math.max(0, phonPage + d); renderPhonetics6000(); }
 
 // Multi-Touch Cursive Pad
 const canvas = document.getElementById('cursive-pad');
 const ctx = canvas.getContext('2d');
 let drawing = false;
-ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+ctx.strokeStyle = '#3B5BDB'; ctx.lineWidth = 4; ctx.lineCap = 'round';
 function getPos(e) {
     const r = canvas.getBoundingClientRect();
     const cx = e.touches ? e.touches[0].clientX : e.clientX;
@@ -1241,7 +2177,7 @@ window.addEventListener('mouseup', () => { drawing = false; });
 canvas.addEventListener('touchstart', (e) => { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
 canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if (drawing) { const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); } }, { passive: false });
 canvas.addEventListener('touchend', () => { drawing = false; });
-function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+function clearCanvas() { triggerHaptic('light'); ctx.clearRect(0, 0, canvas.width, canvas.height); }
 
 // ============================================================================
 // 7. A0–C1 COURSE ENGINE, READER & INITIALIZATION
@@ -1265,8 +2201,8 @@ let activeModId = "A0.1", activeStage = 0;
 
 function renderCourseSyllabus() {
     document.getElementById('module-grid').innerHTML = COURSE_MODULES.map(m => `
-        <div class="module-card ${m.id === activeModId ? 'active' : ''}" onclick="activeModId='${m.id}'; activeStage=0; renderCourseSyllabus(); renderActiveModule();">
-            <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">${m.id} • ${m.level}</span>
+        <div class="module-card ${m.id === activeModId ? 'active' : ''}" onclick="triggerHaptic('light'); activeModId='${m.id}'; activeStage=0; renderCourseSyllabus(); renderActiveModule();">
+            <span class="tag" style="background:var(--accent-container); color:var(--accent-on-container); font-weight:800;">${m.id} • ${m.level}</span>
             <div style="font-weight:700; font-size:13.5px; margin-top:6px;">${m.title}</div>
         </div>
     `).join('');
@@ -1280,44 +2216,44 @@ function renderActiveModule() {
 
     const stages = ["1. Concept", "2. Check (CFU)", "3. Practice", "4. Vocab (15)", "5. Exam"];
     document.getElementById('stage-bar').innerHTML = stages.map((s, i) => `
-        <div class="stage-pill ${i === activeStage ? 'active' : ''}" onclick="activeStage=${i}; renderActiveModule();">${s}</div>
+        <div class="stage-pill ${i === activeStage ? 'active' : ''}" onclick="triggerHaptic('light'); activeStage=${i}; renderActiveModule();">${s}</div>
     `).join('');
 
     const box = document.getElementById('stage-content');
     if (activeStage === 0) {
-        box.innerHTML = `<div style="line-height:1.7; font-size:15px;">
+        box.innerHTML = `<div style="line-height:1.65; font-size:15px;">
             <h3 style="color:var(--accent); margin-top:0;">Concept Focus: ${m.title}</h3>
             <p>${m.focus}</p>
-            <p>Tap any word in Stage 4 to inspect its full 6-case or verbal paradigm and add it to your 3 Anki FSRS decks.</p>
-            <button class="btn btn-success" onclick="activeStage=1; renderActiveModule();">Next: Check for Understanding →</button>
+            <p style="color:var(--text-secondary);">Tap any word in Stage 4 to inspect its full 6-case or verbal paradigm and add it to your 3 Anki FSRS decks.</p>
+            <button class="btn" onclick="triggerHaptic('light'); activeStage=1; renderActiveModule();">Next: Check for Understanding →</button>
         </div>`;
     } else if (activeStage === 1) {
-        box.innerHTML = `<div class="card" style="background:var(--panel-alt);">
+        box.innerHTML = `<div class="card" style="background:var(--surface-2); box-shadow:none;">
             <b>Conceptual Check: What is the core rule of ${m.title}?</b>
-            <button class="option-btn" onclick="this.classList.add('correct'); db.xp+=10; saveDB();">✓ ${m.focus}</button>
-            <button class="option-btn" onclick="this.classList.add('wrong');">✗ Words never change endings in Russian</button>
-        </div><button class="btn btn-success" onclick="activeStage=2; renderActiveModule();">Next: Guided Practice →</button>`;
+            <button class="option-btn" onclick="triggerHaptic('heavy'); this.classList.add('correct'); db.xp+=10; saveDB();">✓ ${m.focus}</button>
+            <button class="option-btn" onclick="triggerHaptic('light'); this.classList.add('wrong');">✗ Words never change endings in Russian</button>
+        </div><button class="btn" onclick="triggerHaptic('light'); activeStage=2; renderActiveModule();">Next: Guided Practice →</button>`;
     } else if (activeStage === 2) {
         box.innerHTML = vocabSlice.slice(0, 5).map((v, i) => `
-            <div class="card" style="background:var(--panel-alt);">
+            <div class="card" style="background:var(--surface-2); box-shadow:none;">
                 <b>Drill ${i+1}: Select the Russian word for "${v.en}":</b>
-                <button class="option-btn" onclick="this.classList.add('correct'); inspectWordDeep(${v.rank}, true); db.xp+=10; saveDB();">${v.ru}</button>
-                <button class="option-btn" onclick="this.classList.add('wrong');">${vocabSlice[(i+3)%15].ru}</button>
+                <button class="option-btn" onclick="triggerHaptic('heavy'); this.classList.add('correct'); inspectWordDeep(${v.rank}, true, false); db.xp+=10; saveDB();">${v.ru}</button>
+                <button class="option-btn" onclick="triggerHaptic('light'); this.classList.add('wrong');">${vocabSlice[(i+3)%15].ru}</button>
             </div>
-        `).join('') + `<button class="btn btn-success" onclick="activeStage=3; renderActiveModule();">Next: Module Vocabulary →</button>`;
+        `).join('') + `<button class="btn" onclick="triggerHaptic('light'); activeStage=3; renderActiveModule();">Next: Module Vocabulary →</button>`;
     } else if (activeStage === 3) {
         box.innerHTML = vocabSlice.map(v => `
-            <div class="freq-row" onclick="inspectWordDeep(${v.rank}, true)" style="cursor:pointer;">
-                <div><b>🔊 ${v.ru}</b> <span style="color:var(--accent)">${generateRussianPhonetics(v.ru).ipa}</span> — ${v.en}</div>
+            <div class="freq-row" onclick="inspectWordDeep(${v.rank}, true, true)" style="cursor:pointer;">
+                <div><b>🔊 ${v.ru}</b> <span style="color:var(--accent); font-family:ui-monospace, SFMono-Regular, monospace;">${generateRussianPhonetics(v.ru).ipa}</span> — ${v.en}</div>
                 <button class="btn btn-warn" onclick="event.stopPropagation(); speakExplanation(${v.rank})">🗣️ Explain</button>
             </div>
-        `).join('') + `<button class="btn btn-success" style="margin-top:10px;" onclick="activeStage=4; renderActiveModule();">Start Module Exam →</button>`;
+        `).join('') + `<button class="btn" style="margin-top:10px;" onclick="triggerHaptic('light'); activeStage=4; renderActiveModule();">Start Module Exam →</button>`;
     } else {
         box.innerHTML = vocabSlice.slice(0, 10).map((v, i) => `
-            <div class="card" style="background:var(--panel-alt);">
+            <div class="card" style="background:var(--surface-2); box-shadow:none;">
                 <b>Exam Q${i+1}: Which word means "${v.en}"?</b>
-                <button class="option-btn" onclick="this.classList.add('correct'); if(!db.passedMods.includes('${m.id}')) db.passedMods.push('${m.id}'); db.xp+=15; saveDB();">${v.ru}</button>
-                <button class="option-btn" onclick="this.classList.add('wrong');">${vocabSlice[(i+5)%15].ru}</button>
+                <button class="option-btn" onclick="triggerHaptic('heavy'); this.classList.add('correct'); if(!db.passedMods.includes('${m.id}')) db.passedMods.push('${m.id}'); db.xp+=15; saveDB();">${v.ru}</button>
+                <button class="option-btn" onclick="triggerHaptic('light'); this.classList.add('wrong');">${vocabSlice[(i+5)%15].ru}</button>
             </div>
         `).join('');
     }
@@ -1327,7 +2263,7 @@ function initReader() {
     const sampleRanks = [5, 88, 2, 79, 104, 133, 5, 167, 130, 1, 160, 131];
     document.getElementById('story-container').innerHTML = sampleRanks.map(r => {
         const w = FREQ_6000_DB[r - 1];
-        return `<span class="word-token" onclick="inspectWordDeep(${w.rank}, true)">${w.ru}</span> `;
+        return `<span class="word-token" onclick="inspectWordDeep(${w.rank}, true, true)">${w.ru}</span> `;
     }).join('');
 }
 
@@ -1336,6 +2272,7 @@ function speakStory() {
 }
 
 function switchTab(tab, btn) {
+    triggerHaptic('light');
     ['srs', 'en2ru', 'correction', 'phonetics', 'course', 'reader'].forEach(t => {
         const el = document.getElementById('tab-' + t);
         if (el) el.classList.add('hidden');
@@ -1343,6 +2280,8 @@ function switchTab(tab, btn) {
     document.getElementById('tab-' + tab).classList.remove('hidden');
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    const mainEl = document.querySelector('.main');
+    if (mainEl) mainEl.scrollTop = 0;
 }
 
 function updateSidebarStats() {
@@ -1350,6 +2289,10 @@ function updateSidebarStats() {
     document.getElementById('deck-count').innerText = db.cards.length;
     document.getElementById('drills-display').innerText = db.drills;
     document.getElementById('mods-display').innerText = db.passedMods.length;
+    const xpTop = document.getElementById('xp-top-display');
+    const deckTop = document.getElementById('deck-top-count');
+    if (xpTop) xpTop.innerText = db.xp;
+    if (deckTop) deckTop.innerText = db.cards.length;
 }
 
 // Boot All 3 Anki FSRS Decks & 6,000-Word Engine
@@ -1362,7 +2305,7 @@ renderPhonetics6000();
 renderCourseSyllabus();
 renderActiveModule();
 initReader();
-inspectWordDeep(130, false);
+inspectWordDeep(130, false, false);
 </script>
 </body>
 </html>
