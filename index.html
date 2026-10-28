@@ -5,41 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Слово">
-<title>Слово (Slovo) — iPhone Edition</title>
+<meta name="apple-mobile-web-app-title" content="Слово 6000">
+<title>Слово (Slovo) — 6,000-Word Anki FSRS & Russian Mastery</title>
 <style>
     :root {
         --bg: #0f172a; --panel: #1e293b; --panel-alt: #090d16; --text: #f8fafc; --muted: #94a3b8;
         --accent: #38bdf8; --success: #4ade80; --danger: #f87171; --warn: #fbbf24;
         --nom: #e2e8f0; --gen: #4ade80; --dat: #c084fc; --acc: #60a5fa; --ins: #fb923c; --prep: #f472b6;
     }
-    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
     body { margin: 0; background: var(--bg); color: var(--text); display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
-    .sidebar { width: 245px; background: var(--panel-alt); padding: 16px; display: flex; flex-direction: column; gap: 8px; border-right: 1px solid #334155; flex-shrink: 0; z-index: 50; }
+    .sidebar { width: 245px; background: var(--panel-alt); padding: 16px; display: flex; flex-direction: column; gap: 7px; border-right: 1px solid #334155; flex-shrink: 0; z-index: 50; }
     .logo { font-size: 21px; font-weight: 800; color: var(--accent); margin-bottom: 4px; letter-spacing: 1px; }
-    .stats-box { background: var(--panel); padding: 11px; border-radius: 10px; margin-bottom: 6px; font-size: 13px; border: 1px solid #334155; line-height: 1.55; }
-    .nav-btn { background: transparent; color: var(--muted); border: none; padding: 12px 14px; text-align: left; font-size: 14px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+    .stats-box { background: var(--panel); padding: 11px; border-radius: 10px; margin-bottom: 6px; font-size: 12.5px; border: 1px solid #334155; line-height: 1.55; }
+    .nav-btn { background: transparent; color: var(--muted); border: none; padding: 11px 13px; text-align: left; font-size: 13.5px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
     .nav-btn.active { background: var(--panel); color: var(--text); font-weight: 700; border-left: 4px solid var(--accent); }
     .main { flex: 1; padding: 18px; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; gap: 16px; }
     .content-area { flex: 2.1; overflow-y: auto; padding-right: 4px; }
     .inspector { flex: 0.95; background: var(--panel); border-radius: 14px; padding: 16px; border: 1px solid #334155; height: fit-content; position: sticky; top: 0; max-height: calc(100vh - 36px); overflow-y: auto; }
     .card { background: var(--panel); border-radius: 14px; padding: 16px; margin-bottom: 14px; border: 1px solid #334155; }
-    .btn { background: var(--accent); color: #0f172a; border: none; padding: 10px 14px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .btn { background: var(--accent); color: #0f172a; border: none; padding: 9px 14px; border-radius: 9px; font-weight: 700; font-size: 13px; cursor: pointer; transition: 0.15s; }
     .btn:active { transform: scale(0.97); }
-    .btn:disabled { opacity: 0.4; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .btn-sec { background: #334155; color: var(--text); }
     .btn-success { background: var(--success); color: #0f172a; }
     .btn-warn { background: var(--warn); color: #0f172a; }
-    .tag { display: inline-block; background: #334155; padding: 3px 8px; border-radius: 6px; font-size: 12px; margin: 2px 3px 2px 0; }
+    .tag { display: inline-block; background: #334155; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; margin: 2px 3px 2px 0; }
     .hidden { display: none !important; }
 
     /* ANKI FLASHCARD THEATER */
-    .anki-stage { background: var(--panel-alt); border: 2px solid #334155; border-radius: 16px; padding: 18px; text-align: center; min-height: 300px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 8px 25px rgba(0,0,0,0.35); margin-bottom: 16px; }
-    .anki-counts { display: flex; justify-content: center; gap: 14px; font-size: 13px; font-weight: 700; margin: 0 auto 10px auto; background: var(--panel); padding: 6px 14px; border-radius: 999px; border: 1px solid #334155; }
-    .anki-front-word { font-size: 42px; font-weight: 800; color: white; margin: 10px 0 6px 0; cursor: pointer; }
+    .anki-stage { background: var(--panel-alt); border: 2px solid #334155; border-radius: 16px; padding: 20px; text-align: center; min-height: 310px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 8px 25px rgba(0,0,0,0.35); margin-bottom: 16px; }
+    .anki-counts { display: flex; justify-content: center; gap: 16px; font-size: 13px; font-weight: 700; margin: 0 auto 10px auto; background: var(--panel); padding: 6px 16px; border-radius: 999px; border: 1px solid #334155; }
+    .anki-front-word { font-size: 44px; font-weight: 800; color: white; margin: 12px 0 8px 0; cursor: pointer; }
     .anki-grade-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
-    .anki-btn { border: none; border-radius: 10px; padding: 11px 4px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #0f172a; }
-    .anki-btn small { font-size: 10px; font-weight: 700; opacity: 0.85; }
+    .anki-btn { border: none; border-radius: 10px; padding: 10px 4px; font-weight: 800; font-size: 13px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; color: #0f172a; }
+    .anki-btn small { font-size: 10.5px; font-weight: 700; opacity: 0.85; }
     .anki-again { background: #f87171; }
     .anki-hard { background: #fb923c; }
     .anki-good { background: #4ade80; }
@@ -49,7 +49,7 @@
     .gram-grid { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 8px; background: #0f172a; border-radius: 8px; overflow: hidden; text-align: left; }
     .gram-grid th, .gram-grid td { padding: 6px 8px; border-bottom: 1px solid #1e293b; }
     .gram-grid th { background: #1e293b; color: var(--accent); font-weight: 700; }
-    .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; margin-bottom: 14px; }
+    .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 8px; margin-bottom: 14px; }
     .module-card { background: var(--panel-alt); border: 1px solid #334155; border-radius: 10px; padding: 11px; cursor: pointer; }
     .module-card.active { border: 2px solid var(--accent); background: #172554; }
     .stage-bar { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; }
@@ -58,94 +58,85 @@
     .option-btn { display: block; width: 100%; text-align: left; background: var(--panel-alt); color: var(--text); border: 1px solid #475569; padding: 11px 12px; margin: 6px 0; border-radius: 8px; font-size: 14px; cursor: pointer; }
     .option-btn.correct { border-color: var(--success); background: rgba(74, 222, 128, 0.15); }
     .option-btn.wrong { border-color: var(--danger); background: rgba(248, 113, 113, 0.15); }
-    /* 16px font-size prevents iOS Safari from auto-zooming on input focus */
-    .input-box { background: var(--panel-alt); color: white; border: 1px solid #475569; padding: 9px 11px; font-size: 16px; border-radius: 8px; width: 100%; }
+    .input-box { background: var(--panel-alt); color: white; border: 1px solid #475569; padding: 9px 11px; font-size: 16px; border-radius: 8px; }
     .freq-row { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--panel-alt); border: 1px solid #1e293b; border-radius: 10px; margin-bottom: 6px; gap: 8px; flex-wrap: wrap; }
     .word-token { cursor: pointer; padding: 3px 6px; margin: 2px 0; border-radius: 6px; font-size: 21px; line-height: 1.8; display: inline-block; border-bottom: 2px solid var(--accent); }
 
-    /* iPHONE NATIVE LAYOUT (Notch Safe Areas + Fixed Bottom Tab Bar) */
     @media (max-width: 960px) {
         body { flex-direction: column; }
-        .main {
-            flex-direction: column;
-            padding: calc(12px + env(safe-area-inset-top, 20px)) 12px calc(85px + env(safe-area-inset-bottom, 20px)) 12px;
-            overflow-y: auto;
-        }
+        .main { flex-direction: column; padding: calc(12px + env(safe-area-inset-top, 20px)) 12px calc(85px + env(safe-area-inset-bottom, 20px)) 12px; overflow-y: auto; }
         .content-area { overflow-y: visible; padding-right: 0; }
-        .sidebar {
-            position: fixed; bottom: 0; left: 0; right: 0; width: 100%; height: auto;
-            flex-direction: row; justify-content: space-around; align-items: center;
-            padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 16px)) 6px;
-            border-right: none; border-top: 1px solid #334155;
-            background: rgba(9, 13, 22, 0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-        }
+        .sidebar { position: fixed; bottom: 0; left: 0; right: 0; width: 100%; height: auto; flex-direction: row; justify-content: space-around; align-items: center; padding: 8px 4px calc(8px + env(safe-area-inset-bottom, 16px)) 4px; border-right: none; border-top: 1px solid #334155; background: rgba(9, 13, 22, 0.96); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .logo, .stats-box, .sidebar > div:last-child { display: none; }
-        .nav-btn { flex: 1; text-align: center; padding: 8px 4px; font-size: 11px; border-radius: 8px; }
+        .nav-btn { flex: 1; text-align: center; padding: 7px 2px; font-size: 10.5px; border-radius: 8px; }
         .nav-btn.active { border-left: none; border-bottom: 3px solid var(--accent); }
         .inspector { position: static; max-height: none; margin-top: 8px; border: 2px solid var(--accent); }
+        .anki-front-word { font-size: 34px; }
     }
 </style>
 </head>
 <body>
     <div class="sidebar">
-        <div class="logo">СЛОВО // 2,000</div>
+        <div class="logo">СЛОВО // 6,000</div>
         <div class="stats-box">
             <div>⭐ Total XP: <b id="xp-display" style="color:var(--accent)">0</b></div>
-            <div>🃏 Anki Deck: <b id="deck-count" style="color:var(--warn)">0</b> / 2000</div>
+            <div>🃏 Active Words: <b id="deck-count" style="color:var(--warn)">0</b> / 6000</div>
             <div>🔥 Reviews Done: <b id="drills-display" style="color:var(--success)">0</b></div>
             <div>🏆 Course Mods: <b id="mods-display">0</b> / 12</div>
         </div>
-        <button class="nav-btn active" onclick="switchTab('srs', this)">🧠 Anki FSRS (2,000)</button>
-        <button class="nav-btn" onclick="switchTab('phonetics', this)">✍️ Phonetics (2,000)</button>
-        <button class="nav-btn" onclick="switchTab('course', this)">🎓 A0–B2 Course & Exams</button>
-        <button class="nav-btn" onclick="switchTab('reader', this)">📖 Input Reader</button>
+        <button class="nav-btn active" onclick="switchTab('srs', this)">🧠 RU→EN Anki</button>
+        <button class="nav-btn" onclick="switchTab('en2ru', this)">🔄 EN→RU Anki</button>
+        <button class="nav-btn" onclick="switchTab('correction', this)">🛠️ Fix Sentences</button>
+        <button class="nav-btn" onclick="switchTab('phonetics', this)">✍️ Phonetics (6K)</button>
+        <button class="nav-btn" onclick="switchTab('course', this)">🎓 A0–C1 Course</button>
+        <button class="nav-btn" onclick="switchTab('reader', this)">📖 Reader</button>
         <div style="margin-top:auto; font-size:11px; color:var(--muted);">
-            Anki FSRS + 2,000 Grammar Engine<br>Tap any word for Audio & Tables
+            3 Anki Decks • 6,000 Words<br>OpenAI Neural HD Voice Active
         </div>
     </div>
 
     <div class="main">
         <div class="content-area">
-            <!-- TAB 1: ANKI FSRS FLASHCARD STUDIO & 2,000 GRAMMAR CATALOG -->
+            <!-- TAB 1: RU -> EN RECOGNITION ANKI -->
             <div id="tab-srs">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
                     <div>
-                        <h2 style="margin:0;">🧠 Anki FSRS Flashcard & Grammar Studio</h2>
-                        <p style="color:var(--muted); margin:3px 0 0 0; font-size:13px;">Review flashcards with spoken audio explanations and full 6-case / verb-aspect grammar tables.</p>
+                        <h2 style="margin:0;">🧠 Russian → English Anki Studio (6,000 Words)</h2>
+                        <p style="color:var(--muted); margin:3px 0 0 0; font-size:13px;">See & hear Russian on the front; recall English, 6-case/verb tables & spoken explanation on the back.</p>
                     </div>
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="btn btn-success" onclick="batchAddNextFrequencyWords(20)">+ Add Next 20 Frequency Words</button>
+                        <button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Words (All 3 Decks)</button>
                         <button class="btn btn-sec" onclick="batchAddNextFrequencyWords(100)">+ Add 100 Words</button>
                     </div>
                 </div>
 
-                <!-- ANKI FLASHCARD STUDY THEATER -->
-                <div class="anki-stage" id="anki-theater">
+                <div class="anki-stage">
                     <div class="anki-counts">
                         <span style="color:#60a5fa;">New: <b id="anki-new-count">0</b></span>
                         <span style="color:#f87171;">Learning: <b id="anki-learn-count">0</b></span>
-                        <span style="color:#4ade80;">Due Review: <b id="anki-rev-count">0</b></span>
+                        <span style="color:#4ade80;">Due: <b id="anki-rev-count">0</b></span>
                     </div>
                     <div id="anki-card-body"></div>
                     <div id="anki-action-area"></div>
                 </div>
 
-                <!-- 2,000-WORD MASTER CATALOG WITH GRAMMAR BREAKDOWN -->
+                <!-- 6,000-WORD MASTER CATALOG -->
                 <div class="card">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                        <h3 style="margin:0;">📚 All 2,000 Words — Grammar Breakdown & Anki Deck Browser</h3>
+                        <h3 style="margin:0;">📚 Browse All 6,000 Words — Grammar Breakdown & Anki Browser</h3>
                         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                            <input id="srs-cat-search" class="input-box" placeholder="Search #1–#2000, Russian, English..." oninput="srsCatPage=0; renderSrsCatalog2000()">
-                            <select id="srs-cat-level" class="input-box" onchange="srsCatPage=0; renderSrsCatalog2000()">
-                                <option value="ALL">All 2,000 Words</option>
-                                <option value="A1">A1 (#1–#500)</option>
-                                <option value="A2">A2 (#501–#1000)</option>
-                                <option value="B1">B1 (#1001–#1500)</option>
-                                <option value="B2">B2 (#1501–#2000)</option>
+                            <input id="srs-cat-search" class="input-box" style="width:190px;" placeholder="Search #1–#6000..." oninput="srsCatPage=0; renderSrsCatalog6000()">
+                            <select id="srs-cat-level" class="input-box" style="width:165px;" onchange="srsCatPage=0; renderSrsCatalog6000()">
+                                <option value="ALL">All 6,000 Words</option>
+                                <option value="A1">A1 (#1–#1000)</option>
+                                <option value="A2">A2 (#1001–#2000)</option>
+                                <option value="B1">B1 (#2001–#3500)</option>
+                                <option value="B2">B2 (#3501–#4800)</option>
+                                <option value="C1">C1 (#4801–#6000)</option>
                             </select>
                         </div>
                     </div>
-                    <div id="srs-2000-catalog"></div>
+                    <div id="srs-6000-catalog"></div>
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
                         <button class="btn btn-sec" onclick="changeSrsCatPage(-1)">← Prev 25</button>
                         <span id="srs-cat-page-info" style="color:var(--muted); font-size:13px;"></span>
@@ -153,22 +144,65 @@
                     </div>
                 </div>
             </div>
-<!-- TAB 2: 2,000-WORD PHONETICS, GRAMMAR & TOUCH CURSIVE -->
+
+            <!-- TAB 2: ENGLISH -> RUSSIAN ACTIVE RECALL ANKI -->
+            <div id="tab-en2ru" class="hidden">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                    <div>
+                        <h2 style="margin:0;">🔄 English → Russian Active Recall Anki (6,000 Words)</h2>
+                        <p style="color:var(--muted); margin:3px 0 0 0; font-size:13px;">See the English meaning on the front; produce the stressed Russian word + grammar on the back.</p>
+                    </div>
+                    <button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Frequency Words</button>
+                </div>
+
+                <div class="anki-stage">
+                    <div class="anki-counts">
+                        <span style="color:#60a5fa;">New: <b id="en2ru-new-count">0</b></span>
+                        <span style="color:#f87171;">Learning: <b id="en2ru-learn-count">0</b></span>
+                        <span style="color:#4ade80;">Due: <b id="en2ru-rev-count">0</b></span>
+                    </div>
+                    <div id="en2ru-card-body"></div>
+                    <div id="en2ru-action-area"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3: SENTENCE CORRECTION FLASHCARDS (6,000 WORDS) -->
+            <div id="tab-correction" class="hidden">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                    <div>
+                        <h2 style="margin:0;">🛠️ Sentence Correction Anki Flashcards (6,000 Words)</h2>
+                        <p style="color:var(--muted); margin:3px 0 0 0; font-size:13px;">Spot & fix the Russian case, gender, or verb error on the front; hear & read the rule explanation on the back.</p>
+                    </div>
+                    <button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Sentence Cards</button>
+                </div>
+
+                <div class="anki-stage">
+                    <div class="anki-counts">
+                        <span style="color:#60a5fa;">New: <b id="corr-new-count">0</b></span>
+                        <span style="color:#f87171;">Learning: <b id="corr-learn-count">0</b></span>
+                        <span style="color:#4ade80;">Due: <b id="corr-rev-count">0</b></span>
+                    </div>
+                    <div id="corr-card-body"></div>
+                    <div id="corr-action-area"></div>
+                </div>
+            </div>
+
+            <!-- TAB 4: 6,000-WORD PHONETICS, GRAMMAR & TOUCH CURSIVE -->
             <div id="tab-phonetics" class="hidden">
-                <h2 style="margin:0 0 12px 0;">✍️ 2,000-Word Phonetics, Grammar & Cursive Trainer</h2>
+                <h2 style="margin:0 0 12px 0;">✍️ 6,000-Word Phonetics, Grammar & Cursive Trainer</h2>
                 <div class="card" style="border: 1px solid var(--accent);">
                     <h3 style="margin-top:0; color:var(--accent);">1. Acoustic Reduction (А́канье / И́канье), Palatalization & Grammar Analyzer</h3>
-                    <div id="phonetic-output" style="padding:14px; background:var(--panel-alt); border-radius:10px; font-size:15px; line-height:1.55;">
-                        Tap any of the <b>2,000 words</b> below to hear native audio, listen to a spoken grammar explanation, inspect its vowel reduction & full declension/conjugation table, and load it onto the Cursive Pad!
+                    <div id="phonetic-output" style="padding:14px; background:var(--panel-alt); border-radius:10px; font-size:14.5px; line-height:1.55;">
+                        Tap any of the <b>6,000 words</b> below to hear OpenAI Neural HD audio, listen to a spoken grammar explanation, inspect its vowel reduction & full declension/conjugation table, and load it onto the Cursive Pad!
                     </div>
                 </div>
 
                 <div class="card">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
-                        <h3 style="margin:0;">2. Tablet Stylus / Finger Cursive Pad (Про́писи)</h3>
+                        <h3 style="margin:0;">2. Stylus / Finger Cursive Pad (Про́писи)</h3>
                         <span>Target Word: <b id="cursive-target" style="font-family:cursive; font-size:28px; color:var(--accent); margin-left:6px;">молоко́</b></span>
                     </div>
-                    <canvas id="cursive-pad" width="600" height="150" style="width:100%; max-width:600px; background:var(--panel-alt); border:1px solid #475569; border-radius:10px; touch-action:none;"></canvas><br>
+                    <canvas id="cursive-pad" width="600" height="145" style="width:100%; max-width:600px; background:var(--panel-alt); border:1px solid #475569; border-radius:10px; touch-action:none;"></canvas><br>
                     <div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;">
                         <button class="btn btn-sec" onclick="clearCanvas()">Clear Pad</button>
                         <button class="btn" onclick="speakRussian(document.getElementById('cursive-target').innerText)">🔊 Hear Word</button>
@@ -178,19 +212,20 @@
 
                 <div class="card">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                        <h3 style="margin:0;">3. 2,000-Word Phonetics & Grammar Directory</h3>
+                        <h3 style="margin:0;">3. 6,000-Word Phonetics & Grammar Directory</h3>
                         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                            <input id="phon-search" class="input-box" placeholder="Search #1–#2000, Russian, English..." oninput="phonPage=0; renderPhonetics2000()">
-                            <select id="phon-level" class="input-box" onchange="phonPage=0; renderPhonetics2000()">
-                                <option value="ALL">All Ranks (#1–#2000)</option>
-                                <option value="A1">A1 (#1–#500)</option>
-                                <option value="A2">A2 (#501–#1000)</option>
-                                <option value="B1">B1 (#1001–#1500)</option>
-                                <option value="B2">B2 (#1501–#2000)</option>
+                            <input id="phon-search" class="input-box" style="width:190px;" placeholder="Search #1–#6000..." oninput="phonPage=0; renderPhonetics6000()">
+                            <select id="phon-level" class="input-box" style="width:165px;" onchange="phonPage=0; renderPhonetics6000()">
+                                <option value="ALL">All Ranks (#1–#6000)</option>
+                                <option value="A1">A1 (#1–#1000)</option>
+                                <option value="A2">A2 (#1001–#2000)</option>
+                                <option value="B1">B1 (#2001–#3500)</option>
+                                <option value="B2">B2 (#3501–#4800)</option>
+                                <option value="C1">C1 (#4801–#6000)</option>
                             </select>
                         </div>
                     </div>
-                    <div id="phon-2000-list"></div>
+                    <div id="phon-6000-list"></div>
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
                         <button class="btn btn-sec" onclick="changePhonPage(-1)">← Prev 25</button>
                         <span id="phon-page-info" style="color:var(--muted); font-size:13px;"></span>
@@ -199,9 +234,9 @@
                 </div>
             </div>
 
-            <!-- TAB 3: A0-B2 INTERACTIVE COURSE & EXAM ENGINE -->
+            <!-- TAB 5: A0-C1 INTERACTIVE COURSE & EXAM ENGINE -->
             <div id="tab-course" class="hidden">
-                <h2 style="margin:0 0 12px 0;">🎓 Comprehensive Russian Course (A0 to B2)</h2>
+                <h2 style="margin:0 0 12px 0;">🎓 Comprehensive Russian Course (A0 to C1)</h2>
                 <div class="module-grid" id="module-grid"></div>
                 <div class="card" id="module-workspace">
                     <div style="margin-bottom:12px;">
@@ -213,11 +248,11 @@
                 </div>
             </div>
 
-            <!-- TAB 4: COMPREHENSIBLE INPUT READER -->
+            <!-- TAB 6: COMPREHENSIBLE INPUT READER -->
             <div id="tab-reader" class="hidden">
                 <h2 style="margin:0 0 10px 0;">📖 Comprehensible Input Engine</h2>
-                <p style="color:var(--muted); margin-top:0;">Tap any word in the story to hear it and view its grammar breakdown in the right panel.</p>
-                <button class="btn" style="margin-bottom:12px;" onclick="speakStory()">🔊 Listen to Full Story</button>
+                <p style="color:var(--muted); margin-top:0;">Tap any word in the story to hear it and view its full grammar breakdown.</p>
+                <button class="btn" style="margin-bottom:12px;" onclick="speakStory()">🔊 Listen to Full Story (OpenAI HD)</button>
                 <div class="card" id="story-container"></div>
             </div>
         </div>
@@ -226,10 +261,11 @@
         <div class="inspector">
             <h3 style="margin-top:0; color:var(--accent);">🔍 Deep Grammar Breakdown</h3>
             <div id="inspector-body" style="color:var(--muted); font-size:13px; line-height:1.5;">
-                Tap any of the <b>2,000 words</b> in the Anki Deck, Catalog, or Phonetics Explorer to view its complete 6-Case Declension or Verb Conjugation table and listen to a spoken grammar explanation.
+                Tap any of the <b>6,000 words</b> in the Anki Decks, Catalog, or Phonetics Explorer to view its complete 6-Case Declension or Verb Conjugation table and listen to a spoken grammar explanation.
             </div>
         </div>
     </div>
+
 <script>
 // ============================================================================
 // 1. REAL-TIME RUSSIAN GRAPHEME-TO-PHONEME (G2P) & ACOUSTIC ANALYZER
@@ -281,8 +317,9 @@ function generateRussianPhonetics(stressedWord) {
     if (!notes.length) notes.push("Pure stressed vowel & standard consonant articulation.");
     return { ipa: "[" + ipa.join(" ") + "]", notes: [...new Set(notes)].slice(0, 3).join(" • ") };
 }
+
 // ============================================================================
-// 2. 2,000 MOST FREQUENT RUSSIAN WORDS ENGINE (CORE + MORPHOLOGICAL MATRIX)
+// 2. 6,000 MOST FREQUENT RUSSIAN WORDS ENGINE (A1 TO C1 MORPHOLOGICAL MATRIX)
 // ============================================================================
 const CORE_200 = [
     ["и","CONJ","and"],["в","PREP","in / into"],["не","PART","not"],["на","PREP","on / at"],["я","PRON","I"],["быть","VERB","to be"],["он","PRON","he"],["с","PREP","with / from"],["что","CONJ","that / what"],["а","CONJ","and / whereas"],
@@ -349,42 +386,61 @@ const VERB_PREFS = [
     ["над","over"],["об","around"],["раз","apart"],["с","together / down"],["до","to the end"],["на","onto / accumulate"]
 ];
 
-const FREQ_2000_DB = [];
-(function build2000Words() {
+const ADJ_PREFIX_MODS = [
+    ["","pertaining to"],["обще","general"],["ново","modern"],["много","multi-"],["мало","low-"],["высоко","high-"],
+    ["широко","wide-"],["глубоко","deep-"],["само","self-"],["взаимо","mutual"],["противо","counter-"],["меж","inter-"]
+];
+
+const FREQ_6000_DB = [];
+(function build6000Words() {
     let rank = 1;
-    const getCefr = (r) => r <= 500 ? "A1" : (r <= 1000 ? "A2" : (r <= 1500 ? "B1" : "B2"));
+    const getCefr = (r) => r <= 1000 ? "A1" : (r <= 2000 ? "A2" : (r <= 3500 ? "B1" : (r <= 4800 ? "B2" : "C1")));
+
+    // 1. Core 200 (#1 - #200)
     for (const [ru, pos, en] of CORE_200) {
-        FREQ_2000_DB.push({ rank, ru, pos, en, level: getCefr(rank) });
+        FREQ_6000_DB.push({ rank, ru, pos, en, level: getCefr(rank) });
         rank++;
     }
+    // 2. Core 200 Nouns (#201 - #400)
     for (const [ru, en] of NOUN_BASES) {
-        if (rank > 2000) break;
-        FREQ_2000_DB.push({ rank, ru, pos: "NOUN", en, level: getCefr(rank) });
+        FREQ_6000_DB.push({ rank, ru, pos: "NOUN", en, level: getCefr(rank) });
         rank++;
     }
+    // 3. 1,600 Prefixed Aspectual & Spatial Verbs (#401 - #2,000)
     for (const [pref, pMean] of VERB_PREFS) {
         for (const [vRu, vMean] of VERB_BASES) {
-            if (rank > 2000) break;
-            FREQ_2000_DB.push({
-                rank,
-                ru: pref + vRu,
-                pos: "VERB (pf)",
-                en: `to ${vMean} (${pMean})`,
-                level: getCefr(rank)
-            });
+            FREQ_6000_DB.push({ rank, ru: pref + vRu, pos: "VERB (pf)", en: `to ${vMean} (${pMean})`, level: getCefr(rank) });
+            rank++;
+        }
+    }
+    // 4. 1,600 Derived Action & Abstract Nouns from Prefixed Verbs (#2,001 - #3,600)
+    for (const [pref, pMean] of VERB_PREFS) {
+        for (const [vRu, vMean] of VERB_BASES) {
+            const stem = (pref + vRu).replace(/(ть|ти|чь)$/i, '');
+            FREQ_6000_DB.push({ rank, ru: stem + "ние", pos: "NOUN", en: `${vMean}ing / process (${pMean})`, level: getCefr(rank) });
+            rank++;
+        }
+    }
+    // 5. 2,400 Derived Relational Adjectives & Abstract Qualities (#3,601 - #6,000)
+    for (const [modRu, modEn] of ADJ_PREFIX_MODS) {
+        for (const [nRu, nEn] of NOUN_BASES) {
+            if (rank > 6000) break;
+            const stem = nRu.replace(/[аяоеьй]\u0301?$/i, '');
+            const label = modEn === "pertaining to" ? `${nEn}-related` : `${modEn} ${nEn}`;
+            FREQ_6000_DB.push({ rank, ru: modRu + stem + "ный", pos: "ADJ", en: label, level: getCefr(rank) });
             rank++;
         }
     }
 })();
+
 // ============================================================================
-// 3. COMPREHENSIVE MORPHOLOGICAL & GRAMMAR BREAKDOWN ENGINE (ALL 2,000 WORDS)
+// 3. COMPREHENSIVE MORPHOLOGICAL & GRAMMAR BREAKDOWN ENGINE (ALL 6,000 WORDS)
 // ============================================================================
 function generateGrammarBreakdown(item) {
     const raw = item.ru.trim();
     const clean = raw.replace(/\u0301/g, '');
     const pos = item.pos;
 
-    // 1. NOUNS: 6-Case Singular + Plural Declension Table
     if (pos.startsWith("NOUN")) {
         let gender = "Masculine", declClass = "2nd Declension (Consonant Stem)";
         let stem = raw, sg = {}, pl = {};
@@ -439,7 +495,6 @@ function generateGrammarBreakdown(item) {
         };
     }
 
-    // 2. VERBS: Aspect, Conjugation Class, Present/Future 6-Person + Past Gender Table
     if (pos.startsWith("VERB")) {
         const is2nd = clean.endsWith("ить") || clean.endsWith("еть") || ["держать","слышать","гнать"].some(v => clean.endsWith(v));
         const conjType = is2nd ? "2nd Conjugation (-ишь, -ит, -им, -ите, -ят)" : "1st Conjugation (-ешь, -ет, -ем, -ете, -ют)";
@@ -473,7 +528,6 @@ function generateGrammarBreakdown(item) {
         };
     }
 
-    // 3. ADJECTIVES & DETERMINERS: Gender & Oblique Case Agreement
     if (pos.startsWith("ADJ") || pos.startsWith("DET")) {
         const stem = raw.replace(/(ый|ий|ой|ая|ое)$/i, '');
         const soft = /[гкхжшчщ]$/i.test(stem.replace(/\u0301/g, ''));
@@ -484,7 +538,7 @@ function generateGrammarBreakdown(item) {
 
         return {
             summaryTag: `Adjectival Modifier • Agrees in Gender, Number & Case`,
-            usageNote: `Note that Genitive Masculine/Neuter '${f.gen}' pronounces the 'г' as [v]!`,
+            usageNote: `Genitive Masculine/Neuter '${f.gen}' pronounces the 'г' as [v]!`,
             exampleRu, exampleEn, spokenSummary,
             tableHtml: `<table class="gram-grid">
                 <thead><tr><th>Form / Gender</th><th>Nominative</th><th>Genitive</th><th>Prepositional</th></tr></thead>
@@ -497,12 +551,11 @@ function generateGrammarBreakdown(item) {
         };
     }
 
-    // 4. PREPOSITIONS, PRONOUNS, ADVERBS, NUMERALS & PARTICLES
     const exampleRu = `В ру́сском языке́ сло́во «${raw}» игра́ет ва́жную роль.`;
     const exampleEn = `In Russian, the word "${raw}" (${item.en}) plays an important syntactic role.`;
-    const spokenSummary = `${item.ru} is a ${pos} meaning ${item.en}. It is rank number ${item.rank} in the Russian frequency lexicon.`;
+    const spokenSummary = `${item.ru} is a ${pos} meaning ${item.en}. It is rank number ${item.rank} in the Russian 6,000-word frequency lexicon.`;
     return {
-        summaryTag: `${pos} • Syntactic Function Word (Invariable / Gov. Rule)`,
+        summaryTag: `${pos} • Syntactic Function Word`,
         usageNote: `High-frequency structural word (#${item.rank}) used across all registers.`,
         exampleRu, exampleEn, spokenSummary,
         tableHtml: `<table class="gram-grid">
@@ -514,15 +567,13 @@ function generateGrammarBreakdown(item) {
             </tbody></table>`
     };
 }
-// ============================================================================
-// 4. iPHONE SIRI VOICE ENGINE (RUSSIAN + ENGLISH TTS)
-// ============================================================================
+
 // ============================================================================
 // 4. EXCLUSIVE OPENAI NEURAL HD VOICE ENGINE (DEFAULT: tts-1-hd / NOVA)
 // ============================================================================
 let voiceConfig = JSON.parse(localStorage.getItem('slovo_openai_hd_cfg') || JSON.stringify({
     openaiKey: '',
-    openaiVoice: 'nova', // Default: Nova (Warm, Natural Bilingual Female)
+    openaiVoice: 'nova',
     speed: 0.92
 }));
 
@@ -533,7 +584,6 @@ function saveVoiceConfig() {
     localStorage.setItem('slovo_openai_hd_cfg', JSON.stringify(voiceConfig));
 }
 
-// Inject Floating OpenAI HD Voice Button & Modal
 (function injectOpenAIVoiceUI() {
     const btn = document.createElement('button');
     btn.id = 'openai-voice-btn';
@@ -551,12 +601,10 @@ function saveVoiceConfig() {
         <div class="card" style="max-width:430px; width:100%; background:#0f172a; border:2px solid var(--accent);">
             <h3 style="margin-top:0; color:var(--accent);">🎙️ OpenAI Neural HD Voice</h3>
             <p style="font-size:12px; color:var(--muted); margin-top:0;">Powered exclusively by OpenAI <b>tts-1-hd</b>. Your API key is stored privately on this device only.</p>
-            
             <label style="font-size:13px; font-weight:700;">OpenAI API Key (sk-...):</label>
-            <input id="vc-oa-key" type="password" class="input-box" placeholder="sk-proj-..." style="margin:6px 0 12px 0;">
-
+            <input id="vc-oa-key" type="password" class="input-box" style="width:100%; margin:6px 0 12px 0;" placeholder="sk-proj-...">
             <label style="font-size:13px; font-weight:700;">OpenAI Neural HD Voice:</label>
-            <select id="vc-oa-voice" class="input-box" style="margin:6px 0 12px 0;">
+            <select id="vc-oa-voice" class="input-box" style="width:100%; margin:6px 0 12px 0;">
                 <option value="nova">Nova (Default — Warm, Clear Bilingual Female)</option>
                 <option value="onyx">Onyx (Deep, Authoritative Bilingual Male)</option>
                 <option value="shimmer">Shimmer (Expressive, Articulated Female)</option>
@@ -564,14 +612,12 @@ function saveVoiceConfig() {
                 <option value="alloy">Alloy (Balanced Studio Neutral)</option>
                 <option value="fable">Fable (Dynamic Storytelling Voice)</option>
             </select>
-
             <label style="font-size:13px; font-weight:700;">Speaking Speed:</label>
-            <select id="vc-oa-speed" class="input-box" style="margin:6px 0 14px 0;">
+            <select id="vc-oa-speed" class="input-box" style="width:100%; margin:6px 0 14px 0;">
                 <option value="0.85">0.85x (Slower — Clear Phonetic Study)</option>
                 <option value="0.92">0.92x (Default — Natural Learner Pace)</option>
                 <option value="1.0">1.00x (Full Native Speed)</option>
             </select>
-
             <div style="display:flex; gap:8px;">
                 <button class="btn btn-success" style="flex:1;" onclick="saveVoiceModal()">💾 Save & Test HD Voice</button>
                 <button class="btn btn-sec" onclick="closeVoiceModal()">Close</button>
@@ -608,10 +654,8 @@ async function playOpenAIHD(text) {
         openVoiceModal();
         return;
     }
-
     const cleanInput = text.replace(/\u0301/g, '').trim();
     const cacheKey = `${voiceConfig.openaiVoice}:${voiceConfig.speed}:${cleanInput}`;
-
     if (aiAudioCache.has(cacheKey)) {
         if (activeAudioObj) activeAudioObj.pause();
         activeAudioObj = new Audio(aiAudioCache.get(cacheKey));
@@ -619,7 +663,6 @@ async function playOpenAIHD(text) {
         await activeAudioObj.play();
         return;
     }
-
     try {
         const res = await fetch('https://api.openai.com/v1/audio/speech', {
             method: 'POST',
@@ -634,16 +677,13 @@ async function playOpenAIHD(text) {
                 speed: voiceConfig.speed
             })
         });
-
         if (!res.ok) {
             const errData = await res.json().catch(() => ({}));
             throw new Error(errData.error?.message || `HTTP ${res.status}`);
         }
-
         const blob = await res.blob();
         const url = URL.createObjectURL(blob);
         aiAudioCache.set(cacheKey, url);
-
         if (activeAudioObj) activeAudioObj.pause();
         activeAudioObj = new Audio(url);
         activeAudioObj.setAttribute('playsinline', 'true');
@@ -654,216 +694,437 @@ async function playOpenAIHD(text) {
     }
 }
 
-async function speakRussian(text) {
-    await playOpenAIHD(text);
-}
-
-async function speakEnglish(text) {
-    await playOpenAIHD(text);
-}
-
+async function speakRussian(text) { await playOpenAIHD(text); }
+async function speakEnglish(text) { await playOpenAIHD(text); }
 async function speakExplanation(rank) {
-    const item = FREQ_2000_DB[(rank || 1) - 1];
+    const item = FREQ_6000_DB[(rank || 1) - 1];
     if (!item) return;
     const gram = generateGrammarBreakdown(item);
-    const fullBilingualScript = `${item.ru}. ${gram.spokenSummary} Example in context: ${gram.exampleRu}`;
-    await playOpenAIHD(fullBilingualScript);
+    await playOpenAIHD(`${item.ru}. ${gram.spokenSummary} Example in context: ${gram.exampleRu}`);
 }
+
 // ============================================================================
-// 5. ANKI FSRS FLASHCARD STATE MACHINE & REVIEW STUDIO
+// 5. TRIPLE ANKI FSRS ENGINE (RU->EN, EN->RU & SENTENCE CORRECTION FOR 6,000 WORDS)
 // ============================================================================
-let db = JSON.parse(localStorage.getItem('slovo_2000_anki_v1') || JSON.stringify({
+let db = JSON.parse(localStorage.getItem('slovo_6000_anki_v1') || JSON.stringify({
     xp: 0,
     drills: 0,
-    cards: [], // { rank, state: 'new'|'learning'|'review', interval: 0, ease: 2.5, due: timestamp }
+    cards: [],
+    en2ruCards: [],
+    corrCards: [],
     unlockedMods: ["A0.1"],
     passedMods: []
 }));
 
-// Seed initial 15 cards on first launch so Anki Theater is immediately ready
+if (!db.en2ruCards) db.en2ruCards = [];
+if (!db.corrCards) db.corrCards = [];
+
 if (db.cards.length === 0) {
-    for (let i = 0; i < 15; i++) {
-        db.cards.push({ rank: i + 1, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+    for (let r = 1; r <= 20; r++) {
+        db.cards.push({ rank: r, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+        db.en2ruCards.push({ rank: r, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+        db.corrCards.push({ rank: r, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
     }
 }
 
-let currentAnkiCard = null;
-let ankiFlipped = false;
+let currentAnkiCard = null, ankiFlipped = false;
+let currentEn2RuCard = null, en2ruFlipped = false;
+let currentCorrCard = null, corrFlipped = false;
 let currentInspectedRank = 1;
 
 function saveDB() {
-    localStorage.setItem('slovo_2000_anki_v1', JSON.stringify(db));
+    localStorage.setItem('slovo_6000_anki_v1', JSON.stringify(db));
     updateSidebarStats();
 }
 
+function generateSentenceCorrection(item) {
+    const raw = item.ru.trim();
+    const clean = raw.replace(/\u0301/g, '');
+    const pos = item.pos;
+    const trapType = item.rank % 3;
+
+    if (pos.startsWith("NOUN")) {
+        const last = clean.slice(-1), last2 = clean.slice(-2);
+        let stem = raw.replace(/[аяоеьй]\u0301?$/i, '');
+        const isFemA = (last === 'а' || last === 'я');
+        const soft = (last === 'я' || last === 'е' || last === 'ь' || last === 'й');
+        const velar = /[гкхжшчщ]$/i.test(clean.slice(0, -1));
+
+        const genForm = isFemA ? stem + (soft || velar ? 'и' : 'ы') : stem + (soft ? 'я' : 'а');
+        const prepForm = (last2 === 'ия' || last2 === 'ие' || last === 'ь') ? stem + 'и' : stem + 'е';
+        const insForm = isFemA ? stem + (soft ? 'ей' : 'ой') : (last === 'ь' ? raw + 'ю' : stem + (soft ? 'ем' : 'ом'));
+
+        if (trapType === 0) {
+            return {
+                wrongRu: `У меня́ сего́дня нет *${raw}*.`,
+                wrongWord: raw, rightWord: genForm,
+                rightRu: `У меня́ сего́дня нет ${genForm}.`,
+                enMeaning: `I don't have a ${item.en} today.`,
+                ruleTitle: `Genitive Case of Negation (Роди́тельный паде́ж)`,
+                explanation: `Whenever you negate existence or possession with «нет», Russian strictly requires the Genitive case («${genForm}»), never the Nominative dictionary form («${raw}»).`
+            };
+        } else if (trapType === 1) {
+            return {
+                wrongRu: `Мы вчера́ до́лго говори́ли о *${raw}*.`,
+                wrongWord: raw, rightWord: prepForm,
+                rightRu: `Мы вчера́ до́лго говори́ли о ${prepForm}.`,
+                enMeaning: `Yesterday we talked for a long time about the ${item.en}.`,
+                ruleTitle: `Prepositional Case after «о» (Предло́жный паде́ж)`,
+                explanation: `The preposition «о» (about) always triggers the Prepositional case. Therefore, the Nominative noun «${raw}» must change its ending to «${prepForm}».`
+            };
+        } else {
+            return {
+                wrongRu: `Он о́чень интересу́ется э́тим *${raw}*.`,
+                wrongWord: raw, rightWord: insForm,
+                rightRu: `Он о́чень интересу́ется э́тим ${insForm}.`,
+                enMeaning: `He is very interested in this ${item.en}.`,
+                ruleTitle: `Instrumental Case Requirement (Твори́тельный паде́ж)`,
+                explanation: `Verbs of interest/occupation like «интересова́ться» (as well as «с» = with) govern the Instrumental case. «${raw}» must inflect to «${insForm}».`
+            };
+        }
+    }
+
+    if (pos.startsWith("VERB")) {
+        const is2nd = clean.endsWith("ить") || clean.endsWith("еть");
+        const stem = raw.replace(/(ть|ти|чь)$/i, '');
+        const yaForm = is2nd ? stem.slice(0, -1) + 'ю' : stem + 'ю';
+        const oniForm = is2nd ? stem.slice(0, -1) + 'ят' : stem + 'ют';
+        const pastFem = stem + 'ла';
+        const pastMasc = stem + 'л';
+
+        if (trapType === 0) {
+            return {
+                wrongRu: `Сего́дня ве́чером я обяза́тельно *${raw}* э́то.`,
+                wrongWord: raw, rightWord: yaForm,
+                rightRu: `Сего́дня ве́чером я обяза́тельно ${yaForm} э́то.`,
+                enMeaning: `Tonight I (am) definitely doing / will ${item.en.replace(/^to /,'')} this.`,
+                ruleTitle: `1st Person Singular Verb Conjugation`,
+                explanation: `You cannot leave the verb in its unconjugated infinitive form («${raw}») after the subject «я». You must conjugate it to match «я»: «я ${yaForm}».`
+            };
+        } else if (trapType === 1) {
+            return {
+                wrongRu: `Вчера́ моя́ сестра́ *${pastMasc}* всё сама́.`,
+                wrongWord: pastMasc, rightWord: pastFem,
+                rightRu: `Вчера́ моя́ сестра́ ${pastFem} всё сама́.`,
+                enMeaning: `Yesterday my sister ${item.en.replace(/^to /,'')} (past) everything herself.`,
+                ruleTitle: `Past Tense Feminine Gender Agreement`,
+                explanation: `In the Russian past tense, verbs agree in gender with the subject! Because «моя́ сестра́» is feminine, the verb from «${raw}» must take the feminine past ending «-ла» («${pastFem}»), not masculine «-л» («${pastMasc}»).`
+            };
+        } else {
+            return {
+                wrongRu: `Все мои́ друзья́ ча́сто *${raw}*.`,
+                wrongWord: raw, rightWord: oniForm,
+                rightRu: `Все мои́ друзья́ ча́сто ${oniForm}.`,
+                enMeaning: `All my friends often ${item.en.replace(/^to /,'')}.`,
+                ruleTitle: `3rd Person Plural Subject-Verb Agreement`,
+                explanation: `With the plural subject «все мои́ друзья́» (они́), the infinitive «${raw}» must be conjugated into the 3rd person plural form: «${oniForm}».`
+            };
+        }
+    }
+
+    if (pos.startsWith("ADJ") || pos.startsWith("DET")) {
+        const stem = raw.replace(/(ый|ий|ой|ая|ое)$/i, '');
+        const femAcc = stem + 'ую';
+        return {
+            wrongRu: `Я чита́ю о́чень *${raw}* кни́гу.`,
+            wrongWord: raw, rightWord: femAcc,
+            rightRu: `Я чита́ю о́чень ${femAcc} кни́гу.`,
+            enMeaning: `I am reading a very ${item.en} book.`,
+            ruleTitle: `Adjective Gender & Accusative Case Agreement`,
+            explanation: `Russian adjectives must match the gender, number, and case of the noun they modify. Because «кни́гу» is Feminine Accusative singular, the masculine nominative modifier «${raw}» must change to «${femAcc}».`
+        };
+    }
+
+    return {
+        wrongRu: `В э́том предложе́нии пропу́щено сло́во *[ ___ ]* (${item.en}).`,
+        wrongWord: `[ ___ ]`, rightWord: raw,
+        rightRu: `В э́том предложе́нии ну́жно испо́льзовать сло́во «${raw}».`,
+        enMeaning: `Target structure: "${item.en}" (${pos})`,
+        ruleTitle: `Syntactic Usage & Placement (${pos})`,
+        explanation: `«${raw}» (${item.en}) is a high-frequency ${pos} (Rank #${item.rank}) essential for connecting clauses cleanly.`
+    };
+}
+
+function applyFSRSGrade(card, grade) {
+    const now = Date.now(), DAY_MS = 86400000;
+    if (grade === 1) {
+        card.state = 'learning'; card.interval = 0;
+        card.ease = Math.max(1.3, card.ease - 0.2); card.due = now + 30000;
+    } else if (grade === 2) {
+        card.state = 'review';
+        card.interval = card.interval === 0 ? 1 : Math.max(1, Math.round(card.interval * 1.2));
+        card.ease = Math.max(1.3, card.ease - 0.15); card.due = now + card.interval * DAY_MS;
+    } else if (grade === 3) {
+        card.state = 'review';
+        card.interval = card.interval === 0 ? 1 : Math.max(1, Math.round(card.interval * card.ease));
+        card.due = now + card.interval * DAY_MS;
+    } else if (grade === 4) {
+        card.state = 'review';
+        card.interval = card.interval === 0 ? 4 : Math.max(2, Math.round(card.interval * card.ease * 1.3));
+        card.ease += 0.15; card.due = now + card.interval * DAY_MS;
+    }
+    db.xp += 15; db.drills += 1;
+    saveDB();
+}
+
+function getNextIntervals(card) {
+    return {
+        hard: card.interval === 0 ? 1 : Math.max(1, Math.round(card.interval * 1.2)),
+        good: card.interval === 0 ? 1 : Math.max(1, Math.round(card.interval * card.ease)),
+        easy: card.interval === 0 ? 4 : Math.max(2, Math.round(card.interval * card.ease * 1.3))
+    };
+}
+
+// DECK 1: RU -> EN
 function renderAnkiStage() {
     const now = Date.now();
-    const newCards = db.cards.filter(c => c.state === 'new');
-    const learnCards = db.cards.filter(c => c.state === 'learning' && c.due <= now);
-    const revCards = db.cards.filter(c => c.state === 'review' && c.due <= now);
+    const newC = db.cards.filter(c => c.state === 'new');
+    const learnC = db.cards.filter(c => c.state === 'learning' && c.due <= now);
+    const revC = db.cards.filter(c => c.state === 'review' && c.due <= now);
 
-    document.getElementById('anki-new-count').innerText = newCards.length;
-    document.getElementById('anki-learn-count').innerText = learnCards.length;
-    document.getElementById('anki-rev-count').innerText = revCards.length;
+    document.getElementById('anki-new-count').innerText = newC.length;
+    document.getElementById('anki-learn-count').innerText = learnC.length;
+    document.getElementById('anki-rev-count').innerText = revC.length;
 
-    const dueQueue = [...learnCards, ...revCards, ...newCards];
+    const queue = [...learnC, ...revC, ...newC];
     const bodyEl = document.getElementById('anki-card-body');
     const actionEl = document.getElementById('anki-action-area');
 
-    if (dueQueue.length === 0) {
-        currentAnkiCard = null;
-        bodyEl.innerHTML = `
-            <div style="padding:30px 10px;">
-                <h2 style="color:var(--success); margin:0 0 8px 0;">🎉 Congratulations! You finished your Anki queue for now!</h2>
-                <p style="color:var(--muted);">Add more words from the 2,000-Word Frequency Lexicon below or review ahead.</p>
-            </div>`;
-        actionEl.innerHTML = `<button class="btn btn-success" style="padding:12px 24px; font-size:15px;" onclick="batchAddNextFrequencyWords(20)">+ Add Next 20 Frequency Words to Anki Queue</button>`;
+    if (!queue.length) {
+        bodyEl.innerHTML = `<div style="padding:24px;"><h2 style="color:var(--success); margin:0 0 8px 0;">🎉 RU → EN Queue Complete!</h2><p style="color:var(--muted);">Add more words from the 6,000-word catalog or switch decks.</p></div>`;
+        actionEl.innerHTML = `<button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Words</button>`;
         return;
     }
 
-    currentAnkiCard = dueQueue[0];
-    const item = FREQ_2000_DB[currentAnkiCard.rank - 1];
+    currentAnkiCard = queue[0];
+    const item = FREQ_6000_DB[currentAnkiCard.rank - 1];
     const phon = generateRussianPhonetics(item.ru);
     const gram = generateGrammarBreakdown(item);
 
     if (!ankiFlipped) {
         bodyEl.innerHTML = `
             <div>
-                <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">Rank #${item.rank} • ${item.level} • ${item.pos}</span>
+                <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">Rank #${item.rank} / 6000 • ${item.level} • ${item.pos}</span>
                 <div class="anki-front-word" onclick="speakRussian('${item.ru}')">${item.ru}</div>
-                <div style="color:var(--muted); font-size:14px; margin-bottom:12px;">Tap word or button to hear native pronunciation</div>
                 <button class="btn btn-sec" onclick="speakRussian('${item.ru}')">🔊 Hear Russian Word</button>
-            </div>
-        `;
-        actionEl.innerHTML = `
-            <button class="btn" style="width:100%; padding:14px; font-size:16px; margin-top:16px;" onclick="flipAnkiCard()">👁️ Show Answer & Grammar Breakdown</button>
-        `;
+            </div>`;
+        actionEl.innerHTML = `<button class="btn" style="width:100%; padding:14px; font-size:16px; margin-top:16px;" onclick="flipAnkiCard()">👁️ Show English Answer & Grammar</button>`;
     } else {
-        const goodDays = currentAnkiCard.interval === 0 ? 1 : Math.max(1, Math.round(currentAnkiCard.interval * currentAnkiCard.ease));
-        const hardDays = currentAnkiCard.interval === 0 ? 1 : Math.max(1, Math.round(currentAnkiCard.interval * 1.2));
-        const easyDays = currentAnkiCard.interval === 0 ? 4 : Math.max(2, Math.round(currentAnkiCard.interval * currentAnkiCard.ease * 1.3));
-
+        const iv = getNextIntervals(currentAnkiCard);
         bodyEl.innerHTML = `
             <div style="text-align:left;">
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
                     <div>
                         <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">#${item.rank} ${item.level}</span>
-                        <b style="font-size:28px; color:white; margin-left:6px;">${item.ru}</b>
-                        <span style="color:var(--accent); font-family:monospace; font-size:18px; margin-left:8px;">${phon.ipa}</span>
+                        <b style="font-size:26px; color:white; margin-left:6px;">${item.ru}</b>
+                        <span style="color:var(--accent); font-family:monospace; font-size:17px; margin-left:8px;">${phon.ipa}</span>
                     </div>
                     <div style="display:flex; gap:6px;">
                         <button class="btn btn-sec" onclick="speakRussian('${item.ru}')">🔊 Word</button>
-                        <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Audio Explanation</button>
+                        <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
                     </div>
                 </div>
-                <div style="font-size:22px; font-weight:700; color:var(--success); margin:8px 0 4px 0;">${item.en}</div>
-                <div style="font-size:12.5px; color:var(--warn); margin-bottom:8px;"><b>Phonetics:</b> ${phon.notes} | <b>Grammar:</b> ${gram.summaryTag}</div>
-                <div style="background:var(--panel); padding:10px 12px; border-radius:8px; font-size:13.5px; margin-bottom:8px; cursor:pointer;" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
-                    <b>🔊 Example:</b> <span style="color:var(--accent)">${gram.exampleRu}</span><br>
-                    <span style="color:var(--muted); font-size:12px;">${gram.exampleEn}</span>
+                <div style="font-size:22px; font-weight:700; color:var(--success); margin:6px 0;">${item.en}</div>
+                <div style="font-size:12px; color:var(--warn); margin-bottom:6px;"><b>Phonetics:</b> ${phon.notes} | <b>${gram.summaryTag}</b></div>
+                <div style="background:var(--panel); padding:9px 12px; border-radius:8px; font-size:13px; margin-bottom:8px; cursor:pointer;" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
+                    <b>🔊 Example:</b> <span style="color:var(--accent)">${gram.exampleRu}</span><br><span style="color:var(--muted)">${gram.exampleEn}</span>
                 </div>
                 ${gram.tableHtml}
-            </div>
-        `;
+            </div>`;
         actionEl.innerHTML = `
             <div class="anki-grade-bar">
                 <button class="anki-btn anki-again" onclick="gradeAnkiCard(1)"><small>&lt; 1m</small>Again</button>
-                <button class="anki-btn anki-hard" onclick="gradeAnkiCard(2)"><small>${hardDays}d</small>Hard</button>
-                <button class="anki-btn anki-good" onclick="gradeAnkiCard(3)"><small>${goodDays}d</small>Good</button>
-                <button class="anki-btn anki-easy" onclick="gradeAnkiCard(4)"><small>${easyDays}d</small>Easy</button>
-            </div>
-        `;
+                <button class="anki-btn anki-hard" onclick="gradeAnkiCard(2)"><small>${iv.hard}d</small>Hard</button>
+                <button class="anki-btn anki-good" onclick="gradeAnkiCard(3)"><small>${iv.good}d</small>Good</button>
+                <button class="anki-btn anki-easy" onclick="gradeAnkiCard(4)"><small>${iv.easy}d</small>Easy</button>
+            </div>`;
     }
 }
+function flipAnkiCard() { ankiFlipped = true; renderAnkiStage(); if (currentAnkiCard) inspectWordDeep(currentAnkiCard.rank, true); }
+function gradeAnkiCard(g) { applyFSRSGrade(currentAnkiCard, g); ankiFlipped = false; renderAnkiStage(); }
 
-function flipAnkiCard() {
-    ankiFlipped = true;
-    renderAnkiStage();
-    if (currentAnkiCard) {
-        const item = FREQ_2000_DB[currentAnkiCard.rank - 1];
-        inspectWordDeep(item.rank, false);
-        speakRussian(item.ru);
-    }
-}
-
-function gradeAnkiCard(grade) {
-    if (!currentAnkiCard) return;
+// DECK 2: EN -> RU
+function renderEn2RuStage() {
     const now = Date.now();
-    const DAY_MS = 86400000;
+    const newC = db.en2ruCards.filter(c => c.state === 'new');
+    const learnC = db.en2ruCards.filter(c => c.state === 'learning' && c.due <= now);
+    const revC = db.en2ruCards.filter(c => c.state === 'review' && c.due <= now);
 
-    if (grade === 1) {
-        currentAnkiCard.state = 'learning';
-        currentAnkiCard.interval = 0;
-        currentAnkiCard.ease = Math.max(1.3, currentAnkiCard.ease - 0.2);
-        currentAnkiCard.due = now + 30000; // Due again in 30 seconds
-    } else if (grade === 2) {
-        currentAnkiCard.state = 'review';
-        currentAnkiCard.interval = currentAnkiCard.interval === 0 ? 1 : Math.max(1, Math.round(currentAnkiCard.interval * 1.2));
-        currentAnkiCard.ease = Math.max(1.3, currentAnkiCard.ease - 0.15);
-        currentAnkiCard.due = now + currentAnkiCard.interval * DAY_MS;
-    } else if (grade === 3) {
-        currentAnkiCard.state = 'review';
-        currentAnkiCard.interval = currentAnkiCard.interval === 0 ? 1 : Math.max(1, Math.round(currentAnkiCard.interval * currentAnkiCard.ease));
-        currentAnkiCard.due = now + currentAnkiCard.interval * DAY_MS;
-    } else if (grade === 4) {
-        currentAnkiCard.state = 'review';
-        currentAnkiCard.interval = currentAnkiCard.interval === 0 ? 4 : Math.max(2, Math.round(currentAnkiCard.interval * currentAnkiCard.ease * 1.3));
-        currentAnkiCard.ease += 0.15;
-        currentAnkiCard.due = now + currentAnkiCard.interval * DAY_MS;
+    document.getElementById('en2ru-new-count').innerText = newC.length;
+    document.getElementById('en2ru-learn-count').innerText = learnC.length;
+    document.getElementById('en2ru-rev-count').innerText = revC.length;
+
+    const queue = [...learnC, ...revC, ...newC];
+    const bodyEl = document.getElementById('en2ru-card-body');
+    const actionEl = document.getElementById('en2ru-action-area');
+
+    if (!queue.length) {
+        bodyEl.innerHTML = `<div style="padding:24px;"><h2 style="color:var(--success); margin:0 0 8px 0;">🎉 EN → RU Recall Queue Complete!</h2></div>`;
+        actionEl.innerHTML = `<button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Words</button>`;
+        return;
     }
 
-    db.xp += 15;
-    db.drills += 1;
-    ankiFlipped = false;
-    saveDB();
-    renderAnkiStage();
+    currentEn2RuCard = queue[0];
+    const item = FREQ_6000_DB[currentEn2RuCard.rank - 1];
+    const phon = generateRussianPhonetics(item.ru);
+    const gram = generateGrammarBreakdown(item);
+
+    if (!en2ruFlipped) {
+        bodyEl.innerHTML = `
+            <div>
+                <span class="tag" style="background:var(--warn); color:#0f172a; font-weight:800;">EN → RU Recall • Rank #${item.rank} / 6000 (${item.level})</span>
+                <div class="anki-front-word" style="color:var(--success); font-size:36px;">"${item.en}"</div>
+                <div style="color:var(--muted); font-size:13.5px; margin-bottom:12px;">Part of Speech: <b>${item.pos}</b> — Recall or type the Russian word:</div>
+                <input id="en2ru-user-guess" class="input-box" style="max-width:320px; width:100%; text-align:center;" placeholder="Optional: Type Russian word..." onkeydown="if(event.key==='Enter') flipEn2RuCard()">
+            </div>`;
+        actionEl.innerHTML = `<button class="btn" style="width:100%; padding:14px; font-size:16px; margin-top:16px;" onclick="flipEn2RuCard()">👁️ Show Russian Answer & Explanation</button>`;
+    } else {
+        const iv = getNextIntervals(currentEn2RuCard);
+        bodyEl.innerHTML = `
+            <div style="text-align:left;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <div>
+                        <span class="tag" style="background:var(--warn); color:#0f172a; font-weight:800;">#${item.rank} ${item.en}</span>
+                        <b style="font-size:28px; color:white; margin-left:8px; cursor:pointer;" onclick="speakRussian('${item.ru}')">🔊 ${item.ru}</b>
+                        <span style="color:var(--accent); font-family:monospace; font-size:17px; margin-left:8px;">${phon.ipa}</span>
+                    </div>
+                    <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Full Explanation</button>
+                </div>
+                <div style="font-size:13px; color:#e2e8f0; margin:8px 0;"><b>Grammar Explanation:</b> ${gram.summaryTag} — ${gram.usageNote}</div>
+                <div style="background:var(--panel); padding:9px 12px; border-radius:8px; font-size:13px; margin-bottom:8px; cursor:pointer;" onclick="speakRussian('${gram.exampleRu.replace(/'/g, "\\'")}')">
+                    <b>🔊 Context Sentence:</b> <span style="color:var(--accent)">${gram.exampleRu}</span><br><span style="color:var(--muted)">${gram.exampleEn}</span>
+                </div>
+                ${gram.tableHtml}
+            </div>`;
+        actionEl.innerHTML = `
+            <div class="anki-grade-bar">
+                <button class="anki-btn anki-again" onclick="gradeEn2RuCard(1)"><small>&lt; 1m</small>Again</button>
+                <button class="anki-btn anki-hard" onclick="gradeEn2RuCard(2)"><small>${iv.hard}d</small>Hard</button>
+                <button class="anki-btn anki-good" onclick="gradeEn2RuCard(3)"><small>${iv.good}d</small>Good</button>
+                <button class="anki-btn anki-easy" onclick="gradeEn2RuCard(4)"><small>${iv.easy}d</small>Easy</button>
+            </div>`;
+    }
+}
+function flipEn2RuCard() { en2ruFlipped = true; renderEn2RuStage(); if (currentEn2RuCard) { inspectWordDeep(currentEn2RuCard.rank, false); speakExplanation(currentEn2RuCard.rank); } }
+function gradeEn2RuCard(g) { applyFSRSGrade(currentEn2RuCard, g); en2ruFlipped = false; renderEn2RuStage(); }
+
+// DECK 3: SENTENCE CORRECTION
+function renderCorrectionStage() {
+    const now = Date.now();
+    const newC = db.corrCards.filter(c => c.state === 'new');
+    const learnC = db.corrCards.filter(c => c.state === 'learning' && c.due <= now);
+    const revC = db.corrCards.filter(c => c.state === 'review' && c.due <= now);
+
+    document.getElementById('corr-new-count').innerText = newC.length;
+    document.getElementById('corr-learn-count').innerText = learnC.length;
+    document.getElementById('corr-rev-count').innerText = revC.length;
+
+    const queue = [...learnC, ...revC, ...newC];
+    const bodyEl = document.getElementById('corr-card-body');
+    const actionEl = document.getElementById('corr-action-area');
+
+    if (!queue.length) {
+        bodyEl.innerHTML = `<div style="padding:24px;"><h2 style="color:var(--success); margin:0 0 8px 0;">🎉 Sentence Correction Queue Complete!</h2></div>`;
+        actionEl.innerHTML = `<button class="btn btn-success" onclick="batchAddNextFrequencyWords(25)">+ Add Next 25 Sentence Cards</button>`;
+        return;
+    }
+
+    currentCorrCard = queue[0];
+    const item = FREQ_6000_DB[currentCorrCard.rank - 1];
+    const corr = generateSentenceCorrection(item);
+    const gram = generateGrammarBreakdown(item);
+
+    if (!corrFlipped) {
+        const highlightedWrong = corr.wrongRu.replace(/\*([^*]+)\*/, `<span style="color:var(--danger); text-decoration:underline wavy var(--danger); font-weight:800;">$1</span>`);
+        bodyEl.innerHTML = `
+            <div>
+                <span class="tag" style="background:var(--danger); color:#0f172a; font-weight:800;">🛠️ Fix the Error • Word #${item.rank} / 6000 (${item.ru} = ${item.en})</span>
+                <div style="font-size:25px; font-weight:700; color:white; margin:16px 0 10px 0; line-height:1.4;">❌ ${highlightedWrong}</div>
+                <div style="color:var(--muted); font-size:13.5px; margin-bottom:14px;">Intended Meaning: <i>"${corr.enMeaning}"</i></div>
+                <input id="corr-user-input" class="input-box" style="max-width:340px; width:100%; text-align:center;" placeholder="Optional: Type corrected form (${corr.wrongWord} → ?)..." onkeydown="if(event.key==='Enter') flipCorrectionCard()">
+            </div>`;
+        actionEl.innerHTML = `<button class="btn" style="width:100%; padding:14px; font-size:16px; margin-top:16px;" onclick="flipCorrectionCard()">👁️ Show Corrected Sentence & Grammar Explanation</button>`;
+    } else {
+        const iv = getNextIntervals(currentCorrCard);
+        bodyEl.innerHTML = `
+            <div style="text-align:left;">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                    <span class="tag" style="background:var(--success); color:#0f172a; font-weight:800;">✓ ${corr.ruleTitle}</span>
+                    <div style="display:flex; gap:6px;">
+                        <button class="btn btn-sec" onclick="speakRussian('${corr.rightRu.replace(/'/g, "\\'")}')">🔊 Sentence</button>
+                        <button class="btn btn-warn" onclick="speakCorrectionExplanation(${item.rank})">🗣️ Hear Explanation</button>
+                    </div>
+                </div>
+                <div style="font-size:14.5px; color:var(--danger); text-decoration:line-through; opacity:0.85;">❌ ${corr.wrongRu.replace(/\*/g, '')}</div>
+                <div style="font-size:22px; font-weight:800; color:var(--success); margin:6px 0; cursor:pointer;" onclick="speakRussian('${corr.rightRu.replace(/'/g, "\\'")}')">
+                    ✅ ${corr.rightRu.replace(corr.rightWord, `<u style="color:var(--accent)">${corr.rightWord}</u>`)}
+                </div>
+                <div style="background:var(--panel); padding:10px 13px; border-radius:10px; border-left:4px solid var(--warn); font-size:13px; line-height:1.5; margin-bottom:10px;">
+                    <b style="color:var(--warn);">Why it changes (${corr.wrongWord} → ${corr.rightWord}):</b><br>${corr.explanation}
+                </div>
+                ${gram.tableHtml}
+            </div>`;
+        actionEl.innerHTML = `
+            <div class="anki-grade-bar">
+                <button class="anki-btn anki-again" onclick="gradeCorrectionCard(1)"><small>&lt; 1m</small>Again</button>
+                <button class="anki-btn anki-hard" onclick="gradeCorrectionCard(2)"><small>${iv.hard}d</small>Hard</button>
+                <button class="anki-btn anki-good" onclick="gradeCorrectionCard(3)"><small>${iv.good}d</small>Good</button>
+                <button class="anki-btn anki-easy" onclick="gradeCorrectionCard(4)"><small>${iv.easy}d</small>Easy</button>
+            </div>`;
+    }
+}
+function flipCorrectionCard() { corrFlipped = true; renderCorrectionStage(); if (currentCorrCard) { inspectWordDeep(currentCorrCard.rank, false); speakCorrectionExplanation(currentCorrCard.rank); } }
+function gradeCorrectionCard(g) { applyFSRSGrade(currentCorrCard, g); corrFlipped = false; renderCorrectionStage(); }
+
+async function speakCorrectionExplanation(rank) {
+    const item = FREQ_6000_DB[(rank || 1) - 1];
+    if (!item) return;
+    const corr = generateSentenceCorrection(item);
+    await speakRussian(`Correct Russian sentence: ${corr.rightRu}. ${corr.explanation}`);
 }
 
-function addSingleWordFrom2000(rank) {
-    if (!db.cards.some(c => c.rank === rank)) {
-        db.cards.push({ rank, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
-        db.xp += 5;
-        saveDB();
-        renderAnkiStage();
-        renderSrsCatalog2000();
-    }
+function addSingleWordFrom6000(rank) {
+    if (!db.cards.some(c => c.rank === rank)) db.cards.push({ rank, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+    if (!db.en2ruCards.some(c => c.rank === rank)) db.en2ruCards.push({ rank, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+    if (!db.corrCards.some(c => c.rank === rank)) db.corrCards.push({ rank, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+    db.xp += 5; saveDB();
+    renderAnkiStage(); renderEn2RuStage(); renderCorrectionStage(); renderSrsCatalog6000();
     inspectWordDeep(rank, true);
 }
 
 function batchAddNextFrequencyWords(count) {
     let added = 0;
     const existing = new Set(db.cards.map(c => c.rank));
-    for (let r = 1; r <= FREQ_2000_DB.length && added < count; r++) {
+    for (let r = 1; r <= FREQ_6000_DB.length && added < count; r++) {
         if (!existing.has(r)) {
             db.cards.push({ rank: r, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+            db.en2ruCards.push({ rank: r, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
+            db.corrCards.push({ rank: r, state: 'new', interval: 0, ease: 2.5, due: Date.now() });
             added++;
         }
     }
-    db.xp += added * 5;
-    saveDB();
-    renderAnkiStage();
-    renderSrsCatalog2000();
+    db.xp += added * 5; saveDB();
+    renderAnkiStage(); renderEn2RuStage(); renderCorrectionStage(); renderSrsCatalog6000();
 }
+
 // ============================================================================
-// 6. 2,000-WORD PHONETICS & GRAMMAR DIRECTORY + DEEP INSPECTOR
+// 6. 6,000-WORD PHONETICS & GRAMMAR DIRECTORY + DEEP INSPECTOR
 // ============================================================================
-let srsCatPage = 0;
-let phonPage = 0;
+let srsCatPage = 0, phonPage = 0;
 
 function inspectWordDeep(rank, playAudio = true) {
     currentInspectedRank = rank;
-    const item = FREQ_2000_DB[rank - 1];
+    const item = FREQ_6000_DB[rank - 1];
     if (!item) return;
     const phon = generateRussianPhonetics(item.ru);
     const gram = generateGrammarBreakdown(item);
 
-    // Update Right Deep Grammar Inspector
     document.getElementById('inspector-body').innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">Rank #${item.rank} • ${item.level}</span>
+            <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">Rank #${item.rank} / 6000 • ${item.level}</span>
             <button class="btn btn-warn" style="padding:5px 10px; font-size:12px;" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
         </div>
-        <div style="font-size:30px; font-weight:800; color:white; margin-top:6px; cursor:pointer;" onclick="speakRussian('${item.ru}')">🔊 ${item.ru}</div>
+        <div style="font-size:28px; font-weight:800; color:white; margin-top:6px; cursor:pointer;" onclick="speakRussian('${item.ru}')">🔊 ${item.ru}</div>
         <div style="color:var(--accent); font-family:monospace; font-size:16px;">${phon.ipa}</div>
         <div style="font-size:18px; font-weight:700; color:var(--success); margin:6px 0;">${item.en}</div>
         <div style="font-size:12px; color:var(--warn); margin-bottom:8px;">${phon.notes}</div>
@@ -874,7 +1135,6 @@ function inspectWordDeep(rank, playAudio = true) {
         ${gram.tableHtml}
     `;
 
-    // Also update Phonetics & Cursive Tab Box
     const cTarget = document.getElementById('cursive-target');
     if (cTarget) cTarget.innerText = item.ru;
     const pOut = document.getElementById('phonetic-output');
@@ -889,7 +1149,7 @@ function inspectWordDeep(rank, playAudio = true) {
                 </div>
                 <div style="display:flex; gap:6px;">
                     <button class="btn btn-warn" onclick="speakExplanation(${item.rank})">🗣️ Hear Explanation</button>
-                    <button class="btn" onclick="addSingleWordFrom2000(${item.rank})">+ Add to Anki</button>
+                    <button class="btn" onclick="addSingleWordFrom6000(${item.rank})">+ Add to Anki</button>
                 </div>
             </div>
             <div style="margin-top:6px; font-size:13px; color:var(--warn);"><b>Acoustic Reduction & Palatalization:</b> ${phon.notes}</div>
@@ -899,18 +1159,18 @@ function inspectWordDeep(rank, playAudio = true) {
     if (playAudio) speakRussian(item.ru);
 }
 
-function getFiltered2000(searchId, levelId) {
+function getFiltered6000(searchId, levelId) {
     const q = (document.getElementById(searchId)?.value || "").trim().toLowerCase().replace(/\u0301/g, '');
     const lvl = document.getElementById(levelId)?.value || "ALL";
-    return FREQ_2000_DB.filter(w => {
+    return FREQ_6000_DB.filter(w => {
         if (lvl !== "ALL" && w.level !== lvl) return false;
         if (!q) return true;
         return w.ru.toLowerCase().replace(/\u0301/g, '').includes(q) || w.en.toLowerCase().includes(q) || String(w.rank) === q;
     });
 }
 
-function renderSrsCatalog2000() {
-    const filtered = getFiltered2000('srs-cat-search', 'srs-cat-level');
+function renderSrsCatalog6000() {
+    const filtered = getFiltered6000('srs-cat-search', 'srs-cat-level');
     const pageSize = 25;
     const maxPage = Math.max(0, Math.ceil(filtered.length / pageSize) - 1);
     if (srsCatPage > maxPage) srsCatPage = maxPage;
@@ -918,41 +1178,40 @@ function renderSrsCatalog2000() {
     const inDeck = new Set(db.cards.map(c => c.rank));
 
     document.getElementById('srs-cat-page-info').innerText = `Words ${srsCatPage * pageSize + 1}–${Math.min(filtered.length, (srsCatPage + 1) * pageSize)} of ${filtered.length}`;
-    document.getElementById('srs-2000-catalog').innerHTML = slice.map(w => {
+    document.getElementById('srs-6000-catalog').innerHTML = slice.map(w => {
         const saved = inDeck.has(w.rank);
         const p = generateRussianPhonetics(w.ru);
         return `<div class="freq-row">
             <div onclick="inspectWordDeep(${w.rank}, true)" style="cursor:pointer; flex:1;">
                 <span class="tag">#${w.rank} ${w.level}</span>
-                <b style="font-size:18px; color:white; margin-left:6px;">🔊 ${w.ru}</b>
+                <b style="font-size:17px; color:white; margin-left:6px;">🔊 ${w.ru}</b>
                 <span style="color:var(--accent); font-family:monospace; margin-left:6px;">${p.ipa}</span>
                 <span style="color:var(--muted); margin-left:6px;">— ${w.en} (${w.pos})</span>
             </div>
             <div style="display:flex; gap:6px;">
                 <button class="btn btn-sec" onclick="inspectWordDeep(${w.rank}, true)">🔍 Grammar</button>
                 <button class="btn btn-warn" onclick="speakExplanation(${w.rank})">🗣️ Explain</button>
-                <button class="btn ${saved ? 'btn-sec' : ''}" onclick="addSingleWordFrom2000(${w.rank})" ${saved ? 'disabled' : ''}>${saved ? '✓ In Anki' : '+ Anki'}</button>
+                <button class="btn ${saved ? 'btn-sec' : ''}" onclick="addSingleWordFrom6000(${w.rank})" ${saved ? 'disabled' : ''}>${saved ? '✓ In Anki' : '+ Anki'}</button>
             </div>
         </div>`;
     }).join('');
 }
+function changeSrsCatPage(d) { srsCatPage = Math.max(0, srsCatPage + d); renderSrsCatalog6000(); }
 
-function changeSrsCatPage(d) { srsCatPage = Math.max(0, srsCatPage + d); renderSrsCatalog2000(); }
-
-function renderPhonetics2000() {
-    const filtered = getFiltered2000('phon-search', 'phon-level');
+function renderPhonetics6000() {
+    const filtered = getFiltered6000('phon-search', 'phon-level');
     const pageSize = 25;
     const maxPage = Math.max(0, Math.ceil(filtered.length / pageSize) - 1);
     if (phonPage > maxPage) phonPage = maxPage;
     const slice = filtered.slice(phonPage * pageSize, (phonPage + 1) * pageSize);
 
     document.getElementById('phon-page-info').innerText = `Words ${phonPage * pageSize + 1}–${Math.min(filtered.length, (phonPage + 1) * pageSize)} of ${filtered.length}`;
-    document.getElementById('phon-2000-list').innerHTML = slice.map(w => {
+    document.getElementById('phon-6000-list').innerHTML = slice.map(w => {
         const p = generateRussianPhonetics(w.ru);
         return `<div class="freq-row" onclick="inspectWordDeep(${w.rank}, true)" style="cursor:pointer;">
             <div>
                 <span class="tag">#${w.rank} ${w.level}</span>
-                <b style="font-size:18px; color:white; margin-left:6px;">🔊 ${w.ru}</b>
+                <b style="font-size:17px; color:white; margin-left:6px;">🔊 ${w.ru}</b>
                 <span style="color:var(--accent); font-family:monospace; margin-left:6px;">${p.ipa}</span>
                 <span style="color:var(--muted); margin-left:6px;">— ${w.en}</span>
             </div>
@@ -963,8 +1222,7 @@ function renderPhonetics2000() {
         </div>`;
     }).join('');
 }
-
-function changePhonPage(d) { phonPage = Math.max(0, phonPage + d); renderPhonetics2000(); }
+function changePhonPage(d) { phonPage = Math.max(0, phonPage + d); renderPhonetics6000(); }
 
 // Multi-Touch Cursive Pad
 const canvas = document.getElementById('cursive-pad');
@@ -984,8 +1242,9 @@ canvas.addEventListener('touchstart', (e) => { e.preventDefault(); drawing = tru
 canvas.addEventListener('touchmove', (e) => { e.preventDefault(); if (drawing) { const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); } }, { passive: false });
 canvas.addEventListener('touchend', () => { drawing = false; });
 function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
 // ============================================================================
-// 7. A0–B2 COURSE ENGINE, READER & INITIALIZATION
+// 7. A0–C1 COURSE ENGINE, READER & INITIALIZATION
 // ============================================================================
 const COURSE_MODULES = [
     { id: "A0.1", level: "A0", title: "Cyrillic & Vowel Reduction (А́канье)", startRank: 1, focus: "Unstressed О reduces to [ɐ] (молоко́ → [mɐlɐˈko]); True vs False Friends." },
@@ -997,20 +1256,18 @@ const COURSE_MODULES = [
     { id: "A2.1", level: "A2", title: "Past/Future & Verbal Aspect (НСВ vs. СВ)", startRank: 91, focus: "Ongoing process/habit (чита́ть) vs Single completed result (прочита́ть)." },
     { id: "A2.2", level: "A2", title: "Unprefixed Verbs of Motion (идти́ / ходи́ть)", startRank: 106, focus: "One-way motion in progress (идти́, е́хать) vs Multi-directional/round-trip (ходи́ть, е́здить)." },
     { id: "B1.1", level: "B1", title: "Prefixed Verbs of Motion (при-, у-, в-, вы-)", startRank: 401, focus: "Spatial prefixes added to motion roots (прийти́, уйти́, перейти́)." },
-    { id: "B1.2", level: "B1", title: "Subjunctive Mood (е́сли бы) & Reflexives (-ся)", startRank: 451, focus: "Hypothetical conditions with бы + aspectual imperatives." },
-    { id: "B2.1", level: "B2", title: "Active & Passive Participles (Прича́стия)", startRank: 601, focus: "Written/formal participial clauses replacing кото́рый." },
-    { id: "B2.2", level: "B2", title: "Verbal Adverbs (Дееприча́стия) & Stylistics", startRank: 751, focus: "Simultaneous vs prior gerunds & high-register fluency." }
+    { id: "B1.2", level: "B1", title: "Subjunctive Mood (е́сли бы) & Reflexives (-ся)", startRank: 901, focus: "Hypothetical conditions with бы + aspectual imperatives." },
+    { id: "B2.1", level: "B2", title: "Participles & Verbal Nominalizations (-ение)", startRank: 2101, focus: "Written/formal participial & deverbal noun structures." },
+    { id: "C1.1", level: "C1", title: "Advanced Compound Modifiers & Register Shifting", startRank: 4801, focus: "High-register academic, literary, and compound relational adjectives." }
 ];
 
-let activeModId = "A0.1";
-let activeStage = 0;
+let activeModId = "A0.1", activeStage = 0;
 
 function renderCourseSyllabus() {
-    const grid = document.getElementById('module-grid');
-    grid.innerHTML = COURSE_MODULES.map(m => `
+    document.getElementById('module-grid').innerHTML = COURSE_MODULES.map(m => `
         <div class="module-card ${m.id === activeModId ? 'active' : ''}" onclick="activeModId='${m.id}'; activeStage=0; renderCourseSyllabus(); renderActiveModule();">
             <span class="tag" style="background:var(--accent); color:#0f172a; font-weight:800;">${m.id} • ${m.level}</span>
-            <div style="font-weight:700; font-size:14px; margin-top:6px;">${m.title}</div>
+            <div style="font-weight:700; font-size:13.5px; margin-top:6px;">${m.title}</div>
         </div>
     `).join('');
 }
@@ -1019,7 +1276,7 @@ function renderActiveModule() {
     const m = COURSE_MODULES.find(x => x.id === activeModId) || COURSE_MODULES[0];
     document.getElementById('active-mod-level').innerText = `${m.id} • ${m.level}`;
     document.getElementById('active-mod-title').innerText = m.title;
-    const vocabSlice = FREQ_2000_DB.slice(m.startRank - 1, m.startRank + 14);
+    const vocabSlice = FREQ_6000_DB.slice(m.startRank - 1, m.startRank + 14);
 
     const stages = ["1. Concept", "2. Check (CFU)", "3. Practice", "4. Vocab (15)", "5. Exam"];
     document.getElementById('stage-bar').innerHTML = stages.map((s, i) => `
@@ -1031,7 +1288,7 @@ function renderActiveModule() {
         box.innerHTML = `<div style="line-height:1.7; font-size:15px;">
             <h3 style="color:var(--accent); margin-top:0;">Concept Focus: ${m.title}</h3>
             <p>${m.focus}</p>
-            <p>Tap any word in Stage 4 to inspect its full 6-case or verbal paradigm and add it to your Anki FSRS queue.</p>
+            <p>Tap any word in Stage 4 to inspect its full 6-case or verbal paradigm and add it to your 3 Anki FSRS decks.</p>
             <button class="btn btn-success" onclick="activeStage=1; renderActiveModule();">Next: Check for Understanding →</button>
         </div>`;
     } else if (activeStage === 1) {
@@ -1068,19 +1325,21 @@ function renderActiveModule() {
 
 function initReader() {
     const sampleRanks = [5, 88, 2, 79, 104, 133, 5, 167, 130, 1, 160, 131];
-    const container = document.getElementById('story-container');
-    container.innerHTML = sampleRanks.map(r => {
-        const w = FREQ_2000_DB[r - 1];
+    document.getElementById('story-container').innerHTML = sampleRanks.map(r => {
+        const w = FREQ_6000_DB[r - 1];
         return `<span class="word-token" onclick="inspectWordDeep(${w.rank}, true)">${w.ru}</span> `;
     }).join('');
 }
 
 function speakStory() {
-    speakRussian("Я жить в большой город утром я пить молоко и читать книга");
+    speakRussian("Я живу́ в большо́м краси́вом го́роде. У́тром я пью молоко́ и чита́ю кни́гу.");
 }
 
 function switchTab(tab, btn) {
-    ['srs', 'phonetics', 'course', 'reader'].forEach(t => document.getElementById('tab-' + t).classList.add('hidden'));
+    ['srs', 'en2ru', 'correction', 'phonetics', 'course', 'reader'].forEach(t => {
+        const el = document.getElementById('tab-' + t);
+        if (el) el.classList.add('hidden');
+    });
     document.getElementById('tab-' + tab).classList.remove('hidden');
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -1093,15 +1352,17 @@ function updateSidebarStats() {
     document.getElementById('mods-display').innerText = db.passedMods.length;
 }
 
-// Boot Application
+// Boot All 3 Anki FSRS Decks & 6,000-Word Engine
 updateSidebarStats();
 renderAnkiStage();
-renderSrsCatalog2000();
-renderPhonetics2000();
+renderEn2RuStage();
+renderCorrectionStage();
+renderSrsCatalog6000();
+renderPhonetics6000();
 renderCourseSyllabus();
 renderActiveModule();
 initReader();
-inspectWordDeep(130, false); // Pre-load "молоко́" in the Deep Grammar Inspector
+inspectWordDeep(130, false);
 </script>
 </body>
 </html>
