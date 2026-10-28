@@ -1,0 +1,54 @@
+name: Build iPhone IPA
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Initialize Capacitor iOS Project
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
+          npm init -y
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/ios@6 @capacitor-community/text-to-speech@5 --legacy-peer-deps
+          npx cap init "Slovo Russian" "com.slovo.russian" --web-dir www
+          npx cap add ios
+          npx cap sync ios
+
+      - name: Compile Unsigned iOS App via Xcode
+        working-directory: ./ios/App
+        run: |
+          pod install
+          xcodebuild -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Package into Slovo-iPhone.ipa
+        working-directory: ./ios/App
+        run: |
+          mkdir -p Payload
+          cp -r build/Build/Products/Release-iphoneos/App.app Payload/
+          zip -r Slovo-iPhone.ipa Payload
+
+      - name: Upload iPhone IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Slovo-iPhone-IPA
+          path: ios/App/Slovo-iPhone.ipa
